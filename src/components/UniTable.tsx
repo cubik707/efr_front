@@ -1,14 +1,32 @@
 import React from 'react';
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from '@mui/material';
+import {
+    Box,
+    IconButton,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField
+} from '@mui/material';
 import {tableDataItemType} from "../pages/inputData/tableInputData";
+import {AddBox} from "@mui/icons-material";
 
 
-type UniversalTablePropsType = tableDataItemType
+type UniversalTablePropsType = tableDataItemType & {
+    onAddRow?: () => void;
+};
 
-const UniTable = ({ headers, rows, isRowsAdd }: UniversalTablePropsType) => {
+//todo: добавить кнопку удаления добавленной строки
+
+const UniTable = ({ headers, rows, isRowsAdd, onAddRow }: UniversalTablePropsType) => {
 
     const handleAddRow = () => {
-        // Логика для добавления строки
+        if (onAddRow) {
+            onAddRow();
+        }
     };
 
     return (
@@ -28,11 +46,23 @@ const UniTable = ({ headers, rows, isRowsAdd }: UniversalTablePropsType) => {
                         <TableRow key={rowIndex}>
                             {row.map((cell, cellIndex) => (
                                 <TableCell key={cellIndex} style={{ width: 'auto', whiteSpace: 'nowrap' }}>
-                                    {typeof cell === 'string' && cell.includes('input') ? (
-                                        <TextField variant="outlined" fullWidth size="small" placeholder={cell.replace('input', '').trim()} />
-                                    ) : (
-                                        cell
-                                    )}
+                                    <Box display="flex" alignItems="center">
+                                        {cellIndex === 0 && isRowsAdd && rowIndex === rows.length - 1 && (
+                                            <IconButton color="primary" onClick={handleAddRow} size="small" style={{ marginRight: 8 }}>
+                                                <AddBox />
+                                            </IconButton>
+                                        )}
+                                        {typeof cell === 'string' && cell.includes('input') ? (
+                                            <TextField
+                                                variant="outlined"
+                                                size="small"
+                                                placeholder={cell.replace('input', '').trim()}
+                                                fullWidth
+                                            />
+                                        ) : (
+                                            cell
+                                        )}
+                                    </Box>
                                 </TableCell>
                             ))}
                         </TableRow>

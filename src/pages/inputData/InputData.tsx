@@ -29,6 +29,7 @@ const steps = [
 
 export const InputData = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
+    const [data, setData] = useState(tableData);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -38,8 +39,19 @@ export const InputData = (props: Props) => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const { headers, rows, isRowsAdd} = tableData[activeStep];
+    const handleAddRow = () => {
+        const updatedData = [...data];
+        const currentTable = updatedData[activeStep];
 
+        if (currentTable.isRowsAdd) {
+            const newRow = [...currentTable.rows[currentTable.rows.length - 1]]; // Клонируем последнюю строку
+            updatedData[activeStep].rows.push(newRow); // Добавляем новую строку
+
+            setData(updatedData); // Обновляем состояние с новыми данными
+        }
+    };
+
+    const { headers, rows, isRowsAdd } = data[activeStep];
     return (
         <Box sx={containerSx}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -53,7 +65,7 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                <UniTable headers={headers} rows={rows} isRowsAdd={isRowsAdd} />
+                <UniTable headers={headers} rows={rows} isRowsAdd={isRowsAdd} onAddRow={handleAddRow}/>
             </Box>
             <Box sx={buttonContainerSx}>
                 <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
