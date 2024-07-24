@@ -1,6 +1,6 @@
 export const containerSx = {
     width: '100%',
-    paddingTop: '50px',
+    padding: '50px 0',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

@@ -1,25 +1,23 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@mui/material';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from '@mui/material';
+import {tableDataItemType} from "../pages/inputData/tableInputData";
 
-const cellWidths = [490, 271, 159, 120];
-const rowHeights = [56, 29];
 
-type TableCellData = string | number | React.ReactNode;
-type TableRowData = TableCellData[];
+type UniversalTablePropsType = tableDataItemType
 
-type UniversalTablePropsType = {
-    headers: string[];
-    rows: TableRowData[]
-}
+const UniTable = ({ headers, rows, isRowsAdd }: UniversalTablePropsType) => {
 
-const UniversalTable = ({ headers, rows }: UniversalTablePropsType) => {
+    const handleAddRow = () => {
+        // Логика для добавления строки
+    };
+
     return (
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
                         {headers.map((header, index) => (
-                            <TableCell key={index} style={{ width: cellWidths[index] }}>
+                            <TableCell key={index} style={{whiteSpace: 'nowrap' }}>
                                 {header}
                             </TableCell>
                         ))}
@@ -27,11 +25,11 @@ const UniversalTable = ({ headers, rows }: UniversalTablePropsType) => {
                 </TableHead>
                 <TableBody>
                     {rows.map((row, rowIndex) => (
-                        <TableRow key={rowIndex} style={{ height: rowIndex < rowHeights.length ? rowHeights[rowIndex] : rowHeights[rowHeights.length - 1] }}>
+                        <TableRow key={rowIndex}>
                             {row.map((cell, cellIndex) => (
-                                <TableCell key={cellIndex} style={{ width: cellWidths[cellIndex % cellWidths.length] }}>
-                                    {typeof cell === 'string' && cell.includes('*ввести значение*') ? (
-                                        <TextField variant="outlined" fullWidth size="small" placeholder={cell.replace('*ввести значение*', '').trim()} />
+                                <TableCell key={cellIndex} style={{ width: 'auto', whiteSpace: 'nowrap' }}>
+                                    {typeof cell === 'string' && cell.includes('input') ? (
+                                        <TextField variant="outlined" fullWidth size="small" placeholder={cell.replace('input', '').trim()} />
                                     ) : (
                                         cell
                                     )}
@@ -45,4 +43,4 @@ const UniversalTable = ({ headers, rows }: UniversalTablePropsType) => {
     );
 };
 
-export default UniversalTable;
+export default UniTable;

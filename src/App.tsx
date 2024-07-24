@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Routes} from "react-router";
-import {InputData} from "./pages/InputData";
+import {InputData} from "./pages/inputData/InputData";
 import {Container, createTheme, ThemeProvider} from "@mui/material";
 
 function App() {
