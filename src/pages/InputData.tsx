@@ -4,8 +4,13 @@ import {Box, Button, Step, StepLabel, Stepper, Typography} from "@mui/material";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import UniTable from "../components/UniTable";
-
-
+import {
+    buttonContainerSx,
+    containerSx,
+    navigationButtonsContainerSx,
+    tableContainerSx,
+    titleSx
+} from "./InputData.styles";
 
 type Props = {
 
@@ -13,26 +18,24 @@ type Props = {
 
 const steps = [
     'Наличие земельных ресурсов',
-    'Прогнозные параметры развития\n' +
-    'растениеводства',
-    'Прогрозные параметры развития\n' +
-    'животноводства',
+    'Прогнозные параметры развития растениеводства',
+    'Прогрозные параметры развития животноводства',
     'Возможность приобритения кормов',
-    'Договорные поставки,\n' +
-    'включая государственный заказ',
-    'Цена реализации и себестоимости\n' +
-    'производства 1 ц продукции'
+    'Договорные поставки, включая государственный заказ',
+    'Цена реализации и себестоимости производства 1 ц продукции'
 ];
 
+const headers = ['Показатели', 'Наличие'];
 const rows = [
-    ['Cell 1', 'Cell 2', 'Cell 3', 'Cell 4'],
-    ['Cell 5', 'Cell 6', 'Cell 7', 'Cell 8'],
+    ['Пашня, га', '*ввести значение*'],
+    ['Сенокосы и пастбища улучшенные, га', '*ввести значение*'],
+    ['Сенокосы и пастбища естественные, га', '*ввести значение*'],
     // Добавьте больше строк по необходимости
 ];
 
 export const InputData = (props: Props) => {
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={containerSx}>
             <Stepper activeStep={1} alternativeLabel>
                 {steps.map((label) => (
                     <Step key={label}>
@@ -40,15 +43,19 @@ export const InputData = (props: Props) => {
                     </Step>
                 ))}
             </Stepper>
-            <div>
-                <Typography variant="h3" gutterBottom>
-                    Наличие земельных ресурсов
-                </Typography>
-                <UniTable rows={rows}/>
+            <Typography variant="h2" gutterBottom sx={titleSx}>
+                Наличие земельных ресурсов
+            </Typography>
+            <Box sx={tableContainerSx}>
+                <UniTable headers={headers} rows={rows} />
+            </Box>
+            <Box sx={buttonContainerSx}>
                 <Button variant="outlined">Найти оптимальные параметры</Button>
-                <Button variant="text" startIcon={<KeyboardArrowLeftIcon />}>Назад</Button>
-                <Button variant="contained" endIcon={<KeyboardArrowRightIcon />}>Далее</Button>
-            </div>
+                <Box sx = {navigationButtonsContainerSx}>
+                    <Button variant="text" startIcon={<KeyboardArrowLeftIcon />}>Назад</Button>
+                    <Button variant="contained" endIcon={<KeyboardArrowRightIcon />}>Далее</Button>
+                </Box>
+            </Box>
         </Box>
     );
 };

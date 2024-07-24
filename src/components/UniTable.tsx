@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@mui/material';
 
 const cellWidths = [490, 271, 159, 120];
 const rowHeights = [56, 29];
@@ -8,18 +8,19 @@ type TableCellData = string | number | React.ReactNode;
 type TableRowData = TableCellData[];
 
 type UniversalTablePropsType = {
+    headers: string[];
     rows: TableRowData[]
 }
 
-const UniversalTable = ({ rows }: UniversalTablePropsType) => {
+const UniversalTable = ({ headers, rows }: UniversalTablePropsType) => {
     return (
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        {cellWidths.map((width, index) => (
-                            <TableCell key={index} style={{ width }}>
-                                Header {index + 1}
+                        {headers.map((header, index) => (
+                            <TableCell key={index} style={{ width: cellWidths[index] }}>
+                                {header}
                             </TableCell>
                         ))}
                     </TableRow>
@@ -29,7 +30,11 @@ const UniversalTable = ({ rows }: UniversalTablePropsType) => {
                         <TableRow key={rowIndex} style={{ height: rowIndex < rowHeights.length ? rowHeights[rowIndex] : rowHeights[rowHeights.length - 1] }}>
                             {row.map((cell, cellIndex) => (
                                 <TableCell key={cellIndex} style={{ width: cellWidths[cellIndex % cellWidths.length] }}>
-                                    {cell}
+                                    {typeof cell === 'string' && cell.includes('*ввести значение*') ? (
+                                        <TextField variant="outlined" fullWidth size="small" placeholder={cell.replace('*ввести значение*', '').trim()} />
+                                    ) : (
+                                        cell
+                                    )}
                                 </TableCell>
                             ))}
                         </TableRow>
