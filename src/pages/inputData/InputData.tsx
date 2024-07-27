@@ -48,6 +48,19 @@ export const InputData = (props: Props) => {
             updatedData[activeStep].rows.push(newRow); // Добавляем новую строку
 
             setData(updatedData); // Обновляем состояние с новыми данными
+            console.log(updatedData[activeStep].rows)
+        }
+    };
+
+    const handleDeleteRow = (rowIndex: number) => {
+        const updatedData = [...data];
+        const currentTable = updatedData[activeStep];
+
+        if (currentTable.isRowsAdd) {
+            currentTable.rows = currentTable.rows.filter((_, index) => index !== rowIndex); // Фильтруем строки, исключая ту, что соответствует rowIndex
+
+            setData(updatedData); // Обновляем состояние с новыми данными
+            console.log(updatedData[activeStep].rows)
         }
     };
 
@@ -65,7 +78,13 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                <UniTable headers={headers} rows={rows} isRowsAdd={isRowsAdd} onAddRow={handleAddRow}/>
+                <UniTable
+                    headers={headers}
+                    rows={rows}
+                    isRowsAdd={isRowsAdd}
+                    onAddRow={handleAddRow}
+                    onDeleteRow={handleDeleteRow}
+                />
             </Box>
             <Box sx={buttonContainerSx}>
                 <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>

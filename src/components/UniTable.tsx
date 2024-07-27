@@ -13,19 +13,27 @@ import {
 } from '@mui/material';
 import {tableDataItemType} from "../pages/inputData/tableInputData";
 import {AddBox} from "@mui/icons-material";
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 
 
 type UniversalTablePropsType = tableDataItemType & {
     onAddRow?: () => void;
+    onDeleteRow?: (index: number) => void;
 };
 
 //todo: добавить кнопку удаления добавленной строки
 
-const UniTable = ({ headers, rows, isRowsAdd, onAddRow }: UniversalTablePropsType) => {
+const UniTable = ({ headers, rows, isRowsAdd, onAddRow, onDeleteRow }: UniversalTablePropsType) => {
 
     const handleAddRow = () => {
         if (onAddRow) {
             onAddRow();
+        }
+    };
+
+    const handleDeleteRow = (rowIndex: number) => {
+        if (onDeleteRow) {
+            onDeleteRow(rowIndex);
         }
     };
 
@@ -47,10 +55,16 @@ const UniTable = ({ headers, rows, isRowsAdd, onAddRow }: UniversalTablePropsTyp
                             {row.map((cell, cellIndex) => (
                                 <TableCell key={cellIndex} style={{ width: 'auto', whiteSpace: 'nowrap' }}>
                                     <Box display="flex" alignItems="center">
-                                        {cellIndex === 0 && isRowsAdd && rowIndex === rows.length - 1 && (
-                                            <IconButton color="primary" onClick={handleAddRow} size="small" style={{ marginRight: 8 }}>
-                                                <AddBox />
-                                            </IconButton>
+                                        {cellIndex === 0 && isRowsAdd && (
+                                            rowIndex === rows.length - 1 ? (
+                                                <IconButton color="primary" onClick={handleAddRow} size="small" style={{ marginRight: 8 }}>
+                                                    <AddBox />
+                                                </IconButton>
+                                            ) : (
+                                                <IconButton color="secondary" onClick={() => handleDeleteRow(rowIndex)} size="small" style={{ marginRight: 8 }}>
+                                                    <IndeterminateCheckBoxIcon />
+                                                </IconButton>
+                                            )
                                         )}
                                         {typeof cell === 'string' && cell.includes('input') ? (
                                             <TextField
