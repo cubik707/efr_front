@@ -30,11 +30,17 @@ export const tableData: tableDataItemType[] = [
                     <MenuItem value="">
                         <em>Выбрать культуру</em>
                     </MenuItem>
-                    <MenuItem value="winterGrains">Озимые зерновые</MenuItem>
-                    <MenuItem value="springGrains">Яровые зерновые</MenuItem>
+                    <MenuItem value="winterGrains">Зерновые озимые</MenuItem>
+                    <MenuItem value="springGrains">Зерновые яровые</MenuItem>
                     <MenuItem value="pulses">Зернобобовые</MenuItem>
                     <MenuItem value="rape">Рапс</MenuItem>
-                    <MenuItem value="corn">Кукуруза</MenuItem>
+                    <MenuItem value="hayGrassHay">Сено многолетних трав</MenuItem>
+                    <MenuItem value="haylageGrassHay">Сенаж многолетних трав</MenuItem>
+                    <MenuItem value="greenFodderGrassHay">Зеленый корм многолетних трав</MenuItem>
+                    <MenuItem value="hayImprovedHayfieldsAndPastures">Сено улучшенных сенокосов и пастбищ</MenuItem>
+                    <MenuItem value="haylageImprovedHayfieldsAndPastures">Сенаж улучшенных сенокосов и пастбищ</MenuItem>
+                    <MenuItem value="haylageNaturalHayfieldsAndPastures">Сенаж естественных сенокосов и пастбищ</MenuItem>
+                    <MenuItem value="greenFodderNaturalHayfieldsAndPastures">Зеленый корм естественных сенокосов и пастбищ</MenuItem>
                 </Select>,
                 'input',
                 'input',
@@ -55,27 +61,26 @@ export const tableData: tableDataItemType[] = [
     {
         headers: ['Вид корма', 'Объем, ц', 'Цена, руб.'],
         rows: [
-            ['Пашня, га', 'input'],
-            ['Сенокосы и пастбища улучшенные, га', 'input'],
-            ['Сенокосы и пастбища естественные, га', 'input']
+            ['Концентраты', 'input', "input"],
+            ['Силос', 'input', "input"],
+            ['Зеленый корм', 'input', "input"],
+            ['Сено', 'input', "input"],
+            ['Сенаж', 'input', "input"],
+            ['Солома', 'input', "input"],
         ],
         isRowsAdd: false,
     },
     {
-        headers: ['Показатели', 'Наличие'],
+        headers: ['Вид продукции', 'Договорные поставки, ц'],
         rows: [
-            ['Пашня, га', 'input'],
-            ['Сенокосы и пастбища улучшенные, га', 'input'],
-            ['Сенокосы и пастбища естественные, га', 'input']
+            ['Культуры из В2', 'input'],
         ],
         isRowsAdd: false,
     },
     {
-        headers: ['Показатели', 'Наличие'],
+        headers: ['Вид продукции', 'Цена реализации за ц, руб.', 'Себестоимость за 1ц, руб.'],
         rows: [
-            ['Пашня, га', 'input'],
-            ['Сенокосы и пастбища улучшенные, га', 'input'],
-            ['Сенокосы и пастбища естественные, га', 'input']
+            ['Культуры из В2', 'input', 'input'],
         ],
         isRowsAdd: false,
     },
