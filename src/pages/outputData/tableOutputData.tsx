@@ -8,18 +8,14 @@ export type TableRowData = TableCellData[];
 export type tableDataItemType = {
     headers: string[],
     rows: TableRowData[],
-    isRowsAdd: boolean
 }
 
 export const tableData: tableDataItemType[] = [
     {
-        headers: ['Показатели', 'Наличие'],
+        headers: ['Культуры', 'Расчетное значение площадь', 'Расчетное значение площадь %'],
         rows: [
-            ['Пашня, га', 'input'],
-            ['Сенокосы и пастбища улучшенные, га', 'input'],
-            ['Сенокосы и пастбища естественные, га', 'input']
+            ['Значения из В2', 'данные', 'данные']
         ],
-        isRowsAdd: false,
     },
     {
         headers:
@@ -48,15 +44,13 @@ export const tableData: tableDataItemType[] = [
                 'input'
             ]
         ],
-        isRowsAdd: true,
     },
     {
         headers: ['Вид животных', 'Продуктивность (базовая), ц', 'Поголовье, гол.', 'Расход ц КЕ на 1 ц продукции'],
         rows: [
-            ['Коровы', 'input', "input", "input"],
-            ['Молодняк КРС', 'input', "input", "input"],
+            ['Коровы', 'input', "input", "input", "input"],
+            ['Молодняк КРС', 'input', "input", "input", "input"],
         ],
-        isRowsAdd: false,
     },
     {
         headers: ['Вид корма', 'Объем, ц', 'Цена, руб.'],
@@ -68,20 +62,17 @@ export const tableData: tableDataItemType[] = [
             ['Сенаж', 'input', "input"],
             ['Солома', 'input', "input"],
         ],
-        isRowsAdd: false,
     },
     {
         headers: ['Вид продукции', 'Договорные поставки, ц'],
         rows: [
             ['Культуры из В2', 'input'],
         ],
-        isRowsAdd: false,
     },
     {
         headers: ['Вид продукции', 'Цена реализации за ц, руб.', 'Себестоимость за 1ц, руб.'],
         rows: [
             ['Культуры из В2', 'input', 'input'],
         ],
-        isRowsAdd: false,
     },
 ];

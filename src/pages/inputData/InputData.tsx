@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import {useState} from 'react';
 import {Box, Button, Step, StepLabel, Stepper, Typography} from "@mui/material";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -11,8 +12,9 @@ import {
     tableContainerSx,
     titleSx
 } from "./InputData.styles";
-import {useState} from "react";
 import {tableData} from "./tableInputData";
+import {PATH} from "../../App";
+import {useNavigate} from "react-router";
 
 type Props = {
 
@@ -30,9 +32,13 @@ const steps = [
 export const InputData = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
     const [data, setData] = useState(tableData);
+    const navigate = useNavigate();
 
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        activeStep === steps.length - 1
+            ? navigate(PATH.OUTPUT_DATA)
+            : setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
     };
 
     const handleBack = () => {
@@ -96,7 +102,7 @@ export const InputData = (props: Props) => {
                     <Button variant="contained"
                             endIcon={<KeyboardArrowRightIcon />}
                             onClick={handleNext}
-                            disabled={activeStep === steps.length - 1}>Далее</Button>
+                            disabled={false}>Далее</Button>
                 </Box>
             </Box>
         </Box>
