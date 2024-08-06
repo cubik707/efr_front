@@ -1,4 +1,4 @@
-
+//todo: прописать строго, какие могут быть имена у животных отдельным типом
 //-------Типизация для данных
 type AnimalType = {
     productivity: number, //Продуктивно(базовая)
@@ -10,28 +10,29 @@ type AnimalsStateType = {
     [animalName: string]: AnimalType
 }
 
-//-------Типизация экшенов
-type SetProductivityActionType = {
+//-------Action creators
+export const setProductivityAC = (animalName: string, productivity: number) => ({
     type: 'SET-PRODUCTIVITY',
-    animalName: string,
-    productivity: number
-}
+    animalName,
+    productivity
+} as const)
 
-type SetLivestockActionType = {
+export const setLivestockAC = (animalName: string, livestock: number) => ({
     type: 'SET-LIVESTOCK',
-    animalName: string,
-    livestock: number
-}
+    animalName,
+    livestock
+} as const)
 
-type SetConsumptionOfFUActionType = {
+export const setConsumptionOfFUAC = (animalName: string, consumptionOfFU: number) => ({
     type: 'SET-CONSUMPTION-OF-FU',
-    animalName: string,
-    consumptionOfFU: number
-}
+    animalName,
+    consumptionOfFU
+} as const)
 
-type ActionsType = SetProductivityActionType
-    | SetLivestockActionType
-    | SetConsumptionOfFUActionType
+//-------Типизация экшенов
+type ActionsType = ReturnType<typeof setProductivityAC>
+    | ReturnType<typeof setLivestockAC>
+    | ReturnType<typeof setConsumptionOfFUAC>
 
 //-------Начальное состояние
 const initialState: AnimalsStateType = {}
@@ -68,21 +69,3 @@ export const animalsReducer = (state = initialState, action: ActionsType): Anima
     }
 }
 
-//-------Action creators
-export const setProductivity = (animalName: string, productivity: number): SetProductivityActionType => ({
-    type: 'SET-PRODUCTIVITY',
-    animalName,
-    productivity
-})
-
-export const setLivestock = (animalName: string, livestock: number): SetLivestockActionType => ({
-    type: 'SET-LIVESTOCK',
-    animalName,
-    livestock
-})
-
-export const setConsumptionOfFU = (animalName: string, consumptionOfFU: number): SetConsumptionOfFUActionType => ({
-    type: 'SET-CONSUMPTION-OF-FU',
-    animalName,
-    consumptionOfFU
-})

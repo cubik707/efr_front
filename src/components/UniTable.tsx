@@ -21,7 +21,6 @@ type UniversalTablePropsType = tableDataItemType & {
     onDeleteRow?: (index: number) => void;
 };
 
-//todo: добавить кнопку удаления добавленной строки
 
 const UniTable = ({ headers, rows, isRowsAdd, onAddRow, onDeleteRow }: UniversalTablePropsType) => {
 

@@ -9,20 +9,21 @@ type FeedsStateType = {
     [feedName: string]: FeedType
 }
 
-//-------Типизация экшенов
-type SetVolumeActionType = {
+//-------Action creators
+export const setVolumeAC = (feedName: string, volume: number) => ({
     type: 'SET-VOLUME',
-    feedName: string,
-    volume: number
-}
+    feedName,
+    volume
+} as const)
 
-type SetPriceActionType = {
+export const setPriceAC = (feedName: string, price: number) => ({
     type: 'SET-PRICE',
-    feedName: string,
-    price: number
-}
+    feedName,
+    price
+} as const)
 
-type ActionsType = SetVolumeActionType | SetPriceActionType
+//-------Типизация экшенов
+type ActionsType = ReturnType<typeof setVolumeAC> | ReturnType<typeof setPriceAC>
 
 //-------Начальное состояние
 const initialState: FeedsStateType = {}
@@ -51,15 +52,3 @@ export const animalsReducer = (state = initialState, action: ActionsType): Feeds
     }
 }
 
-//-------Action creators
-export const setVolume = (feedName: string, volume: number): SetVolumeActionType => ({
-    type: 'SET-VOLUME',
-    feedName,
-    volume
-})
-
-export const setPrice = (feedName: string, price: number): SetPriceActionType => ({
-    type: 'SET-PRICE',
-    feedName,
-    price
-})

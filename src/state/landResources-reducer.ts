@@ -6,25 +6,26 @@ type LandResourcesType = {
     hayfieldsAndPastureNatural: number, //Сенокосы и пастбища естественные
 }
 
-//-------Типизация экшенов
-type SetArableLandActionType = {
+//-------Action creators
+export const setArableLandAC = (arableLand: number) => ({
     type: 'SET-ARABLE-LAND',
-    arableLand: number
-}
+    arableLand
+} as const)
 
-type SetHayfieldsAndPastureImprovedActionType = {
+export const setHayfieldsAndPastureImprovedAC = (hayfieldsAndPastureImproved: number) => ({
     type: 'SET-HAYFIELDS-AND-PASTURE-IMPROVED',
-    hayfieldsAndPastureImproved: number
-}
+    hayfieldsAndPastureImproved
+} as const)
 
-type SetHayfieldsAndPastureNaturalActionType = {
+export const setHayfieldsAndPastureNaturalAC = (hayfieldsAndPastureNatural: number) => ({
     type: 'SET-HAYFIELDS-AND-PASTURE-NATURAL',
-    hayfieldsAndPastureNatural: number
-}
+    hayfieldsAndPastureNatural
+} as const)
 
-type ActionsType = SetArableLandActionType
-    | SetHayfieldsAndPastureImprovedActionType
-    | SetHayfieldsAndPastureNaturalActionType
+//-------Типизация экшенов
+type ActionsType = ReturnType<typeof setArableLandAC>
+    | ReturnType<typeof setHayfieldsAndPastureImprovedAC>
+    | ReturnType<typeof setHayfieldsAndPastureNaturalAC>
 
 //-------Начальное состояние
 const initialState: LandResourcesType = {
@@ -56,18 +57,3 @@ export const animalsReducer = (state = initialState, action: ActionsType): LandR
     }
 }
 
-//-------Action creators
-export const setArableLand = (arableLand: number): SetArableLandActionType => ({
-    type: 'SET-ARABLE-LAND',
-    arableLand
-})
-
-export const setHayfieldsAndPastureImproved = (hayfieldsAndPastureImproved: number): SetHayfieldsAndPastureImprovedActionType => ({
-    type: 'SET-HAYFIELDS-AND-PASTURE-IMPROVED',
-    hayfieldsAndPastureImproved
-})
-
-export const setHayfieldsAndPastureNatural = (hayfieldsAndPastureNatural: number): SetHayfieldsAndPastureNaturalActionType => ({
-    type: 'SET-HAYFIELDS-AND-PASTURE-NATURAL',
-    hayfieldsAndPastureNatural
-})

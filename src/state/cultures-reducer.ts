@@ -1,75 +1,76 @@
-
-//-------Типизация для данных
+// -------Типизация для данных
 type CultureType = {
-    yieldForecast: number //урожайность прогнозная
-    onFeed: number //на корм
-    onProduct: number //на товар
-    onSeeds: number //на семена
-    contractDeliveries: number //договорные поставки
-    sellingPricePerCent: number //цена реализации продукции за ц
-    costPrice: number //себестоимость
-}
+    yieldForecast: number; // урожайность прогнозная
+    onFeed: number; // на корм
+    onProduct: number; // на товар
+    onSeeds: number; // на семена
+    contractDeliveries: number; // договорные поставки
+    sellingPricePerCent: number; // цена реализации продукции за ц
+    costPrice: number; // себестоимость
+};
 
 export type CultureStateType = {
-    [cultureName: string]: CultureType
-}
+    [cultureName: string]: CultureType;
+};
 
-//-------Типизация экшенов
-export type SetYieldForecastActionType = {
+// -------Action creators
+export const setYieldForecastAC = (cultureName: string, yieldForecast: number) => ({
     type: 'SET-YIELD-FORECAST',
-    cultureName: string,
-    yieldForecast: number
-}
+    cultureName,
+    yieldForecast
+} as const);
 
-export type SetOnFeedActionType = {
+export const setOnFeedAC = (cultureName: string, onFeed: number) => ({
     type: 'SET-ON-FEED',
-    cultureName: string,
-    onFeed: number
-}
+    cultureName,
+    onFeed
+} as const);
 
-export type SetOnProductActionType = {
+export const setOnProductAC = (cultureName: string, onProduct: number) => ({
     type: 'SET-ON-PRODUCT',
-    cultureName: string,
-    onProduct: number
-}
+    cultureName,
+    onProduct
+} as const);
 
-export type SetOnSeedsActionType = {
+export const setOnSeedsAC = (cultureName: string, onSeeds: number) => ({
     type: 'SET-ON-SEEDS',
-    cultureName: string,
-    onSeeds: number
-}
+    cultureName,
+    onSeeds
+} as const);
 
-export type SetContractDeliveriesActionType = {
+export const setContractDeliveriesAC = (cultureName: string, contractDeliveries: number) => ({
     type: 'SET-CONTRACT-DELIVERIES',
-    cultureName: string,
-    contractDeliveries: number
-}
+    cultureName,
+    contractDeliveries
+} as const);
 
-export type SetSellingPricePerCentActionType = {
+export const setSellingPricePerCentAC = (cultureName: string, sellingPricePerCent: number) => ({
     type: 'SET-SELLING-PRICE-PER-CENT',
-    cultureName: string,
-    sellingPricePerCent: number
-}
+    cultureName,
+    sellingPricePerCent
+} as const);
 
-export type SetCostPriceActionType = {
+export const setCostPriceAC = (cultureName: string, costPrice: number) => ({
     type: 'SET-COST-PRICE',
-    cultureName: string,
-    costPrice: number
-}
+    cultureName,
+    costPrice
+} as const);
 
-export type ActionsType = SetYieldForecastActionType
-    | SetOnFeedActionType
-    | SetOnProductActionType
-    | SetOnSeedsActionType
-    | SetContractDeliveriesActionType
-    | SetSellingPricePerCentActionType
-    | SetCostPriceActionType
+// -------Типизация экшенов с использованием ReturnType
+export type ActionsType =
+    | ReturnType<typeof setYieldForecastAC>
+    | ReturnType<typeof setOnFeedAC>
+    | ReturnType<typeof setOnProductAC>
+    | ReturnType<typeof setOnSeedsAC>
+    | ReturnType<typeof setContractDeliveriesAC>
+    | ReturnType<typeof setSellingPricePerCentAC>
+    | ReturnType<typeof setCostPriceAC>;
 
-//-------Начальное состояние
-const initialState: CultureStateType = {}
+// -------Начальное состояние
+const initialState: CultureStateType = {};
 
-//-------Редьюсер
-export const culturesReducer = (state = initialState, action: ActionsType): CultureStateType  => {
+// -------Редьюсер
+export const culturesReducer = (state = initialState, action: ActionsType): CultureStateType => {
     switch (action.type) {
         case 'SET-YIELD-FORECAST':
             return {
@@ -78,7 +79,7 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     yieldForecast: action.yieldForecast
                 }
-            }
+            };
         case 'SET-ON-FEED':
             return {
                 ...state,
@@ -86,7 +87,7 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     onFeed: action.onFeed
                 }
-            }
+            };
         case 'SET-ON-PRODUCT':
             return {
                 ...state,
@@ -94,7 +95,7 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     onProduct: action.onProduct
                 }
-            }
+            };
         case 'SET-ON-SEEDS':
             return {
                 ...state,
@@ -102,7 +103,7 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     onSeeds: action.onSeeds
                 }
-            }
+            };
         case 'SET-CONTRACT-DELIVERIES':
             return {
                 ...state,
@@ -110,7 +111,7 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     contractDeliveries: action.contractDeliveries
                 }
-            }
+            };
         case 'SET-SELLING-PRICE-PER-CENT':
             return {
                 ...state,
@@ -118,7 +119,7 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     sellingPricePerCent: action.sellingPricePerCent
                 }
-            }
+            };
         case 'SET-COST-PRICE':
             return {
                 ...state,
@@ -126,51 +127,8 @@ export const culturesReducer = (state = initialState, action: ActionsType): Cult
                     ...state[action.cultureName],
                     costPrice: action.costPrice
                 }
-            }
+            };
         default:
-            return state
+            return state;
     }
-}
-
-//-------Action creators
-export const setYieldForecast = (cultureName: string, yieldForecast: number): SetYieldForecastActionType => ({
-    type: 'SET-YIELD-FORECAST',
-    cultureName,
-    yieldForecast
-})
-
-export const setOnFeed = (cultureName: string, onFeed: number): SetOnFeedActionType => ({
-    type: 'SET-ON-FEED',
-    cultureName,
-    onFeed
-})
-
-export const setOnProduct = (cultureName: string, onProduct: number): SetOnProductActionType => ({
-    type: 'SET-ON-PRODUCT',
-    cultureName,
-    onProduct
-})
-
-export const setOnSeeds = (cultureName: string, onSeeds: number): SetOnSeedsActionType => ({
-    type: 'SET-ON-SEEDS',
-    cultureName,
-    onSeeds
-})
-
-export const setContractDeliveries = (cultureName: string, contractDeliveries: number): SetContractDeliveriesActionType => ({
-    type: 'SET-CONTRACT-DELIVERIES',
-    cultureName,
-    contractDeliveries
-})
-
-export const setSellingPricePerCent = (cultureName: string, sellingPricePerCent: number): SetSellingPricePerCentActionType => ({
-    type: 'SET-SELLING-PRICE-PER-CENT',
-    cultureName,
-    sellingPricePerCent
-})
-
-export const setCostPrice = (cultureName: string, costPrice: number): SetCostPriceActionType => ({
-    type: 'SET-COST-PRICE',
-    cultureName,
-    costPrice
-})
+};
