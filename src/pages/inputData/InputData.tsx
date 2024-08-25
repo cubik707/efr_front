@@ -15,6 +15,7 @@ import {
 import {tableData} from "./tableInputData";
 import {PATH} from "../../App";
 import {useNavigate} from "react-router";
+import axios from 'axios'
 
 type Props = {
 
@@ -70,6 +71,28 @@ export const InputData = (props: Props) => {
         }
     };
 
+    const [error, setError] = useState('')
+    const [a, setA] = useState<number>(0);
+    const [b, setB] = useState<number>(0);
+    const [result, setResult] = useState<number[] | null>(null);
+
+    const testFunc = async () => {
+        try {
+            const response = await axios.post("http://localhost:5000/calculate", {
+                a,
+                b,
+            });
+            console.log(response.data);
+            setResult((response.data));
+        } catch (error: any) {
+            console.error("Error calculating sum:", error);
+            if(error.response.data){
+                setError(error.response.data)
+            }
+
+        }
+    };
+
     const { headers, rows, isRowsAdd } = data[activeStep];
     return (
         <Box sx={containerSx}>
@@ -105,6 +128,9 @@ export const InputData = (props: Props) => {
                             disabled={false}>Далее</Button>
                 </Box>
             </Box>
+            <Button onClick={testFunc}>Вжух</Button>
+            {result !== null && <h2>Result: {result}</h2>}
+            {error}
         </Box>
     );
 };
