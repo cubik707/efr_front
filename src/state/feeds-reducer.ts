@@ -29,7 +29,7 @@ type ActionsType = ReturnType<typeof setVolumeAC> | ReturnType<typeof setPriceAC
 const initialState: FeedsStateType = {}
 
 //-------Редьюсер
-export const animalsReducer = (state = initialState, action: ActionsType): FeedsStateType  => {
+export const feedsReducer = (state = initialState, action: ActionsType): FeedsStateType  => {
     switch (action.type) {
         case 'SET-VOLUME':
             return {
