@@ -1,20 +1,20 @@
 // @flow
-import * as React from 'react';
-import {useState} from 'react';
-import {Box, Button, Step, StepLabel, Stepper, Typography} from "@mui/material";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import UniTable from "../../components/UniTable";
+import * as React from 'react'
+import { useEffect, useState } from 'react'
+import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import UniTable from '../../components/UniTable'
 import {
     buttonContainerSx,
     containerSx,
     navigationButtonsContainerSx,
     tableContainerSx,
-    titleSx
-} from "./InputData.styles";
-import {tableData} from "./tableInputData";
-import {PATH} from "../../App";
-import {useNavigate} from "react-router";
+    titleSx,
+} from './InputData.styles'
+import { tableData } from './tableInputData'
+import { PATH } from '../../App'
+import { useNavigate } from 'react-router'
 import axios from 'axios'
 
 type Props = {
@@ -35,11 +35,23 @@ export const InputData = (props: Props) => {
     const [data, setData] = useState(tableData);
     const navigate = useNavigate();
 
-    const handleNext = () => {
-        activeStep === steps.length - 1
-            ? navigate(PATH.OUTPUT_DATA)
-            : setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    useEffect(() => {
+        // Получаем последний шаг, на котором остановились
+        const lastStep = parseInt(localStorage.getItem('lastInputStep') || '0', 10);
+        setActiveStep(lastStep);
+    }, []);
 
+    const handleNext = () => {
+        if (activeStep === steps.length - 1) {
+            //Сохраняется последний шаг, чтобы при возвращении из output
+            //можно было вернуться в конец, а не в начало
+            //На будущее можно реализовать функционал,
+            //чтобы прогресс ввода данных запоминался
+            localStorage.setItem('lastInputStep', String(steps.length - 1));
+            navigate(PATH.OUTPUT_DATA)
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        }
     };
 
     const handleBack = () => {
