@@ -1,7 +1,8 @@
 //todo: прописать строго, какие могут быть имена у животных отдельным типом
 //-------Типизация для данных
-import { animalsAPI } from '../api/api'
+import { animalsAPI } from '../../api/api'
 import { Dispatch } from 'redux'
+import { setAppErrorAC } from '../app-reducer'
 
 type AnimalType = {
     productivity: number, //Продуктивно(базовая)
@@ -72,18 +73,6 @@ export const animalsReducer = (state: AnimalsStateType = initialState, action: A
     }
 }
 
-export const fetchAnimalsData = (animalName: string) => async (dispatch: Dispatch) => {
-    try {
-        const data = await animalsAPI.getAnimalsData();
 
-        // Обрабатываем данные и создаем экшены
-        dispatch(setProductivityAC(animalName, data[0]));
-        dispatch(setLivestockAC(animalName, data[1]));
-        dispatch(setConsumptionOfFUAC(animalName, data[2]));
-    } catch (error) {
-        console.error(error);
-        // Можно добавить обработку ошибок или dispatch ошибок экшенов
-    }
-};
 
 
