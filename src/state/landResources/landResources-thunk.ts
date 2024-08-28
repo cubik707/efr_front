@@ -5,6 +5,7 @@ import {
   setHayfieldsAndPastureImprovedAC,
   setHayfieldsAndPastureNaturalAC,
 } from './landResources-reducer'
+import { handleError } from '../../utils/handleErrors'
 
 export const fetchLandResourcesData = () => async (dispatch: Dispatch) => {
   try {
@@ -15,8 +16,6 @@ export const fetchLandResourcesData = () => async (dispatch: Dispatch) => {
     dispatch(setHayfieldsAndPastureImprovedAC(data[1]));
     dispatch(setHayfieldsAndPastureNaturalAC(data[2]));
   } catch (error) {
-    console.error(error);
-    // dispatch(setAppErrorAC(error))
-    // Можно добавить обработку ошибок или dispatch ошибок экшенов
+    handleError(error, dispatch)
   }
 };
