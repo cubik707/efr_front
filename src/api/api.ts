@@ -8,7 +8,7 @@ const instance = axios.create({
 //Функция запроса на сервер
 const fetchData = async () => {
   try {
-    const response = await instance.post('/calculate');
+    const response = await instance.post<number[]>('/calculate');
     return response.data;
   } catch (error) {
     console.error('Failed to fetch data', error);
@@ -16,9 +16,9 @@ const fetchData = async () => {
   }
 };
 
+//Функционал на будущее, если появится возможность к каждому отдельно делать запросы
 export const animalsAPI = {
   getAnimalsData(){
-    //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
     return fetchData() //тут нужно будет отобрать нужные данные
   },
   setAnimalData(){
@@ -28,7 +28,6 @@ export const animalsAPI = {
 
 export const feedsAPI = {
   getFeedsData(){
-    //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
     return fetchData() //тут нужно будет отобрать нужные данные
   },
   setFeedsData(){
@@ -38,7 +37,6 @@ export const feedsAPI = {
 
 export const culturesAPI = {
   getCulturesData(){
-    //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
     return fetchData() //тут нужно будет отобрать нужные данные
   },
   setFeedsData(){
@@ -48,7 +46,6 @@ export const culturesAPI = {
 
 export const landResourcesAPI = {
   getLandResourcesData(){
-    //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
     return fetchData() //тут нужно будет отобрать нужные данные
   },
   setLandResourcesData(){
