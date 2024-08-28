@@ -1,5 +1,9 @@
 //todo: прописать строго, какие могут быть имена у животных отдельным типом
 //-------Типизация для данных
+import { animalsAPI } from '../../api/api'
+import { Dispatch } from 'redux'
+import { setAppErrorAC } from '../app-reducer'
+
 type AnimalType = {
     productivity: number, //Продуктивно(базовая)
     livestock: number, //Поголовье
@@ -38,7 +42,7 @@ type ActionsType = ReturnType<typeof setProductivityAC>
 const initialState: AnimalsStateType = {}
 
 //-------Редьюсер
-export const animalsReducer = (state = initialState, action: ActionsType): AnimalsStateType  => {
+export const animalsReducer = (state: AnimalsStateType = initialState, action: ActionsType): AnimalsStateType  => {
     switch (action.type) {
         case 'SET-PRODUCTIVITY':
             return {
@@ -68,4 +72,7 @@ export const animalsReducer = (state = initialState, action: ActionsType): Anima
             return state
     }
 }
+
+
+
 
