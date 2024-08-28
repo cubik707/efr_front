@@ -1,6 +1,6 @@
 
 //-------Типизация для данных
-type InitialStateType = {
+interface  InitialStateType {
    error: string
 }
 
@@ -20,7 +20,7 @@ const initialState: InitialStateType = {
 }
 
 //-------Редьюсер
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType  => {
+export const appReducer = (state: InitialStateType = initialState, action: ActionsType)  => {
     switch (action.type) {
         case 'SET-ERROR':
             return {
