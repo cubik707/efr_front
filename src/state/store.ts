@@ -1,9 +1,9 @@
 import { Action, applyMiddleware, combineReducers, legacy_createStore, UnknownAction } from 'redux'
 import { appReducer } from './app-reducer'
-import { animalsReducer } from './animals-reducer'
-import { feedsReducer } from './feeds-reducer'
-import { culturesReducer } from './cultures-reducer'
-import { landResourcesReducer } from './landResources-reducer'
+import { animalsReducer } from './animals/animals-reducer'
+import { feedsReducer } from './feeds/feeds-reducer'
+import { culturesReducer } from './cultures/cultures-reducer'
+import { landResourcesReducer } from './landResources/landResources-reducer'
 import { thunk, ThunkDispatch } from 'redux-thunk';
 import { useDispatch } from 'react-redux'
 
