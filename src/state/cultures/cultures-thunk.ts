@@ -9,6 +9,7 @@ import {
   setSellingPricePerCentAC,
   setYieldForecastAC,
 } from './cultures-reducer'
+import { handleError } from '../../utils/handleErrors'
 
 export const fetchCultureData = (cultureName: string) => async (dispatch: Dispatch) => {
   try {
@@ -23,8 +24,6 @@ export const fetchCultureData = (cultureName: string) => async (dispatch: Dispat
     dispatch(setSellingPricePerCentAC(cultureName, data[5]))
     dispatch(setCostPriceAC(cultureName, data[6]))
   } catch (error) {
-    console.error(error);
-    // dispatch(setAppErrorAC(error))
-    // Можно добавить обработку ошибок или dispatch ошибок экшенов
+    handleError(error, dispatch)
   }
 };

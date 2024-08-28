@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import { feedsAPI } from '../../api/api'
 import { setPriceAC, setVolumeAC } from './feeds-reducer'
+import { handleError } from '../../utils/handleErrors'
 
 export const fetchFeedsData = (feedName: string) => async (dispatch: Dispatch) => {
   try {
@@ -11,8 +12,6 @@ export const fetchFeedsData = (feedName: string) => async (dispatch: Dispatch) =
     dispatch(setVolumeAC(feedName, data[0]))
     dispatch(setPriceAC(feedName, data[1]))
   } catch (error) {
-    console.error(error)
-    // dispatch(setAppErrorAC(error))
-    // Можно добавить обработку ошибок или dispatch ошибок экшенов
+    handleError(error, dispatch)
   }
 }
