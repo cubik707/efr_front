@@ -70,7 +70,7 @@ export type ActionsType =
 const initialState: CultureStateType = {};
 
 // -------Редьюсер
-export const culturesReducer = (state = initialState, action: ActionsType): CultureStateType => {
+export const culturesReducer = (state: CultureStateType = initialState, action: ActionsType): CultureStateType => {
     switch (action.type) {
         case 'SET-YIELD-FORECAST':
             return {

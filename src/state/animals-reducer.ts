@@ -38,7 +38,7 @@ type ActionsType = ReturnType<typeof setProductivityAC>
 const initialState: AnimalsStateType = {}
 
 //-------Редьюсер
-export const animalsReducer = (state = initialState, action: ActionsType): AnimalsStateType  => {
+export const animalsReducer = (state: AnimalsStateType = initialState, action: ActionsType): AnimalsStateType  => {
     switch (action.type) {
         case 'SET-PRODUCTIVITY':
             return {

@@ -35,7 +35,7 @@ const initialState: LandResourcesType = {
 }
 
 //-------Редьюсер
-export const landResourcesReducer = (state = initialState, action: ActionsType): LandResourcesType  => {
+export const landResourcesReducer = (state: LandResourcesType = initialState, action: ActionsType): LandResourcesType  => {
     switch (action.type) {
         case 'SET-ARABLE-LAND':
             return {

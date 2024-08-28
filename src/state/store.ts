@@ -1,9 +1,11 @@
-import {combineReducers, legacy_createStore} from "redux";
+import { Action, applyMiddleware, combineReducers, legacy_createStore, UnknownAction } from 'redux'
 import { appReducer } from './app-reducer'
 import { animalsReducer } from './animals-reducer'
 import { feedsReducer } from './feeds-reducer'
 import { culturesReducer } from './cultures-reducer'
 import { landResourcesReducer } from './landResources-reducer'
+import { thunk, ThunkDispatch } from 'redux-thunk';
+import { useDispatch } from 'react-redux'
 
 
 const rootReducer = combineReducers({
@@ -14,10 +16,14 @@ const rootReducer = combineReducers({
     landResources: landResourcesReducer
 })
 
-// непосредственно создаём store
-export const store = legacy_createStore(rootReducer)
-// определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
+// непосредственно создаём store
+//@ts-ignore
+export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
+// определить автоматически тип всего объекта состояния
+
+export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, Action>
+export const useAppDispatch= useDispatch<AppDispatchType>;
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
