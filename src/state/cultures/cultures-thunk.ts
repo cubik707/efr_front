@@ -6,24 +6,54 @@ import {
   setOnFeedAC,
   setOnProductAC,
   setOnSeedsAC,
-  setSellingPricePerCentAC,
+  setSellingPricePerCentAC, setSquareAC,
   setYieldForecastAC,
 } from './cultures-reducer'
 import { handleError } from '../../utils/handleErrors'
 
-export const fetchCultureData = (cultureName: string) => async (dispatch: Dispatch) => {
+const culturesName = [
+  'зерновые озимовые',
+  'зерновые яровые',
+  'зернобобовые',
+  'рапс',
+  'пожнивные на сенаж',
+  'многолетние травы на сено',
+  'многолетние травы на сенаж',
+  'многолетние травы на зеленый корм',
+  'однолетние травы на зеленый корм',
+  'кукуруза на силос',
+  'сенокосы и пастбища улучшенные на сено',
+  'сенокосы и пастбища улучшенные на сенаж',
+  'сенокосы и пастбища естественных на зеленый корм',
+  'сенокосы и пастбища естественных на сенаж',
+]
+
+export const fetchCultureData = () => async (dispatch: Dispatch) => {
   try {
     const data = await culturesAPI.getCulturesData()
 
     // Обрабатываем данные и создаем экшены
-    dispatch(setYieldForecastAC(cultureName, data[0]))
-    dispatch(setOnFeedAC(cultureName, data[1]))
-    dispatch(setOnProductAC(cultureName, data[2]))
-    dispatch(setOnSeedsAC(cultureName, data[3]))
-    dispatch(setContractDeliveriesAC(cultureName, data[4]))
-    dispatch(setSellingPricePerCentAC(cultureName, data[5]))
-    dispatch(setCostPriceAC(cultureName, data[6]))
+    data.forEach((el, index)=>{
+      dispatch(setSquareAC(culturesName[index], el))
+    })
   } catch (error) {
     handleError(error, dispatch)
   }
 };
+
+
+
+
+
+
+//TC на будущее если вдруг с сервера начнут приходить НОРМАЛЬНЫЕ ДАННЫЕ)))
+// export const fetchCultureData = (cultureName: string) => async (dispatch: Dispatch) => {
+//   try {
+//     const data = await culturesAPI.getCulturesData()
+//
+//     // Обрабатываем данные и создаем экшены
+//     dispatch(setSquareAC(cultureName,))
+//   } catch (error) {
+//     handleError(error, dispatch)
+//   }
+// };
