@@ -16,10 +16,16 @@ const fetchData = async () => {
   }
 };
 
+// Доп функция, чтобы вырезать нужные данных
+const extractDataRange = (data: number[], start: number, end: number): number[] => {
+  return data.slice(start, end);
+};
+
 //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
 export const animalsAPI = {
-  getAnimalsData(){
-    return fetchData() //тут нужно будет отобрать нужные данные
+  async getAnimalsData() {
+    const data = await fetchData();
+    return extractDataRange(data, 14, 32);
   },
   setAnimalData(){
     return fetchData()
@@ -36,8 +42,9 @@ export const feedsAPI = {
 }
 
 export const culturesAPI = {
-  getCulturesData(){
-    return fetchData() //тут нужно будет отобрать нужные данные
+  async getCulturesData() {
+    const data = await fetchData();
+    return extractDataRange(data, 0, 14);
   },
   setFeedsData(){
     return fetchData()
