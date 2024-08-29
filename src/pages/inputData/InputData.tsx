@@ -43,19 +43,18 @@ export const InputData = (props: Props) => {
 
     const handleNext = () => {
         if (activeStep === steps.length - 1) {
-            //Сохраняется последний шаг, чтобы при возвращении из output
-            //можно было вернуться в конец, а не в начало
-            //На будущее можно реализовать функционал,
-            //чтобы прогресс ввода данных запоминался
-            localStorage.setItem('lastInputStep', String(steps.length - 1));
-            navigate(PATH.OUTPUT_DATA)
+            navigate(PATH.OUTPUT_DATA);
         } else {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            const nextStep = activeStep + 1;
+            setActiveStep(nextStep);
+            localStorage.setItem('lastInputStep', nextStep.toString());
         }
     };
 
     const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        const prevStep = activeStep - 1;
+        setActiveStep(prevStep);
+        localStorage.setItem('lastInputStep', prevStep.toString());
     };
 
     const handleAddRow = () => {
