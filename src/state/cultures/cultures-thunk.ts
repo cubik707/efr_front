@@ -30,8 +30,9 @@ const culturesName = [
 
 export const fetchCultureData = () => async (dispatch: Dispatch) => {
   try {
-    const data = await culturesAPI.getCulturesData()
 
+    const data = await culturesAPI.getCulturesData()
+    console.log(data)
     // Обрабатываем данные и создаем экшены
     data.forEach((el, index)=>{
       dispatch(setSquareAC(culturesName[index], el))
