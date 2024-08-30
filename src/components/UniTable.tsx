@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
     Box,
     IconButton,
@@ -9,11 +9,11 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TextField
-} from '@mui/material';
-import {tableDataItemType} from "../pages/inputData/tableInputData";
-import {AddBox} from "@mui/icons-material";
-import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
+    TextField,
+} from '@mui/material'
+import { tableDataItemType } from '../pages/inputData/tableInputData'
+import { AddBox } from '@mui/icons-material'
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 
 
 type UniversalTablePropsType = tableDataItemType & {

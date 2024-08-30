@@ -129,6 +129,7 @@ export const InputData = (props: Props) => {
                     isRowsAdd={isRowsAdd}
                     onAddRow={handleAddRow}
                     onDeleteRow={handleDeleteRow}
+                    onInputChange={handleInputChange}
                 />
             </Box>
             <Box sx={buttonContainerSx}>
