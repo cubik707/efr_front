@@ -1,11 +1,25 @@
 import { Dispatch } from 'redux'
 import { landResourcesAPI } from '../../api/api'
 import {
+  LandResourcesType,
   setArableLandAC,
   setHayfieldsAndPastureImprovedAC,
   setHayfieldsAndPastureNaturalAC,
 } from './landResources-reducer'
 import { handleError } from '../../utils/handleErrors'
+
+
+export const setLandResourcesData = (data: LandResourcesType) => async (dispatch: Dispatch) => {
+  try {
+    await landResourcesAPI.setLandResourcesData(data)
+
+    dispatch(setArableLandAC(data.arableLand))
+    dispatch(setHayfieldsAndPastureImprovedAC(data.hayfieldsAndPastureImproved))
+    dispatch(setHayfieldsAndPastureNaturalAC(data.hayfieldsAndPastureNatural))
+  } catch (error) {
+    handleError(error, dispatch)
+  }
+}
 
 export const fetchLandResourcesData = () => async (dispatch: Dispatch) => {
   try {

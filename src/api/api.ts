@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { LandResourcesType } from '../state/landResources/landResources-reducer'
 
 const instance = axios.create({
   baseURL: 'http://localhost:5000',
@@ -68,7 +69,7 @@ export const landResourcesAPI = {
   getLandResourcesData(){
     return fetchData() //тут нужно будет отобрать нужные данные
   },
-  setLandResourcesData(){
+  setLandResourcesData(data: LandResourcesType){
     return fetchData()
   }
 }

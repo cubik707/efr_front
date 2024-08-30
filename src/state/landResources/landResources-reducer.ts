@@ -1,6 +1,6 @@
 
 //-------Типизация для данных
-type LandResourcesType = {
+export type LandResourcesType = {
     arableLand: number, //Пашня
     hayfieldsAndPastureImproved: number, //Сенокосы и пастбища улучшенные
     hayfieldsAndPastureNatural: number, //Сенокосы и пастбища естественные
