@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import UniTable from '../../components/UniTable'
 import {
     buttonContainerSx,
     containerSx,
@@ -12,7 +11,6 @@ import {
     tableContainerSx,
     titleSx,
 } from './InputData.styles'
-import { tableData } from './tableInputData'
 import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
@@ -33,7 +31,6 @@ const steps = [
 
 export const InputData = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
-    const [data, setData] = useState(tableData);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -58,31 +55,6 @@ export const InputData = (props: Props) => {
         localStorage.setItem('lastInputStep', prevStep.toString());
     };
 
-    const handleAddRow = () => {
-        const updatedData = [...data];
-        const currentTable = updatedData[activeStep];
-
-        if (currentTable.isRowsAdd) {
-            const newRow = [...currentTable.rows[currentTable.rows.length - 1]]; // Клонируем последнюю строку
-            updatedData[activeStep].rows.push(newRow); // Добавляем новую строку
-
-            setData(updatedData); // Обновляем состояние с новыми данными
-            console.log(updatedData[activeStep].rows)
-        }
-    };
-
-    const handleDeleteRow = (rowIndex: number) => {
-        const updatedData = [...data];
-        const currentTable = updatedData[activeStep];
-
-        if (currentTable.isRowsAdd) {
-            currentTable.rows = currentTable.rows.filter((_, index) => index !== rowIndex); // Фильтруем строки, исключая ту, что соответствует rowIndex
-
-            setData(updatedData); // Обновляем состояние с новыми данными
-            console.log(updatedData[activeStep].rows)
-        }
-    };
-
     const [error, setError] = useState('')
     const [result, setResult] = useState<number[] | null>(null);
 
@@ -103,7 +75,6 @@ export const InputData = (props: Props) => {
         }
     };
 
-    const { headers, rows, isRowsAdd } = data[activeStep];
     return (
         <Box sx={containerSx}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -117,7 +88,7 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                <Step1/>
+                {activeStep === 0 && <Step1 />}
             </Box>
             <Box sx={buttonContainerSx}>
                 <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
