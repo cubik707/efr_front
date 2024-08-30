@@ -16,6 +16,7 @@ import { tableData } from './tableInputData'
 import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
+import { Step1 } from './Step1'
 
 type Props = {
 
@@ -116,13 +117,7 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                <UniTable
-                    headers={headers}
-                    rows={rows}
-                    isRowsAdd={isRowsAdd}
-                    onAddRow={handleAddRow}
-                    onDeleteRow={handleDeleteRow}
-                />
+                <Step1/>
             </Box>
             <Box sx={buttonContainerSx}>
                 <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
