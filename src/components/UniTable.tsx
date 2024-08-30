@@ -19,10 +19,11 @@ import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox
 type UniversalTablePropsType = tableDataItemType & {
     onAddRow?: () => void;
     onDeleteRow?: (index: number) => void;
+    onInputChange?: (rowIndex: number, cellIndex: number, value: string) => void
 };
 
 
-const UniTable = ({ headers, rows, isRowsAdd, onAddRow, onDeleteRow }: UniversalTablePropsType) => {
+const UniTable = ({ headers, rows, isRowsAdd, onAddRow, onDeleteRow, onInputChange  }: UniversalTablePropsType) => {
 
     const handleAddRow = () => {
         if (onAddRow) {
@@ -33,6 +34,12 @@ const UniTable = ({ headers, rows, isRowsAdd, onAddRow, onDeleteRow }: Universal
     const handleDeleteRow = (rowIndex: number) => {
         if (onDeleteRow) {
             onDeleteRow(rowIndex);
+        }
+    };
+
+    const handleInputChange = (rowIndex: number, cellIndex: number, value: string) => {
+        if (onInputChange) {
+            onInputChange(rowIndex, cellIndex, value);
         }
     };
 
@@ -71,6 +78,7 @@ const UniTable = ({ headers, rows, isRowsAdd, onAddRow, onDeleteRow }: Universal
                                                 size="small"
                                                 placeholder={cell.replace('input', '').trim()}
                                                 fullWidth
+                                                onChange={(e) => handleInputChange(rowIndex, cellIndex, e.target.value)}
                                             />
                                         ) : (
                                             cell

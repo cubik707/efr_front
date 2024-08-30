@@ -83,16 +83,11 @@ export const InputData = (props: Props) => {
     };
 
     const [error, setError] = useState('')
-    const [a, setA] = useState<number>(0);
-    const [b, setB] = useState<number>(0);
     const [result, setResult] = useState<number[] | null>(null);
 
     const testFunc = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/calculate", {
-                a,
-                b,
-            });
+            const response = await axios.post("http://localhost:5000/calculate");
             if(response.data){
                 console.log(response.data);
                 setResult((response.data));
