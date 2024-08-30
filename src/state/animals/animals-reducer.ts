@@ -39,7 +39,18 @@ type ActionsType = ReturnType<typeof setProductivityAC>
     | ReturnType<typeof setConsumptionOfFUAC>
 
 //-------Начальное состояние
-const initialState: AnimalsStateType = {}
+const initialState: AnimalsStateType = {
+    'Коровы': {
+        productivity: 0,
+        livestock: 0,
+        consumptionOfFU: 0
+    },
+    'Молодняк КРС': {
+        productivity: 0,
+        livestock: 0,
+        consumptionOfFU: 0
+    }
+}
 
 //-------Редьюсер
 export const animalsReducer = (state: AnimalsStateType = initialState, action: ActionsType): AnimalsStateType  => {
