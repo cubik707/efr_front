@@ -57,6 +57,13 @@ export const InputData = (props: Props) => {
         localStorage.setItem('lastInputStep', prevStep.toString());
     };
 
+    const handleInputChange = (rowIndex: number, cellIndex: number, value: string) => {
+        const updatedData = [...data];
+        const currentTable = updatedData[activeStep];
+        currentTable.rows[rowIndex][cellIndex] = value;
+        setData(updatedData);
+    };
+
     const handleAddRow = () => {
         const updatedData = [...data];
         const currentTable = updatedData[activeStep];
