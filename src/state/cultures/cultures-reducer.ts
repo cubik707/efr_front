@@ -7,6 +7,7 @@ type CultureType = {
     contractDeliveries: number; // договорные поставки
     sellingPricePerCent: number; // цена реализации продукции за ц
     costPrice: number; // себестоимость
+    square: number //площадь
 };
 
 export type CultureStateType = {
@@ -56,6 +57,12 @@ export const setCostPriceAC = (cultureName: string, costPrice: number) => ({
     costPrice
 } as const);
 
+export const setSquareAC = (cultureName: string, square: number) => ({
+    type: 'SET-SQUARE',
+    cultureName,
+    square,
+} as const)
+
 // -------Типизация экшенов с использованием ReturnType
 export type ActionsType =
     | ReturnType<typeof setYieldForecastAC>
@@ -64,7 +71,8 @@ export type ActionsType =
     | ReturnType<typeof setOnSeedsAC>
     | ReturnType<typeof setContractDeliveriesAC>
     | ReturnType<typeof setSellingPricePerCentAC>
-    | ReturnType<typeof setCostPriceAC>;
+    | ReturnType<typeof setCostPriceAC>
+    | ReturnType<typeof setSquareAC>;
 
 // -------Начальное состояние
 const initialState: CultureStateType = {};
@@ -126,6 +134,14 @@ export const culturesReducer = (state: CultureStateType = initialState, action: 
                 [action.cultureName]: {
                     ...state[action.cultureName],
                     costPrice: action.costPrice
+                }
+            };
+        case 'SET-SQUARE':
+            return {
+                ...state,
+                [action.cultureName]: {
+                    ...state[action.cultureName],
+                    square: action.square
                 }
             };
         default:

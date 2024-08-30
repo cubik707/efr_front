@@ -6,24 +6,55 @@ import {
   setOnFeedAC,
   setOnProductAC,
   setOnSeedsAC,
-  setSellingPricePerCentAC,
+  setSellingPricePerCentAC, setSquareAC,
   setYieldForecastAC,
 } from './cultures-reducer'
 import { handleError } from '../../utils/handleErrors'
 
-export const fetchCultureData = (cultureName: string) => async (dispatch: Dispatch) => {
-  try {
-    const data = await culturesAPI.getCulturesData()
+const culturesName = [
+  'Зерновые озимовые',
+  'Зерновые яровые',
+  'Зернобобовые',
+  'Рапс',
+  'Пожнивные на сенаж',
+  'Многолетние травы на сено',
+  'Многолетние травы на сенаж',
+  'Многолетние травы на зеленый корм',
+  'Однолетние травы на зеленый корм',
+  'Кукуруза на силос',
+  'Сенокосы и пастбища улучшенные на сено',
+  'Сенокосы и пастбища улучшенные на сенаж',
+  'Сенокосы и пастбища естественных на зеленый корм',
+  'Сенокосы и пастбища естественных на сенаж'
+]
 
+export const fetchCultureData = () => async (dispatch: Dispatch) => {
+  try {
+
+    const data = await culturesAPI.getCulturesData()
+    console.log(data)
     // Обрабатываем данные и создаем экшены
-    dispatch(setYieldForecastAC(cultureName, data[0]))
-    dispatch(setOnFeedAC(cultureName, data[1]))
-    dispatch(setOnProductAC(cultureName, data[2]))
-    dispatch(setOnSeedsAC(cultureName, data[3]))
-    dispatch(setContractDeliveriesAC(cultureName, data[4]))
-    dispatch(setSellingPricePerCentAC(cultureName, data[5]))
-    dispatch(setCostPriceAC(cultureName, data[6]))
+    data.forEach((el, index)=>{
+      dispatch(setSquareAC(culturesName[index], el))
+    })
   } catch (error) {
     handleError(error, dispatch)
   }
 };
+
+
+
+
+
+
+//TC на будущее если вдруг с сервера начнут приходить НОРМАЛЬНЫЕ ДАННЫЕ)))
+// export const fetchCultureData = (cultureName: string) => async (dispatch: Dispatch) => {
+//   try {
+//     const data = await culturesAPI.getCulturesData()
+//
+//     // Обрабатываем данные и создаем экшены
+//     dispatch(setSquareAC(cultureName,))
+//   } catch (error) {
+//     handleError(error, dispatch)
+//   }
+// };
