@@ -7,6 +7,7 @@ import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { Step1 } from './Step1'
+import { Step2 } from './Step2'
 
 type Props = {
 
@@ -81,6 +82,7 @@ export const InputData = (props: Props) => {
             </Typography>
             <Box sx={tableContainerSx}>
                 {activeStep === 0 && <Step1 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 1 && <Step2 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
             </Box>
 
             <Button onClick={testFunc}>Вжух</Button>

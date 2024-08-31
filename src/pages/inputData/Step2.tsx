@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { useState } from 'react'
+import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from './InputData.styles'
 import {
   Box,
   Button,
@@ -13,49 +13,13 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from './InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { setLandResourcesData } from '../../state/landResources/landResources-thunk'
-import { useAppDispatch } from '../../state/store'
-import { LandResourcesType } from '../../state/landResources/landResources-reducer'
-import { handleError } from '../../utils/handleErrors'
+import { StepsProps } from './Step1'
 
-export type StepsProps = {
-  activeStep: number
-  onBack: () => void
-  onNext: () => void
-};
+const headers = ['Культура', 'Урожайность прогнозная, ц/га ', 'в т.ч. на корм', 'в т.ч. на товар', 'в т.ч. на семена']
 
-const headers = ['Показатели', 'Наличие']
-
-
-export const Step1 = (props: StepsProps) => {
-  const dispatch = useAppDispatch();
-
-  const [formData, setFormData] = useState<LandResourcesType>({
-    arableLand: 0,
-    hayfieldsAndPastureImproved: 0,
-    hayfieldsAndPastureNatural: 0,
-  });
-  type LandResourcesField = keyof LandResourcesType;
-
-  const handleInputChange = (field: LandResourcesField, value: string) => {
-    setFormData(prevState => ({
-      ...prevState,
-      [field]: value
-    }));
-  };
-
-  const handleNextStep = async () => {
-    try {
-      await dispatch(setLandResourcesData(formData));
-      props.onNext();
-    } catch (error: any) {
-      handleError(error, dispatch)
-    }
-  };
-
+export const Step2 = (props: StepsProps) => {
   return (
     <Box sx={containerSx}>
       <TableContainer component={Paper}>
@@ -73,28 +37,19 @@ export const Step1 = (props: StepsProps) => {
             <TableRow>
               <TableCell>Пашня, га</TableCell>
               <TableCell>
-                <TextField
-                  value={formData.arableLand}
-                  onChange={(e) => handleInputChange('arableLand', e.target.value)}
-                />
+
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Сенокосы и пастбища улучшенные, га</TableCell>
               <TableCell>
-                <TextField
-                  value={formData.hayfieldsAndPastureImproved}
-                  onChange={(e) => handleInputChange('hayfieldsAndPastureImproved', e.target.value)}
-                />
+
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Сенокосы и пастбища естественные, га</TableCell>
               <TableCell>
-                <TextField
-                  value={formData.hayfieldsAndPastureNatural}
-                  onChange={(e) => handleInputChange('hayfieldsAndPastureNatural', e.target.value)}
-                />
+
               </TableCell>
             </TableRow>
           </TableBody>
@@ -109,7 +64,7 @@ export const Step1 = (props: StepsProps) => {
                   disabled={props.activeStep === 0}>Назад</Button>
           <Button variant="contained"
                   endIcon={<KeyboardArrowRightIcon />}
-                  onClick={handleNextStep}
+                  onClick={props.onNext}
                   disabled={false}>Далее</Button>
         </Box>
       </Box>
