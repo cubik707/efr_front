@@ -15,6 +15,7 @@ import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { Step1 } from './Step1'
+import { useAppDispatch, useAppSelector } from '../../state/store'
 
 type Props = {
 
@@ -88,21 +89,9 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                {activeStep === 0 && <Step1 />}
+                {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} handleBack={handleBack} />}
             </Box>
-            <Box sx={buttonContainerSx}>
-                <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
-                <Box sx = {navigationButtonsContainerSx}>
-                    <Button variant="text"
-                            startIcon={<KeyboardArrowLeftIcon />}
-                            onClick={handleBack}
-                            disabled={activeStep === 0}>Назад</Button>
-                    <Button variant="contained"
-                            endIcon={<KeyboardArrowRightIcon />}
-                            onClick={handleNext}
-                            disabled={false}>Далее</Button>
-                </Box>
-            </Box>
+
             <Button onClick={testFunc}>Вжух</Button>
             {result !== null && <h2>Result: {result}</h2>}
             {error}
