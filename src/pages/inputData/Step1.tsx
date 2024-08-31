@@ -13,7 +13,7 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import { buttonContainerSx, navigationButtonsContainerSx } from './InputData.styles'
+import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from './InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { setLandResourcesData } from '../../state/landResources/landResources-thunk'
@@ -57,7 +57,7 @@ export const Step1 = (props: Props) => {
   };
 
   return (
-    <Box>
+    <Box sx={containerSx}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
