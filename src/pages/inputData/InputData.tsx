@@ -2,20 +2,11 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import {
-    buttonContainerSx,
-    containerSx,
-    navigationButtonsContainerSx,
-    tableContainerSx,
-    titleSx,
-} from './InputData.styles'
+import { containerSx, tableContainerSx, titleSx } from './InputData.styles'
 import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { Step1 } from './Step1'
-import { useAppDispatch, useAppSelector } from '../../state/store'
 
 type Props = {
 
@@ -89,7 +80,7 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                {activeStep === 0 && <Step1 activeStep={activeStep} handleNext={handleNext} handleBack={handleBack} />}
+                {activeStep === 0 && <Step1 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
             </Box>
 
             <Button onClick={testFunc}>Вжух</Button>
