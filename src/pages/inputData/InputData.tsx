@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { Step1 } from './Step1/Step1'
 import { Step2 } from './Step2/Step2'
+import { Step3 } from './Step3/Step3'
+import { Step4 } from './Step4/Step4'
+import { Step5 } from './Step5/Step5'
+import { Step6 } from './Step6/Step6'
 
 type Props = {
 
@@ -83,6 +87,10 @@ export const InputData = (props: Props) => {
             <Box sx={tableContainerSx}>
                 {activeStep === 0 && <Step1 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
                 {activeStep === 1 && <Step2 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 2 && <Step3 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 3 && <Step4 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 4 && <Step5 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 5 && <Step6 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
             </Box>
 
             <Button onClick={testFunc}>Вжух</Button>
