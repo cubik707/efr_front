@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react'
-import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from './InputData.styles'
+import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
 import {
   Box,
-  Button,
+  Button, IconButton,
   Paper,
   Table,
   TableBody,
@@ -15,7 +15,9 @@ import {
 } from '@mui/material'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { StepsProps } from './Step1'
+import { StepsProps } from '../Step1/Step1'
+import { AddBox } from '@mui/icons-material'
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 
 const headers = ['Культура', 'Урожайность прогнозная, ц/га ', 'в т.ч. на корм', 'в т.ч. на товар', 'в т.ч. на семена']
 
@@ -35,21 +37,25 @@ export const Step2 = (props: StepsProps) => {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>Пашня, га</TableCell>
               <TableCell>
-
+                <TextField
+                  fullWidth
+                />
               </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Сенокосы и пастбища улучшенные, га</TableCell>
               <TableCell>
-
+                <TextField
+                  fullWidth
+                />
               </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Сенокосы и пастбища естественные, га</TableCell>
               <TableCell>
-
+                <TextField
+                  fullWidth
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  fullWidth
+                />
               </TableCell>
             </TableRow>
           </TableBody>

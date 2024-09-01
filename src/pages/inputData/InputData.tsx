@@ -6,8 +6,8 @@ import { containerSx, tableContainerSx, titleSx } from './InputData.styles'
 import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
-import { Step1 } from './Step1'
-import { Step2 } from './Step2'
+import { Step1 } from './Step1/Step1'
+import { Step2 } from './Step2/Step2'
 
 type Props = {
 
