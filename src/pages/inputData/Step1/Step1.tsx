@@ -31,30 +31,46 @@ export type StepsProps = {
 const headers = ['Показатели', 'Наличие']
 
 const validationSchema = Yup.object().shape({
-  arableLand: Yup.number()
-    .typeError('Значение должно быть числом')
-    .required('Обязательно для заполнения'),
-  hayfieldsAndPastureImproved: Yup.number()
-    .typeError('Значение должно быть числом')
-    .required('Обязательно для заполнения'),
-  hayfieldsAndPastureNatural: Yup.number()
-    .typeError('Значение должно быть числом')
-    .required('Обязательно для заполнения'),
-});
+    arableLand: Yup.mixed().test(
+      'is-number',
+      'Значение должно быть числом',
+      (value) => value === '' || !isNaN(Number(value))
+    ).required('Обязательно для заполнения'),
+    hayfieldsAndPastureImproved: Yup.mixed().test(
+      'is-number',
+      'Значение должно быть числом',
+      (value) => value === '' || !isNaN(Number(value))
+    ).required('Обязательно для заполнения'),
+    hayfieldsAndPastureNatural: Yup.mixed().test(
+      'is-number',
+      'Значение должно быть числом',
+      (value) => value === '' || !isNaN(Number(value))
+    ).required('Обязательно для заполнения'),
+  })
 
 export const Step1 = (props: StepsProps) => {
   const dispatch = useAppDispatch();
 
-  const formik = useFormik<LandResourcesType>({
+  type LandResourcesFormType = {
+    [K in keyof LandResourcesType]: LandResourcesType[K] | string;
+  };
+
+  const formik = useFormik<LandResourcesFormType>({
     initialValues: {
-      arableLand: 0,
-      hayfieldsAndPastureImproved: 0,
-      hayfieldsAndPastureNatural: 0,
+      arableLand: '',  // Изначально пустые строки
+      hayfieldsAndPastureImproved: '',
+      hayfieldsAndPastureNatural: '',
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await dispatch(setLandResourcesData(values))
+        // Преобразуем значения формы в числа
+        const normalizedValues: LandResourcesType = {
+          arableLand: Number(values.arableLand),
+          hayfieldsAndPastureImproved: Number(values.hayfieldsAndPastureImproved),
+          hayfieldsAndPastureNatural: Number(values.hayfieldsAndPastureNatural),
+        };
+        await dispatch(setLandResourcesData(normalizedValues))
         props.onNext()
       } catch (error: any) {
         handleError(error, dispatch)
@@ -88,6 +104,7 @@ export const Step1 = (props: StepsProps) => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.arableLand && Boolean(formik.errors.arableLand)}
                     helperText={formik.touched.arableLand && formik.errors.arableLand}
+                    fullWidth
                   />
                 </TableCell>
               </TableRow>
@@ -101,6 +118,7 @@ export const Step1 = (props: StepsProps) => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.hayfieldsAndPastureImproved && Boolean(formik.errors.hayfieldsAndPastureImproved)}
                     helperText={formik.touched.hayfieldsAndPastureImproved && formik.errors.hayfieldsAndPastureImproved}
+                    fullWidth
                   />
                 </TableCell>
               </TableRow>
@@ -114,6 +132,7 @@ export const Step1 = (props: StepsProps) => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.hayfieldsAndPastureNatural && Boolean(formik.errors.hayfieldsAndPastureNatural)}
                     helperText={formik.touched.hayfieldsAndPastureNatural && formik.errors.hayfieldsAndPastureNatural}
+                    fullWidth
                   />
                 </TableCell>
               </TableRow>
