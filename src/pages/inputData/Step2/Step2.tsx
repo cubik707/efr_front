@@ -75,36 +75,32 @@ interface FormValues {
 }
 
 export const Step2: React.FC<StepsProps> = (props) => {
-  const initialState: RowType[] = [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }]
-  const [rows, setRows] = useState<RowType[]>(initialState)
-
-  const handleAddRow = () => {
-    setRows([...rows, { culture: '', yield: '', fodder: '', commodity: '', seeds: '' }]);
-  };
-
-  const handleDeleteRow = (index: number) => {
-    const newRows = rows.filter((_, rowIndex) => rowIndex !== index);
-    setRows(newRows);
-  };
-
-  const handleInputChange = (index: number, field: string, value: string) => {
-    const newRows = rows.map((row, rowIndex) =>
-      rowIndex === index ? { ...row, [field]: value } : row,
-    )
-    setRows(newRows);
-    formik.setFieldValue(`rows[${index}].${field}`, value)
-  };
-
-  const dispatch = useAppDispatch();
-
   const formik = useFormik<FormValues>({
-    initialValues: { rows },
+    initialValues: { rows: [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }] },
     validationSchema,
     onSubmit: (values) => {
-      props.onNext()
+      props.onNext();
     },
   });
 
+  const handleAddRow = () => {
+    formik.setFieldValue('rows', [
+      ...formik.values.rows,
+      { culture: '', yield: '', fodder: '', commodity: '', seeds: '' }
+    ]);
+  };
+
+  const handleDeleteRow = (index: number) => {
+    const newRows = formik.values.rows.filter((_, rowIndex) => rowIndex !== index);
+    formik.setFieldValue('rows', newRows);
+  };
+
+  const handleInputChange = (index: number, field: keyof RowType, value: string) => {
+    const newRows = formik.values.rows.map((row, rowIndex) =>
+      rowIndex === index ? { ...row, [field]: value } : row
+    );
+    formik.setFieldValue('rows', newRows);
+  };
   // Access errors and touched with type safety
   const getError = (rowIndex: number, field: keyof RowType) =>
     formik.errors.rows && (formik.errors.rows as FormikErrors<RowType[]>)[rowIndex]?.[field]
@@ -127,11 +123,11 @@ export const Step2: React.FC<StepsProps> = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, rowIndex) => (
+              {formik.values.rows.map((row, rowIndex) => (
                 <TableRow key={rowIndex}>
                   <TableCell style={{ width: 'auto', whiteSpace: 'nowrap' }}>
                     <Box display="flex" alignItems="center">
-                      {rowIndex === rows.length - 1 ? (
+                      {rowIndex === formik.values.rows.length - 1 ? (
                         <IconButton color="primary" onClick={handleAddRow} size="small">
                           <AddBox />
                         </IconButton>
