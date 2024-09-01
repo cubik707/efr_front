@@ -17,7 +17,11 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { setLandResourcesData } from '../../../state/landResources/landResources-thunk'
 import { useAppDispatch } from '../../../state/store'
-import { LandResourcesType } from '../../../state/landResources/landResources-reducer'
+import {
+  LandResourcesType,
+  setArableLandAC,
+  setHayfieldsAndPastureImprovedAC, setHayfieldsAndPastureNaturalAC,
+} from '../../../state/landResources/landResources-reducer'
 import { handleError } from '../../../utils/handleErrors'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -62,19 +66,11 @@ export const Step1 = (props: StepsProps) => {
       hayfieldsAndPastureNatural: '',
     },
     validationSchema,
-    onSubmit: async (values) => {
-      try {
-        // Преобразуем значения формы в числа
-        const normalizedValues: LandResourcesType = {
-          arableLand: Number(values.arableLand),
-          hayfieldsAndPastureImproved: Number(values.hayfieldsAndPastureImproved),
-          hayfieldsAndPastureNatural: Number(values.hayfieldsAndPastureNatural),
-        };
-        await dispatch(setLandResourcesData(normalizedValues))
-        props.onNext()
-      } catch (error: any) {
-        handleError(error, dispatch)
-      }
+    onSubmit:  (values) => {
+      dispatch(setArableLandAC(Number(values.arableLand)))
+      dispatch(setHayfieldsAndPastureImprovedAC(Number(values.hayfieldsAndPastureImproved)))
+      dispatch(setHayfieldsAndPastureNaturalAC(Number(values.hayfieldsAndPastureNatural)))
+      props.onNext()
     },
   })
 
