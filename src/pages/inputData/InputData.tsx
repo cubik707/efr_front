@@ -26,11 +26,11 @@ export const InputData = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // Получаем последний шаг, на котором остановились
-        const lastStep = parseInt(localStorage.getItem('lastInputStep') || '0', 10);
-        setActiveStep(lastStep);
-    }, []);
+    // useEffect(() => {
+    //     // Получаем последний шаг, на котором остановились
+    //     const lastStep = parseInt(localStorage.getItem('lastInputStep') || '0', 10);
+    //     setActiveStep(lastStep);
+    // }, []);
 
     const handleNext = () => {
         if (activeStep === steps.length - 1) {
@@ -38,14 +38,14 @@ export const InputData = (props: Props) => {
         } else {
             const nextStep = activeStep + 1;
             setActiveStep(nextStep);
-            localStorage.setItem('lastInputStep', nextStep.toString());
+            // localStorage.setItem('lastInputStep', nextStep.toString());
         }
     };
 
     const handleBack = () => {
         const prevStep = activeStep - 1;
         setActiveStep(prevStep);
-        localStorage.setItem('lastInputStep', prevStep.toString());
+        // localStorage.setItem('lastInputStep', prevStep.toString());
     };
 
     const [error, setError] = useState('')
