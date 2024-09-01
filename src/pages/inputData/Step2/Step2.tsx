@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react'
 import { useState } from 'react'
 import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
@@ -22,28 +21,62 @@ import { AddBox } from '@mui/icons-material'
 import { CultureSelect } from './CultureSelect'
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 import { useAppDispatch } from '../../../state/store'
-import { useFormik } from 'formik'
-import { handleError } from '../../../utils/handleErrors'
+import { FormikErrors, FormikTouched, useFormik } from 'formik'
 import * as Yup from 'yup'
 
-const headers = ['Культура', 'Урожайность прогнозная, ц/га ', 'в т.ч. на корм', 'в т.ч. на товар', 'в т.ч. на семена']
+const headers = [
+  'Культура',
+  'Урожайность прогнозная, ц/га ',
+  'в т.ч. на корм',
+  'в т.ч. на товар',
+  'в т.ч. на семена',
+]
 
 // Схема валидации с использованием Yup
-const validationSchema = Yup.object({
+const validationSchema = Yup.object().shape({
   rows: Yup.array().of(
     Yup.object({
       culture: Yup.string().required('Выберите культуру'),
-      yield: Yup.number().typeError('Должно быть числом').required('Обязательное поле'),
-      fodder: Yup.number().typeError('Должно быть числом').required('Обязательное поле'),
-      commodity: Yup.number().typeError('Должно быть числом').required('Обязательное поле'),
-      seeds: Yup.number().typeError('Должно быть числом').required('Обязательное поле'),
+      yield: Yup.mixed().test(
+        'is-number',
+        'Значение должно быть числом',
+        (value) => value === '' || !isNaN(Number(value)),
+      ).required('Обязательно для заполнения'),
+      fodder: Yup.mixed().test(
+        'is-number',
+        'Значение должно быть числом',
+        (value) => value === '' || !isNaN(Number(value)),
+      ).required('Обязательно для заполнения'),
+      commodity: Yup.mixed().test(
+        'is-number',
+        'Значение должно быть числом',
+        (value) => value === '' || !isNaN(Number(value)),
+      ).required('Обязательно для заполнения'),
+      seeds: Yup.mixed().test(
+        'is-number',
+        'Значение должно быть числом',
+        (value) => value === '' || !isNaN(Number(value)),
+      ).required('Обязательно для заполнения'),
     })
-  )
+  ).min(1, 'Должен быть хотя бы один ряд'),
 });
 
-export const Step2 = (props: StepsProps) => {
-  const initialState = [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }]
-  const [rows, setRows] = useState<typeof initialState>(initialState);
+// Определение типа строки
+type RowType = {
+  culture: string;
+  yield: number | '';
+  fodder: number | '';
+  commodity: number | '';
+  seeds: number | '';
+};
+
+interface FormValues {
+  rows: RowType[];
+}
+
+export const Step2: React.FC<StepsProps> = (props) => {
+  const initialState: RowType[] = [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }]
+  const [rows, setRows] = useState<RowType[]>(initialState)
 
   const handleAddRow = () => {
     setRows([...rows, { culture: '', yield: '', fodder: '', commodity: '', seeds: '' }]);
@@ -55,104 +88,137 @@ export const Step2 = (props: StepsProps) => {
   };
 
   const handleInputChange = (index: number, field: string, value: string) => {
-    const newRows = rows.map((row, rowIndex) => rowIndex === index ? { ...row, [field]: value } : row);
+    const newRows = rows.map((row, rowIndex) =>
+      rowIndex === index ? { ...row, [field]: value } : row,
+    )
     setRows(newRows);
+    formik.setFieldValue(`rows[${index}].${field}`, value)
   };
 
   const dispatch = useAppDispatch();
 
-  const formik = useFormik<{ rows: typeof initialState }>({
+  const formik = useFormik<FormValues>({
     initialValues: { rows },
     validationSchema,
-    onSubmit: async (values) => {
-      try {
-        //await dispatch()
-        props.onNext()
-      } catch (error: any) {
-        handleError(error, dispatch)
-      }
+    onSubmit: (values) => {
+      props.onNext()
     },
-  })
+  });
+
+  // Access errors and touched with type safety
+  const getError = (rowIndex: number, field: keyof RowType) =>
+    formik.errors.rows && (formik.errors.rows as FormikErrors<RowType[]>)[rowIndex]?.[field]
+
+  const isTouched = (rowIndex: number, field: keyof RowType) =>
+    formik.touched.rows && (formik.touched.rows as FormikTouched<RowType[]>)[rowIndex]?.[field]
 
   return (
     <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
-    <Box sx={containerSx}>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {headers.map((header, index) => (
-                <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
-                  {header}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                <TableCell style={{display: 'flex', gap: '5px'}}>
-                  {rowIndex === rows.length - 1 ? (
-                    <IconButton color="primary" onClick={handleAddRow} size="small">
-                      <AddBox />
-                    </IconButton>
-                  ) : (
-                    <IconButton color="secondary" onClick={() => handleDeleteRow(rowIndex)} size="small">
-                      <IndeterminateCheckBoxIcon />
-                    </IconButton>
-                  )}
-                  <CultureSelect
-                    value={row.culture}
-                    onChange={(value) => handleInputChange(rowIndex, 'culture', value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    value={row.yield}
-                    onChange={(e) => handleInputChange(rowIndex, 'yield', e.target.value)}
-                    fullWidth
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    value={row.fodder}
-                    onChange={(e) => handleInputChange(rowIndex, 'fodder', e.target.value)}
-                    fullWidth
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    value={row.commodity}
-                    onChange={(e) => handleInputChange(rowIndex, 'commodity', e.target.value)}
-                    fullWidth
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    value={row.seeds}
-                    onChange={(e) => handleInputChange(rowIndex, 'seeds', e.target.value)}
-                    fullWidth
-                  />
-                </TableCell>
+      <Box sx={containerSx}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {headers.map((header, index) => (
+                  <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box sx={buttonContainerSx}>
-        <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
-        <Box sx={navigationButtonsContainerSx}>
-          <Button variant="text"
-                  startIcon={<KeyboardArrowLeftIcon />}
-                  onClick={props.onBack}
-                  disabled={props.activeStep === 0}>Назад</Button>
-          <Button variant="contained"
-                  endIcon={<KeyboardArrowRightIcon />}
-                  onClick={props.onNext}
-                  disabled={false}>Далее</Button>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  <TableCell style={{ width: 'auto', whiteSpace: 'nowrap' }}>
+                    <Box display="flex" alignItems="center">
+                      {rowIndex === rows.length - 1 ? (
+                        <IconButton color="primary" onClick={handleAddRow} size="small">
+                          <AddBox />
+                        </IconButton>
+                      ) : (
+                        <IconButton color="secondary" onClick={() => handleDeleteRow(rowIndex)} size="small">
+                          <IndeterminateCheckBoxIcon />
+                        </IconButton>
+                      )}
+                      <CultureSelect
+                        value={row.culture}
+                        onChange={(value) => handleInputChange(rowIndex, 'culture', value)}
+                        onBlur={formik.handleBlur}
+                        error={Boolean(isTouched(rowIndex, 'culture') && getError(rowIndex, 'culture'))}
+                        helperText={isTouched(rowIndex, 'culture') && getError(rowIndex, 'culture')}
+                      />
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`rows[${rowIndex}].yield`}
+                      value={row.yield}
+                      onChange={(e) => handleInputChange(rowIndex, 'yield', e.target.value)}
+                      onBlur={formik.handleBlur}
+                      error={Boolean(isTouched(rowIndex, 'yield') && getError(rowIndex, 'yield'))}
+                      helperText={isTouched(rowIndex, 'yield') && getError(rowIndex, 'yield')}
+                      fullWidth
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`rows[${rowIndex}].fodder`}
+                      value={row.fodder}
+                      onChange={(e) => handleInputChange(rowIndex, 'fodder', e.target.value)}
+                      onBlur={formik.handleBlur}
+                      error={Boolean(isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder'))}
+                      helperText={isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder')}
+                      fullWidth
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`rows[${rowIndex}].commodity`}
+                      value={row.commodity}
+                      onChange={(e) => handleInputChange(rowIndex, 'commodity', e.target.value)}
+                      onBlur={formik.handleBlur}
+                      error={Boolean(isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity'))}
+                      helperText={isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity')}
+                      fullWidth
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`rows[${rowIndex}].seeds`}
+                      value={row.seeds}
+                      onChange={(e) => handleInputChange(rowIndex, 'seeds', e.target.value)}
+                      onBlur={formik.handleBlur}
+                      error={Boolean(isTouched(rowIndex, 'seeds') && getError(rowIndex, 'seeds'))}
+                      helperText={isTouched(rowIndex, 'seeds') && getError(rowIndex, 'seeds')}
+                      fullWidth
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Box sx={buttonContainerSx}>
+          <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
+          <Box sx={navigationButtonsContainerSx}>
+            <Button
+              variant="text"
+              startIcon={<KeyboardArrowLeftIcon />}
+              onClick={props.onBack}
+              disabled={props.activeStep === 0}
+            >
+              Назад
+            </Button>
+            <Button
+              variant="contained"
+              endIcon={<KeyboardArrowRightIcon />}
+              type="submit" // Ensure the button triggers form submission
+            >
+              Далее
+            </Button>
+          </Box>
         </Box>
       </Box>
-    </Box>
     </form>
-  )
-}
+  );
+};
