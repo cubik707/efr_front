@@ -108,6 +108,10 @@ export const Step2: React.FC<StepsProps> = (props) => {
   const isTouched = (rowIndex: number, field: keyof RowType) =>
     formik.touched.rows && (formik.touched.rows as FormikTouched<RowType[]>)[rowIndex]?.[field]
 
+  const getSelectedCultures = (): string[] => {
+    return formik.values.rows.map(row => row.culture).filter(culture => culture !== '');
+  };
+
   return (
     <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
       <Box sx={containerSx}>
@@ -141,6 +145,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
                         onChange={(value) => handleInputChange(rowIndex, 'culture', value)}
                         onBlur={formik.handleBlur}
                         error={Boolean(isTouched(rowIndex, 'culture') && getError(rowIndex, 'culture'))}
+                        selectedCultures={getSelectedCultures()}
                         helperText={isTouched(rowIndex, 'culture') && getError(rowIndex, 'culture')}
                       />
                     </Box>
