@@ -24,7 +24,12 @@ import {
   setLivestockAC,
   setProductivityAC,
 } from '../../../state/animals/animals-reducer'
-import { validationSchema } from './step3-validation'
+import {
+  cowsProductivityToConsumption,
+  validationSchema,
+  youngCattleProductivityToConsumption,
+} from './step3-validation'
+import { ChangeEvent } from 'react'
 
 type RowType = {
   [K in keyof AnimalType]: AnimalType[K] | string;
@@ -58,6 +63,18 @@ export const Step3 = (props: StepsProps) => {
     },
   })
 
+  // Обработчик изменения поля продуктивности
+  const getConsumptionOfFU = (productivity: string | number, animal: 'cows' | 'youngCattle') => {
+    const productivityNum = Number(productivity);
+    if(animal === 'cows'){
+      return cowsProductivityToConsumption[productivityNum] || '';
+    }
+    if(animal === 'youngCattle'){
+      return youngCattleProductivityToConsumption[productivityNum] || ''
+    }
+
+  };
+
   return (
     <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
       <Box sx={containerSx}>
@@ -79,7 +96,10 @@ export const Step3 = (props: StepsProps) => {
                   <TextField
                     fullWidth
                     value={formik.values.cows.productivity}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      formik.setFieldValue('cows.consumptionOfFU', getConsumptionOfFU(e.target.value, 'cows'));
+                    }}
                     onBlur={formik.handleBlur}
                     name="cows.productivity"
                     error={formik.touched.cows?.productivity && Boolean(formik.errors.cows?.productivity)}
@@ -98,15 +118,8 @@ export const Step3 = (props: StepsProps) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <TextField
-                    fullWidth
-                    value={formik.values.cows.consumptionOfFU}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    name="cows.consumptionOfFU"
-                    error={formik.touched.cows?.consumptionOfFU && Boolean(formik.errors.cows?.consumptionOfFU)}
-                    helperText={formik.touched.cows?.consumptionOfFU && formik.errors.cows?.consumptionOfFU}
-                  />
+                  {/* Display consumption as text */}
+                  <Box>{getConsumptionOfFU(formik.values.cows.productivity, 'cows')}</Box>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -115,7 +128,10 @@ export const Step3 = (props: StepsProps) => {
                   <TextField
                     fullWidth
                     value={formik.values.youngCattle.productivity}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      formik.setFieldValue('youngCattle.consumptionOfFU', getConsumptionOfFU(e.target.value, 'youngCattle'));
+                    }}
                     onBlur={formik.handleBlur}
                     name="youngCattle.productivity"
                     error={formik.touched.youngCattle?.productivity && Boolean(formik.errors.youngCattle?.productivity)}
@@ -134,15 +150,8 @@ export const Step3 = (props: StepsProps) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <TextField
-                    fullWidth
-                    value={formik.values.youngCattle.consumptionOfFU}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    name="youngCattle.consumptionOfFU"
-                    error={formik.touched.youngCattle?.consumptionOfFU && Boolean(formik.errors.youngCattle?.consumptionOfFU)}
-                    helperText={formik.touched.youngCattle?.consumptionOfFU && formik.errors.youngCattle?.consumptionOfFU}
-                  />
+                  {/* Display consumption as text */}
+                  <Box>{getConsumptionOfFU(formik.values.youngCattle.productivity, 'youngCattle')}</Box>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -163,5 +172,5 @@ export const Step3 = (props: StepsProps) => {
         </Box>
       </Box>
     </form>
-  )
+  );
 }
