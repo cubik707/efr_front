@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useState } from 'react'
 import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
 import {
   Box,
@@ -23,6 +22,7 @@ import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox
 import { useAppDispatch } from '../../../state/store'
 import { FormikErrors, FormikTouched, useFormik } from 'formik'
 import * as Yup from 'yup'
+import { setOnFeedAC, setOnProductAC, setOnSeedsAC, setYieldForecastAC } from '../../../state/cultures/cultures-reducer'
 
 const headers = [
   'Культура',
@@ -75,10 +75,19 @@ interface FormValues {
 }
 
 export const Step2: React.FC<StepsProps> = (props) => {
+  const dispatch = useAppDispatch()
   const formik = useFormik<FormValues>({
     initialValues: { rows: [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }] },
     validationSchema,
     onSubmit: (values) => {
+      values.rows.forEach(row => {
+        if (row.culture) {
+          dispatch(setYieldForecastAC(row.culture, Number(row.yield)));
+          dispatch(setOnFeedAC(row.culture, Number(row.fodder)));
+          dispatch(setOnProductAC(row.culture, Number(row.commodity)));
+          dispatch(setOnSeedsAC(row.culture, Number(row.seeds)));
+        }
+      });
       props.onNext();
     },
   });
