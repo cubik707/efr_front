@@ -21,8 +21,8 @@ import { CultureSelect } from './CultureSelect'
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 import { useAppDispatch } from '../../../state/store'
 import { FormikErrors, FormikTouched, useFormik } from 'formik'
-import * as Yup from 'yup'
 import { setOnFeedAC, setOnProductAC, setOnSeedsAC, setYieldForecastAC } from '../../../state/cultures/cultures-reducer'
+import { validationSchema } from './step2-validation'
 
 const headers = [
   'Культура',
@@ -31,35 +31,6 @@ const headers = [
   'в т.ч. на товар',
   'в т.ч. на семена',
 ]
-
-// Схема валидации с использованием Yup
-const validationSchema = Yup.object().shape({
-  rows: Yup.array().of(
-    Yup.object({
-      culture: Yup.string().required('Выберите культуру'),
-      yield: Yup.mixed().test(
-        'is-number',
-        'Значение должно быть числом',
-        (value) => value === '' || !isNaN(Number(value)),
-      ).required('Обязательно для заполнения'),
-      fodder: Yup.mixed().test(
-        'is-number',
-        'Значение должно быть числом',
-        (value) => value === '' || !isNaN(Number(value)),
-      ).required('Обязательно для заполнения'),
-      commodity: Yup.mixed().test(
-        'is-number',
-        'Значение должно быть числом',
-        (value) => value === '' || !isNaN(Number(value)),
-      ).required('Обязательно для заполнения'),
-      seeds: Yup.mixed().test(
-        'is-number',
-        'Значение должно быть числом',
-        (value) => value === '' || !isNaN(Number(value)),
-      ).required('Обязательно для заполнения'),
-    })
-  ).min(1, 'Должен быть хотя бы один ряд'),
-});
 
 // Определение типа строки
 type RowType = {
