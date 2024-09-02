@@ -74,6 +74,11 @@ export const validationSchema = Yup.object().shape({
         'Значение должно быть числом',
         (value) => !isNaN(Number(value))
       )
+      .test(
+        'is-positive',
+        'Значение не может быть отрицательным',
+        (value) => Number(value) >= 0
+      )
       .required('Обязательно для заполнения'),
     consumptionOfFU: Yup.number()
       .test(
@@ -100,6 +105,11 @@ export const validationSchema = Yup.object().shape({
         'is-number',
         'Значение должно быть числом',
         (value) => !isNaN(Number(value))
+      )
+      .test(
+        'is-positive',
+        'Значение не может быть отрицательным',
+        (value) => Number(value) >= 0
       )
       .required('Обязательно для заполнения'),
     consumptionOfFU: Yup.number()
