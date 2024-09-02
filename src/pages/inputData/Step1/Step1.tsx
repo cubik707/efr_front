@@ -15,16 +15,15 @@ import {
 import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { setLandResourcesData } from '../../../state/landResources/landResources-thunk'
 import { useAppDispatch } from '../../../state/store'
 import {
   LandResourcesType,
   setArableLandAC,
-  setHayfieldsAndPastureImprovedAC, setHayfieldsAndPastureNaturalAC,
+  setHayfieldsAndPastureImprovedAC,
+  setHayfieldsAndPastureNaturalAC,
 } from '../../../state/landResources/landResources-reducer'
-import { handleError } from '../../../utils/handleErrors'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
+import { validationSchema } from './step1-validation'
 
 export type StepsProps = {
   activeStep: number;
@@ -33,24 +32,6 @@ export type StepsProps = {
 };
 
 const headers = ['Показатели', 'Наличие']
-
-const validationSchema = Yup.object().shape({
-    arableLand: Yup.mixed().test(
-      'is-number',
-      'Значение должно быть числом',
-      (value) => value === '' || !isNaN(Number(value))
-    ).required('Обязательно для заполнения'),
-    hayfieldsAndPastureImproved: Yup.mixed().test(
-      'is-number',
-      'Значение должно быть числом',
-      (value) => value === '' || !isNaN(Number(value))
-    ).required('Обязательно для заполнения'),
-    hayfieldsAndPastureNatural: Yup.mixed().test(
-      'is-number',
-      'Значение должно быть числом',
-      (value) => value === '' || !isNaN(Number(value))
-    ).required('Обязательно для заполнения'),
-  })
 
 export const Step1 = (props: StepsProps) => {
   const dispatch = useAppDispatch();
