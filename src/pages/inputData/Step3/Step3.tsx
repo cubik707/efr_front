@@ -24,7 +24,7 @@ import {
   setLivestockAC,
   setProductivityAC,
 } from '../../../state/animals/animals-reducer'
-import * as Yup from 'yup';
+import { validationSchema } from './step3-validation'
 
 type RowType = {
   [K in keyof AnimalType]: AnimalType[K] | string;
@@ -36,36 +36,6 @@ type FormValues = {
 }
 
 const headers = ['Вид животных', 'Продуктивность (базовая), ц', 'Поголовье, гол.', 'Расход ц КЕ на 1 ц продукции']
-
-const animalValidationSchema = Yup.object().shape({
-  productivity: Yup.mixed()
-    .test(
-      'is-number',
-      'Значение должно быть числом',
-      (value) => value === '' || !isNaN(Number(value))
-    )
-    .required('Обязательно для заполнения'),
-  livestock: Yup.mixed()
-    .test(
-      'is-number',
-      'Значение должно быть числом',
-      (value) => value === '' || !isNaN(Number(value))
-    )
-    .required('Обязательно для заполнения'),
-  consumptionOfFU: Yup.mixed()
-    .test(
-      'is-number',
-      'Значение должно быть числом',
-      (value) => value === '' || !isNaN(Number(value))
-    )
-    .required('Обязательно для заполнения'),
-});
-
-const validationSchema = Yup.object().shape({
-  cows: animalValidationSchema,
-  youngCattle: animalValidationSchema,
-});
-
 
 export const Step3 = (props: StepsProps) => {
   const dispatch = useAppDispatch();
