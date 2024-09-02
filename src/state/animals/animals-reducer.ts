@@ -4,7 +4,7 @@ import { animalsAPI } from '../../api/api'
 import { Dispatch } from 'redux'
 import { setAppErrorAC } from '../app-reducer'
 
-type AnimalType = {
+export type AnimalType = {
     productivity: number, //Продуктивно(базовая)
     livestock: number, //Поголовье
     consumptionOfFU: number //расход ц кормовых единиц(?) на 1 ц продукции
