@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
-export const commnonValidationSchema = Yup.object({
+// Общая схема валидации для числовых полей
+export const commonValidationSchema = Yup.object({
   volume: Yup.mixed()
     .test(
       'is-number',
