@@ -5,18 +5,20 @@ type FeedType = {
     price: number, //Цена
 }
 
+type FeedName = 'concentrates' | 'silo' | 'greenFodder' | 'hay' | 'haylage' | 'straw'
+
 type FeedsStateType = {
-    [feedName: string]: FeedType
+    [feedName in FeedName]: FeedType
 }
 
 //-------Action creators
-export const setVolumeAC = (feedName: string, volume: number) => ({
+export const setVolumeAC = (feedName: FeedName, volume: number) => ({
     type: 'SET-VOLUME',
     feedName,
     volume
 } as const)
 
-export const setPriceAC = (feedName: string, price: number) => ({
+export const setPriceAC = (feedName: FeedName, price: number) => ({
     type: 'SET-PRICE',
     feedName,
     price
@@ -26,7 +28,14 @@ export const setPriceAC = (feedName: string, price: number) => ({
 type ActionsType = ReturnType<typeof setVolumeAC> | ReturnType<typeof setPriceAC>
 
 //-------Начальное состояние
-const initialState: FeedsStateType = {}
+const initialState: FeedsStateType = {
+    concentrates: { volume: 0, price: 0 },
+    silo: { volume: 0, price: 0 },
+    greenFodder: { volume: 0, price: 0 },
+    hay: { volume: 0, price: 0 },
+    haylage: { volume: 0, price: 0 },
+    straw: { volume: 0, price: 0 }
+};
 
 //-------Редьюсер
 export const feedsReducer = (state: FeedsStateType = initialState, action: ActionsType): FeedsStateType  => {
