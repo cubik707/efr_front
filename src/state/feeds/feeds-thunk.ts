@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux'
 import { feedsAPI } from '../../api/api'
-import { setPriceAC, setVolumeAC } from './feeds-reducer'
+import { FeedName, setPriceAC, setVolumeAC } from './feeds-reducer'
 import { handleError } from '../../utils/handleErrors'
 
-export const fetchFeedsData = (feedName: string) => async (dispatch: Dispatch) => {
+export const fetchFeedsData = (feedName: FeedName) => async (dispatch: Dispatch) => {
   try {
     const data = await feedsAPI.getFeedsData()
 
