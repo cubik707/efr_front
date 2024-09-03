@@ -62,11 +62,10 @@ export const Step2: React.FC<StepsProps> = (props) => {
       props.onNext();
     },
   });
-
   const handleAddRow = () => {
     formik.setFieldValue('rows', [
       ...formik.values.rows,
-      { culture: '', yield: '', fodder: '', commodity: '', seeds: '' }
+      { culture: '', yield: '', fodder: '', commodity: '', seeds: '' },
     ]);
   };
 
@@ -76,17 +75,35 @@ export const Step2: React.FC<StepsProps> = (props) => {
   };
 
   const handleInputChange = (index: number, field: keyof RowType, value: string) => {
+
     const newRows = formik.values.rows.map((row, rowIndex) =>
       rowIndex === index ? { ...row, [field]: value } : row
     );
+    debugger
+    if (field === 'culture') {
+      newRows[index].seeds = getSeedsValueForCulture(value);
+    }
     formik.setFieldValue('rows', newRows);
+    console.log(formik.values.rows)
   };
-  // Access errors and touched with type safety
+
+  const getSeedsValueForCulture = (culture: string) => {
+    switch (culture) {
+      case 'winterGrains':
+      case 'springGrains':
+        return 3.0;
+      case 'pulses':
+        return 3.5;
+      default:
+        return '';
+    }
+  };
+
   const getError = (rowIndex: number, field: keyof RowType) =>
-    formik.errors.rows && (formik.errors.rows as FormikErrors<RowType[]>)[rowIndex]?.[field]
+    formik.errors.rows && (formik.errors.rows as FormikErrors<RowType[]>)[rowIndex]?.[field];
 
   const isTouched = (rowIndex: number, field: keyof RowType) =>
-    formik.touched.rows && (formik.touched.rows as FormikTouched<RowType[]>)[rowIndex]?.[field]
+    formik.touched.rows && (formik.touched.rows as FormikTouched<RowType[]>)[rowIndex]?.[field];
 
   const getSelectedCultures = (): string[] => {
     return formik.values.rows.map(row => row.culture).filter(culture => culture !== '');
@@ -130,49 +147,21 @@ export const Step2: React.FC<StepsProps> = (props) => {
                       />
                     </Box>
                   </TableCell>
+                  {['yield', 'fodder', 'commodity'].map((field) => (
+                    <TableCell key={field}>
+                      <TextField
+                        name={`rows[${rowIndex}].${field}`}
+                        value={row[field as keyof RowType]}
+                        onChange={(e) => handleInputChange(rowIndex, field as keyof RowType, e.target.value)}
+                        onBlur={formik.handleBlur}
+                        error={Boolean(isTouched(rowIndex, field as keyof RowType) && getError(rowIndex, field as keyof RowType))}
+                        helperText={isTouched(rowIndex, field as keyof RowType) && getError(rowIndex, field as keyof RowType)}
+                        fullWidth
+                      />
+                    </TableCell>
+                  ))}
                   <TableCell>
-                    <TextField
-                      name={`rows[${rowIndex}].yield`}
-                      value={row.yield}
-                      onChange={(e) => handleInputChange(rowIndex, 'yield', e.target.value)}
-                      onBlur={formik.handleBlur}
-                      error={Boolean(isTouched(rowIndex, 'yield') && getError(rowIndex, 'yield'))}
-                      helperText={isTouched(rowIndex, 'yield') && getError(rowIndex, 'yield')}
-                      fullWidth
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      name={`rows[${rowIndex}].fodder`}
-                      value={row.fodder}
-                      onChange={(e) => handleInputChange(rowIndex, 'fodder', e.target.value)}
-                      onBlur={formik.handleBlur}
-                      error={Boolean(isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder'))}
-                      helperText={isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder')}
-                      fullWidth
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      name={`rows[${rowIndex}].commodity`}
-                      value={row.commodity}
-                      onChange={(e) => handleInputChange(rowIndex, 'commodity', e.target.value)}
-                      onBlur={formik.handleBlur}
-                      error={Boolean(isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity'))}
-                      helperText={isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity')}
-                      fullWidth
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      name={`rows[${rowIndex}].seeds`}
-                      value={row.seeds}
-                      onChange={(e) => handleInputChange(rowIndex, 'seeds', e.target.value)}
-                      onBlur={formik.handleBlur}
-                      error={Boolean(isTouched(rowIndex, 'seeds') && getError(rowIndex, 'seeds'))}
-                      helperText={isTouched(rowIndex, 'seeds') && getError(rowIndex, 'seeds')}
-                      fullWidth
-                    />
+                    <Box>{row.seeds}</Box>
                   </TableCell>
                 </TableRow>
               ))}

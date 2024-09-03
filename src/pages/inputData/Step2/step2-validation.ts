@@ -8,7 +8,6 @@ export const validationSchema = Yup.object().shape({
       yield: commonValidationSchema,
       fodder: commonValidationSchema,
       commodity: commonValidationSchema,
-      seeds:commonValidationSchema,
     })
   )
     .min(1, 'Должен быть хотя бы один ряд'),
