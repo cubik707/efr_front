@@ -17,9 +17,10 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
-import { FeedName, FeedType } from '../../../state/feeds/feeds-reducer'
+import { FeedName, FeedType, setPriceAC, setVolumeAC } from '../../../state/feeds/feeds-reducer'
 import { validationSchema } from './step4-validation'
 import { feedNames } from './feedsName'
+import { useAppDispatch } from '../../../state/store'
 
 type RowType = {
   [K in keyof FeedType]: FeedType[K] | string;
@@ -40,9 +41,8 @@ const feedNamesInRussian: Record<FeedName, string> = {
   straw: 'Солома',
 }
 
-
 export const Step4 = (props: StepsProps) => {
-
+  const dispatch = useAppDispatch();
   const formik = useFormik<FormValues>({
     initialValues: {
       concentrates: { volume: '', price: '' },
@@ -54,6 +54,10 @@ export const Step4 = (props: StepsProps) => {
     },
     validationSchema,
     onSubmit: (values) => {
+      feedNames.forEach((feedName) => {
+        dispatch(setVolumeAC(feedName, Number(values[feedName].volume)));
+        dispatch(setPriceAC(feedName, Number(values[feedName].price)));
+      });
       props.onNext()
     },
   })
@@ -112,7 +116,7 @@ export const Step4 = (props: StepsProps) => {
                     disabled={props.activeStep === 0}>Назад</Button>
             <Button variant="contained"
                     endIcon={<KeyboardArrowRightIcon />}
-                    onClick={props.onNext}
+                    type={"submit"}
                     disabled={false}>Далее</Button>
           </Box>
         </Box>
