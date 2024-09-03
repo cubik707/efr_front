@@ -10,7 +10,7 @@ import { useFormik } from 'formik'
 
 const headers = ['Вид продукции', 'Договорные поставки, ц']
 
-const validationSchema = {}
+
 
 export const Step5 = (props: StepsProps) => {
 
