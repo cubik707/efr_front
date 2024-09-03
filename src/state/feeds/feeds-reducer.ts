@@ -1,11 +1,11 @@
 
 //-------Типизация для данных
-type FeedType = {
+export type FeedType = {
     volume: number, //Объем
     price: number, //Цена
 }
 
-type FeedName = 'concentrates' | 'silo' | 'greenFodder' | 'hay' | 'haylage' | 'straw'
+export type FeedName = 'concentrates' | 'silo' | 'greenFodder' | 'hay' | 'haylage' | 'straw'
 
 type FeedsStateType = {
     [feedName in FeedName]: FeedType

@@ -1,21 +1,58 @@
 // @flow
 import * as React from 'react'
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@mui/material'
 import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
+import { FeedName, FeedType } from '../../../state/feeds/feeds-reducer'
 
+type RowType = {
+  [K in keyof FeedType]: FeedType[K] | string;
+};
+
+type FormValues = {
+  [K in FeedName]: RowType
+}
 
 const headers = ['Вид корма', 'Объем, ц', 'Цена, руб.']
+
+const feedNamesInRussian: Record<FeedName, string> = {
+  concentrates: 'Концентраты',
+  silo: 'Силос',
+  greenFodder: 'Зеленый корм',
+  hay: 'Сено',
+  haylage: 'Сенаж',
+  straw: 'Солома',
+}
+
+const feedNames = Object.keys(feedNamesInRussian) as FeedName[];
 
 const validationSchema = {}
 
 export const Step4 = (props: StepsProps) => {
 
-  const formik = useFormik<{}>({
-    initialValues: {  },
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      concentrates: { volume: '', price: '' },
+      silo: { volume: '', price: '' },
+      greenFodder: { volume: '', price: '' },
+      hay: { volume: '', price: '' },
+      haylage: { volume: '', price: '' },
+      straw: { volume: '', price: '' },
+    },
     validationSchema,
     onSubmit: (values) => {
       props.onNext()
@@ -37,7 +74,33 @@ export const Step4 = (props: StepsProps) => {
               </TableRow>
             </TableHead>
             <TableBody>
-
+              {feedNames.map((feedName, index) => (
+                <TableRow key={index}>
+                  <TableCell>{feedNamesInRussian[feedName]}</TableCell>
+                  <TableCell>
+                    <TextField
+                      fullWidth
+                      name={`${feedName}.volume`}
+                      value={formik.values[feedName].volume}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched[feedName]?.volume && Boolean(formik.errors[feedName]?.volume)}
+                      helperText={formik.touched[feedName]?.volume && formik.errors[feedName]?.volume}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      fullWidth
+                      name={`${feedName}.price`}
+                      value={formik.values[feedName].price}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched[feedName]?.price && Boolean(formik.errors[feedName]?.price)}
+                      helperText={formik.touched[feedName]?.price && formik.errors[feedName]?.price}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
