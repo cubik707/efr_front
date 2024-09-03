@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { commonValidationSchema } from '../../../utils/commonValidationsSchema'
 
 // Соответствия продуктивности и расхода КЕ для коров
 export const cowsProductivityToConsumption: { [key: number]: number } = {
@@ -68,18 +69,7 @@ export const validationSchema = Yup.object().shape({
       .min(25, 'Продуктивность должна быть не меньше 25')
       .max(60, 'Продуктивность должна быть не больше 60')
       .required('Обязательно для заполнения'),
-    livestock: Yup.number()
-      .test(
-        'is-number',
-        'Значение должно быть числом',
-        (value) => !isNaN(Number(value))
-      )
-      .test(
-        'is-positive',
-        'Значение не может быть отрицательным',
-        (value) => Number(value) >= 0
-      )
-      .required('Обязательно для заполнения'),
+    livestock: commonValidationSchema,
     consumptionOfFU: Yup.number()
       .test(
         'valid-consumption',
@@ -100,18 +90,7 @@ export const validationSchema = Yup.object().shape({
         (value) => value !== undefined && Object.keys(youngCattleProductivityToConsumption).map(Number).includes(value)
       )
       .required('Обязательно для заполнения'),
-    livestock: Yup.number()
-      .test(
-        'is-number',
-        'Значение должно быть числом',
-        (value) => !isNaN(Number(value))
-      )
-      .test(
-        'is-positive',
-        'Значение не может быть отрицательным',
-        (value) => Number(value) >= 0
-      )
-      .required('Обязательно для заполнения'),
+    livestock:commonValidationSchema,
     consumptionOfFU: Yup.number()
       .test(
         'valid-consumption',
