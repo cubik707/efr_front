@@ -79,10 +79,17 @@ export const Step2: React.FC<StepsProps> = (props) => {
     const newRows = formik.values.rows.map((row, rowIndex) =>
       rowIndex === index ? { ...row, [field]: value } : row
     );
-    debugger
+
     if (field === 'culture') {
       newRows[index].seeds = getSeedsValueForCulture(value);
     }
+
+    if (field === 'yield' || field === 'fodder') {
+      const yieldValue = Number(newRows[index].yield);
+      const fodderValue = Number(newRows[index].fodder);
+      newRows[index].commodity = yieldValue - fodderValue > 0 ? yieldValue - fodderValue : 0;
+    }
+
     formik.setFieldValue('rows', newRows);
     console.log(formik.values.rows)
   };
@@ -147,7 +154,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
                       />
                     </Box>
                   </TableCell>
-                  {['yield', 'fodder', 'commodity'].map((field) => (
+                  {['yield', 'fodder'].map((field) => (
                     <TableCell key={field}>
                       <TextField
                         name={`rows[${rowIndex}].${field}`}
@@ -160,6 +167,9 @@ export const Step2: React.FC<StepsProps> = (props) => {
                       />
                     </TableCell>
                   ))}
+                  <TableCell>
+                    <Box>{row.commodity}</Box>
+                  </TableCell>
                   <TableCell>
                     <Box>{row.seeds}</Box>
                   </TableCell>

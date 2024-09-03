@@ -6,7 +6,10 @@ export const validationSchema = Yup.object().shape({
     Yup.object({
       culture: Yup.string().required('Выберите культуру'),
       yield: commonValidationSchema,
-      fodder: commonValidationSchema,
+      fodder: commonValidationSchema.test('fodder-not-exceeds-yield', 'Значение на корм не может превышать урожайность прогнозную', function (value) {
+        const { yield: forecastYield, fodder } = this.parent;
+        return !fodder || !forecastYield || Number(fodder) <= Number(forecastYield);
+      }),
       commodity: commonValidationSchema,
     })
   )
