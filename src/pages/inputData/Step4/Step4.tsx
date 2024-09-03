@@ -18,6 +18,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
 import { FeedName, FeedType } from '../../../state/feeds/feeds-reducer'
+import { validationSchema } from './step4-validation'
+import { feedNames } from './feedsName'
 
 type RowType = {
   [K in keyof FeedType]: FeedType[K] | string;
@@ -38,9 +40,6 @@ const feedNamesInRussian: Record<FeedName, string> = {
   straw: 'Солома',
 }
 
-const feedNames = Object.keys(feedNamesInRussian) as FeedName[];
-
-const validationSchema = {}
 
 export const Step4 = (props: StepsProps) => {
 
