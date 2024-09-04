@@ -90,7 +90,17 @@ export const Step2: React.FC<StepsProps> = (props) => {
       newRows[index].seeds = getSeedsValueForCulture(value as CultureNames);
     }
 
-    if (field === 'yield' || field === 'fodder') {
+    if (field === 'yield') {
+      const yieldValue = Number(newRows[index].yield);
+
+      if (['winterGrains', 'springGrains', 'rape'].includes(newRows[index].culture)) {
+        newRows[index].commodity = yieldValue - Number(newRows[index].fodder);
+      } else {
+        newRows[index].fodder = yieldValue;
+      }
+    }
+
+    if (field === 'fodder' && ['winterGrains', 'springGrains', 'rape'].includes(newRows[index].culture)) {
       const yieldValue = Number(newRows[index].yield);
       const fodderValue = Number(newRows[index].fodder);
       newRows[index].commodity = yieldValue - fodderValue > 0 ? yieldValue - fodderValue : 0;
