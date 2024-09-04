@@ -97,6 +97,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
         newRows[index].commodity = yieldValue - Number(newRows[index].fodder);
       } else {
         newRows[index].fodder = yieldValue;
+
       }
     }
 

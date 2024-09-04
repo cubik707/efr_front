@@ -10,7 +10,6 @@ export const validationSchema = Yup.object().shape({
         const { yield: forecastYield, fodder } = this.parent;
         return !fodder || !forecastYield || Number(fodder) <= Number(forecastYield);
       }),
-      commodity: commonValidationSchema,
     })
   )
     .min(1, 'Должен быть хотя бы один ряд'),
