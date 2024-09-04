@@ -181,6 +181,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
                         error={Boolean(isTouched(rowIndex, field as keyof RowType) && getError(rowIndex, field as keyof RowType))}
                         helperText={isTouched(rowIndex, field as keyof RowType) && getError(rowIndex, field as keyof RowType)}
                         fullWidth
+                        disabled={field === 'fodder' && row.culture === 'rape'}
                       />
                     </TableCell>
                   ))}
