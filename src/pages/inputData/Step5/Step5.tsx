@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../../state/store'
 import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles';
 import { StepsProps } from '../Step1/Step1';
 import { setContractDeliveriesAC } from '../../../state/cultures/cultures-reducer'
+import { isEmptyObject } from '../../../utils/isEmptyObject'
 
 const headers = ['Вид продукции', 'Договорные поставки, ц'];
 
@@ -31,9 +32,7 @@ type FormType = {
   rape: RowType;
 };
 
-const isEmptyObject = (obj: any) => {
-  return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
-};
+
 
 export const Step5 = (props: StepsProps) => {
   const dispatch = useAppDispatch();
