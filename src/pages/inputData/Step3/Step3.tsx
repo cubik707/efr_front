@@ -29,7 +29,6 @@ import {
   validationSchema,
   youngCattleProductivityToConsumption,
 } from './step3-validation'
-import { ChangeEvent } from 'react'
 
 type RowType = {
   [K in keyof AnimalType]: AnimalType[K] | string;
