@@ -6,13 +6,17 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
+import { validationSchema } from './step6-validation'
+import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../../state/store'
 
 
 const headers = ['Вид продукции', 'Цена реализации за ц, руб.', 'Себестоимость за 1ц, руб.']
 
-const validationSchema = {}
+
 
 export const Step6 = (props: StepsProps) => {
+  const cultures = useAppSelector((state) => state.cultures);
 
   const formik = useFormik<{}>({
     initialValues: {  },

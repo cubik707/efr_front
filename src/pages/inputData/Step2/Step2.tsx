@@ -21,7 +21,13 @@ import { CultureSelect } from './CultureSelect'
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 import { useAppDispatch } from '../../../state/store'
 import { FormikErrors, FormikTouched, useFormik } from 'formik'
-import { setOnFeedAC, setOnProductAC, setOnSeedsAC, setYieldForecastAC } from '../../../state/cultures/cultures-reducer'
+import {
+  CultureNames,
+  setOnFeedAC,
+  setOnProductAC,
+  setOnSeedsAC,
+  setYieldForecastAC,
+} from '../../../state/cultures/cultures-reducer'
 import { validationSchema } from './step2-validation'
 
 const headers = [
@@ -34,7 +40,7 @@ const headers = [
 
 // Определение типа строки
 type RowType = {
-  culture: string;
+  culture: CultureNames | '';
   yield: number | '';
   fodder: number | '';
   commodity: number | '';
@@ -81,7 +87,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
     );
 
     if (field === 'culture') {
-      newRows[index].seeds = getSeedsValueForCulture(value);
+      newRows[index].seeds = getSeedsValueForCulture(value as CultureNames);
     }
 
     if (field === 'yield' || field === 'fodder') {
@@ -94,7 +100,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
     console.log(formik.values.rows)
   };
 
-  const getSeedsValueForCulture = (culture: string) => {
+  const getSeedsValueForCulture = (culture: CultureNames) => {
     switch (culture) {
       case 'winterGrains':
       case 'springGrains':

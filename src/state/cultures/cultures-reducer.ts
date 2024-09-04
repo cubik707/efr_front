@@ -1,63 +1,67 @@
 // -------Типизация для данных
+import { cultures, unitedCultures } from './cultures'
+
 type CultureType = {
-    yieldForecast: number; // урожайность прогнозная
-    onFeed: number; // на корм
-    onProduct: number; // на товар
-    onSeeds: number; // на семена
-    contractDeliveries: number; // договорные поставки
-    sellingPricePerCent: number; // цена реализации продукции за ц
-    costPrice: number; // себестоимость
-    square: number //площадь
+    yieldForecast?: number; // урожайность прогнозная
+    onFeed?: number; // на корм
+    onProduct?: number; // на товар
+    onSeeds?: number; // на семена
+    contractDeliveries?: number; // договорные поставки
+    sellingPricePerCent?: number; // цена реализации продукции за ц
+    costPrice?: number; // себестоимость
+    square?: number //площадь
 };
 
+export type CultureNames = keyof typeof cultures | keyof typeof unitedCultures;
+
 export type CultureStateType = {
-    [cultureName: string]: CultureType;
+    [cultureName in CultureNames]: CultureType;
 };
 
 // -------Action creators
-export const setYieldForecastAC = (cultureName: string, yieldForecast: number) => ({
+export const setYieldForecastAC = (cultureName: CultureNames, yieldForecast: number) => ({
     type: 'SET-YIELD-FORECAST',
     cultureName,
     yieldForecast
 } as const);
 
-export const setOnFeedAC = (cultureName: string, onFeed: number) => ({
+export const setOnFeedAC = (cultureName: CultureNames, onFeed: number) => ({
     type: 'SET-ON-FEED',
     cultureName,
     onFeed
 } as const);
 
-export const setOnProductAC = (cultureName: string, onProduct: number) => ({
+export const setOnProductAC = (cultureName: CultureNames, onProduct: number) => ({
     type: 'SET-ON-PRODUCT',
     cultureName,
     onProduct
 } as const);
 
-export const setOnSeedsAC = (cultureName: string, onSeeds: number) => ({
+export const setOnSeedsAC = (cultureName: CultureNames, onSeeds: number) => ({
     type: 'SET-ON-SEEDS',
     cultureName,
     onSeeds
 } as const);
 
-export const setContractDeliveriesAC = (cultureName: string, contractDeliveries: number) => ({
+export const setContractDeliveriesAC = (cultureName: CultureNames, contractDeliveries: number) => ({
     type: 'SET-CONTRACT-DELIVERIES',
     cultureName,
     contractDeliveries
 } as const);
 
-export const setSellingPricePerCentAC = (cultureName: string, sellingPricePerCent: number) => ({
+export const setSellingPricePerCentAC = (cultureName: CultureNames, sellingPricePerCent: number) => ({
     type: 'SET-SELLING-PRICE-PER-CENT',
     cultureName,
     sellingPricePerCent
 } as const);
 
-export const setCostPriceAC = (cultureName: string, costPrice: number) => ({
+export const setCostPriceAC = (cultureName: CultureNames, costPrice: number) => ({
     type: 'SET-COST-PRICE',
     cultureName,
     costPrice
 } as const);
 
-export const setSquareAC = (cultureName: string, square: number) => ({
+export const setSquareAC = (cultureName: CultureNames, square: number) => ({
     type: 'SET-SQUARE',
     cultureName,
     square,
@@ -75,7 +79,25 @@ export type ActionsType =
     | ReturnType<typeof setSquareAC>;
 
 // -------Начальное состояние
-const initialState: CultureStateType = {};
+const initialState: CultureStateType = {
+    winterGrains: {},
+    springGrains: {},
+    pulses: {},
+    rape: {},
+    hayGrassHay: {},
+    haylageGrassHay: {},
+    greenFodderGrassHay: {},
+    hayfieldsOnHay: {},
+    hayfieldsOnSilage: {},
+    pasturesOnGreenFodder: {},
+    pasturesOnSilage: {},
+    annualGrasses: {},
+    cornOnSilage: {},
+    hayImprovedHayfieldsAndPastures: {},
+    haylageImprovedHayfieldsAndPastures: {},
+    haylageNaturalHayfieldsAndPastures: {},
+    greenFodderNaturalHayfieldsAndPastures: {},
+};
 
 // -------Редьюсер
 export const culturesReducer = (state: CultureStateType = initialState, action: ActionsType): CultureStateType => {

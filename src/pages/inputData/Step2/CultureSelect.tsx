@@ -1,4 +1,5 @@
 import { Select, MenuItem, FormControl, FormHelperText } from '@mui/material';
+import { cultures } from '../../../state/cultures/cultures'
 
 type CultureSelectProps = {
   value: string;
@@ -17,23 +18,10 @@ export const CultureSelect: React.FC<CultureSelectProps> = ({
                                                               helperText,
                                                               selectedCultures,
                                                             }) => {
-  const cultures = [
-    { value: 'winterGrains', label: 'Зерновые озимые' },
-    { value: 'springGrains', label: 'Зерновые яровые' },
-    { value: 'pulses', label: 'Зернобобовые' },
-    { value: 'rape', label: 'Рапс' },
-    { value: 'hayGrassHay', label: 'Сено многолетних трав' },
-    { value: 'haylageGrassHay', label: 'Сенаж многолетних трав' },
-    { value: 'greenFodderGrassHay', label: 'Зеленый корм многолетних трав' },
-    { value: 'hayImprovedHayfieldsAndPastures', label: 'Сено улучшенных сенокосов и пастбищ' },
-    { value: 'haylageImprovedHayfieldsAndPastures', label: 'Сенаж улучшенных сенокосов и пастбищ' },
-    { value: 'haylageNaturalHayfieldsAndPastures', label: 'Сенаж естественных сенокосов и пастбищ' },
-    { value: 'greenFodderNaturalHayfieldsAndPastures', label: 'Зеленый корм естественных сенокосов и пастбищ' },
-  ];
 
-  const filteredCultures = cultures.filter(
-    (culture) => culture.value === value || !selectedCultures.includes(culture.value)
-  );
+  const filteredCultures = Object.entries(cultures)
+    .filter(([cultureValue]) => cultureValue === value || !selectedCultures.includes(cultureValue))
+    .map(([value, label]) => ({ value, label }));
 
   return (
     <FormControl fullWidth error={error}>
@@ -47,9 +35,9 @@ export const CultureSelect: React.FC<CultureSelectProps> = ({
         <MenuItem value="">
           <em>Выбрать культуру</em>
         </MenuItem>
-        {filteredCultures.map((culture) => (
-          <MenuItem key={culture.value} value={culture.value}>
-            {culture.label}
+        {filteredCultures.map(({ value, label }) => (
+          <MenuItem key={value} value={value}>
+            {label}
           </MenuItem>
         ))}
       </Select>

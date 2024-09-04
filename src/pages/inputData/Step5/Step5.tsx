@@ -6,6 +6,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
+import { validationSchema } from './step5-validation'
 
 
 const headers = ['Вид продукции', 'Договорные поставки, ц']
