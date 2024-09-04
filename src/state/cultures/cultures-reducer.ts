@@ -97,6 +97,7 @@ const initialState: CultureStateType = {
     haylageImprovedHayfieldsAndPastures: {},
     haylageNaturalHayfieldsAndPastures: {},
     greenFodderNaturalHayfieldsAndPastures: {},
+    seeds: {}
 };
 
 // -------Редьюсер
@@ -170,3 +171,5 @@ export const culturesReducer = (state: CultureStateType = initialState, action: 
             return state;
     }
 };
+
+

@@ -19,5 +19,5 @@ export const unitedCultures = {
   haylageImprovedHayfieldsAndPastures: 'Сенаж улучшенных сенокосов и пастбищ',
   haylageNaturalHayfieldsAndPastures: 'Сенаж естественных сенокосов и пастбищ',
   greenFodderNaturalHayfieldsAndPastures: 'Зеленый корм естественных сенокосов и пастбищ',
-
+  seeds: 'Зерно'
 } as const
