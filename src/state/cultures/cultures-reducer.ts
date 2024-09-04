@@ -86,7 +86,7 @@ const initialState: CultureStateType = {
     springGrains: {},
     pulses: {},
     rape: {
-        yieldForecast: 20
+
     },
     hayGrassHay: {},
     haylageGrassHay: {},
