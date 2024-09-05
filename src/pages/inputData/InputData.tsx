@@ -52,26 +52,6 @@ export const InputData = (props: Props) => {
         localStorage.setItem('lastInputStep', prevStep.toString());
     };
 
-    const [error, setError] = useState('')
-    const [result, setResult] = useState<number[] | null>(null);
-
-    const testFunc = async () => {
-        try {
-            const response = await axios.post("http://localhost:5000/calculate");
-            if(response.data){
-                console.log(response.data);
-                setResult((response.data));
-            }
-
-        } catch (error: any) {
-            console.error("Error calculating sum:", error);
-            if(error.response.data){
-                setError(error.response.data)
-            }
-
-        }
-    };
-
     return (
         <Box sx={containerSx}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -92,10 +72,6 @@ export const InputData = (props: Props) => {
                 {activeStep === 4 && <Step5 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
                 {activeStep === 5 && <Step6 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
             </Box>
-
-            <Button onClick={testFunc}>Вжух</Button>
-            {result !== null && <h2>Result: {result}</h2>}
-            {error}
         </Box>
     );
 };
