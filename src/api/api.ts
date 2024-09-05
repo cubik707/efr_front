@@ -21,10 +21,6 @@ const fetchData = async () => {
   }
 };
 
-// Доп функция, чтобы вырезать нужные данных
-const extractDataRange = (data: number[], start: number, end: number): number[] => {
-  return data.slice(start, end);
-};
 
 //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
 export const animalsAPI = {
@@ -38,56 +34,44 @@ export const animalsAPI = {
 export const feedsAPI = {
   async getFeedsData (){
     const data = await fetchData();
-    const feedData = (data: any) => ({
+    const feedData = {
       concentrates: {
-        volume: 0,
-        price: 0,
         mainCows: data.mainConcentratesCows,
         additionalCows: data.additionalConcentratesCows,
         mainYoungCattle: data.mainConcentratesYoungCattle,
         additionalYoungCattle: data.additionalConcentratesYoungCattle,
       },
       silo: {
-        volume: 0,
-        price: 0,
         mainCows: data.mainSilageCows,
         additionalCows: data.additionalSilageCows,
         mainYoungCattle: data.mainSilageYoungCattle,
         additionalYoungCattle: data.additionalSilageYoungCattle,
       },
       greenFodder: {
-        volume: 0,
-        price: 0,
         mainCows: data.mainGreenFodderCows,
         additionalCows: data.additionalGreenFodderCows,
         mainYoungCattle: data.mainGreenFodderYoungCattle,
         additionalYoungCattle: data.additionalGreenFodderYoungCattle,
       },
       hay: {
-        volume: 0,
-        price: 0,
         mainCows: data.mainHayCows,
         additionalCows: data.additionalHayCows,
         mainYoungCattle: data.mainhayYoungCattle,
         additionalYoungCattle: data.additionalhayYoungCattle,
       },
       haylage: {
-        volume: 0,
-        price: 0,
         mainCows: data.mainHaylageCows,
         additionalCows: data.additionalHaylageCows,
         mainYoungCattle: data.mainhaylageYoungCattle,
         additionalYoungCattle: data.additionalhaylageYoungCattle,
       },
       straw: {
-        volume: 0,
-        price: 0,
         mainCows: data.mainStrawCows,
         additionalCows: data.additionalStrawCows,
         mainYoungCattle: data.mainStrawYoungCattle,
         additionalYoungCattle: data.additionalStrawYoungCattle,
       }
-    });
+    };
 
     return feedData;
   },

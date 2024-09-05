@@ -90,6 +90,38 @@ export const feedsReducer = (state: FeedsStateType = initialState, action: Actio
                     price: action.price
                 }
             }
+        case 'SET-MAIN-COWS':
+            return {
+                ...state,
+                [action.feedName]: {
+                    ...state[action.feedName],
+                    mainCows: action.mainCows
+                }
+            };
+        case 'SET-ADDITIONAL-COWS':
+            return {
+                ...state,
+                [action.feedName]: {
+                    ...state[action.feedName],
+                    additionalCows: action.additionalCows
+                }
+            };
+        case 'SET-MAIN-YOUNG-CATTLE':
+            return {
+                ...state,
+                [action.feedName]: {
+                    ...state[action.feedName],
+                    mainYoungCattle: action.mainYoungCattle
+                }
+            };
+        case 'SET-ADDITIONAL-YOUNG-CATTLE':
+            return {
+                ...state,
+                [action.feedName]: {
+                    ...state[action.feedName],
+                    additionalYoungCattle: action.additionalYoungCattle
+                }
+            };
         default:
             return state
     }
