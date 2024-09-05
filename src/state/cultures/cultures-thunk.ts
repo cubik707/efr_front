@@ -6,18 +6,18 @@ import { cultures } from './cultures'
 
 
 export const fetchCultureData = () => async (dispatch: Dispatch) => {
-  try {
-
-    const data = await culturesAPI.getCulturesData()
-    console.log(data)
-    // Обрабатываем данные и создаем экшены
-    Object.keys(cultures).forEach((key, index) => {
-      const cultureKey = key as keyof typeof cultures; // Ensuring TypeScript understands the key type
-      dispatch(setSquareAC(cultureKey, data[index]));
-    });
-  } catch (error) {
-    handleError(error, dispatch)
-  }
+  // try {
+  //
+  //   const data = await culturesAPI.getCulturesData()
+  //   console.log(data)
+  //   // Обрабатываем данные и создаем экшены
+  //   Object.keys(cultures).forEach((key, index) => {
+  //     const cultureKey = key as keyof typeof cultures; // Ensuring TypeScript understands the key type
+  //     dispatch(setSquareAC(cultureKey, data[index]));
+  //   });
+  // } catch (error) {
+  //   handleError(error, dispatch)
+  // }
 };
 
 

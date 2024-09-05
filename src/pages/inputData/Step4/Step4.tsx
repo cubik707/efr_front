@@ -32,7 +32,7 @@ type FormValues = {
 
 const headers = ['Вид корма', 'Объем, ц', 'Цена, руб.']
 
-const feedNamesInRussian: Record<FeedName, string> = {
+export const feedNamesInRussian: Record<FeedName, string> = {
   concentrates: 'Концентраты',
   silo: 'Силос',
   greenFodder: 'Зеленый корм',

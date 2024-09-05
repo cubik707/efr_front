@@ -18,6 +18,7 @@ import { fetchCultureData } from '../../state/cultures/cultures-thunk'
 import { useAppDispatch, useAppSelector } from '../../state/store'
 import { CultureStateType } from '../../state/cultures/cultures-reducer'
 import { Step1Output } from './Step1Output/Step1Output'
+import { Step2Output } from './Step2Output/Step2Output'
 
 type Props = {};
 
@@ -36,9 +37,9 @@ export const OutputData = (props: Props) => {
   const culturesData = useAppSelector<CultureStateType>(state => state.cultures)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(fetchCultureData())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchCultureData())
+  // }, [])
 
   useEffect(() => {
     const updatedData = [...tableData]
@@ -80,6 +81,7 @@ export const OutputData = (props: Props) => {
             </Typography>
             <Box sx={tableContainerSx}>
               {activeStep === 0 && <Step1Output/>}
+              {activeStep === 1 && <Step2Output/>}
             </Box>
             <Box sx={buttonContainerSx}>
                 <Box sx={navigationButtonsContainerSx}>
