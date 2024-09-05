@@ -18,8 +18,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
 import { validationSchema } from './step6-validation'
-import { useAppSelector } from '../../../state/store'
-import { CultureNames } from '../../../state/cultures/cultures-reducer'
+import { useAppDispatch, useAppSelector } from '../../../state/store'
+import { CultureNames, setCostPriceAC, setSellingPricePerCentAC } from '../../../state/cultures/cultures-reducer'
 import { cultures } from '../../../state/cultures/cultures'
 import { disabledPriceCultures } from './disabledCultures'
 
@@ -38,6 +38,7 @@ type FormType = {
 export const Step6 = (props: StepsProps) => {
   const culturesState = useAppSelector((state) => state.cultures);
   const cultureNames = Object.keys(culturesState).filter(culture => culture !== 'seeds') as CultureNames[];
+  const dispatch = useAppDispatch();
 
   // Создание начального состояния для Formik
   const initialValues: FormType = cultureNames.reduce((acc, culture) => {
@@ -52,6 +53,15 @@ export const Step6 = (props: StepsProps) => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
+      Object.keys(values).forEach((culture) => {
+        const value = values[culture as CultureNames];
+        if (value.sellingPricePerCent !== undefined) {
+          dispatch(setSellingPricePerCentAC(culture as CultureNames, Number(value.sellingPricePerCent)));
+        }
+        if (value.costPrice !== undefined) {
+          dispatch(setCostPriceAC(culture as CultureNames, Number(value.costPrice)));
+        }
+      });
       props.onNext();
     },
   });
