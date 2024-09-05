@@ -11,7 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
+  TextField, Typography,
 } from '@mui/material'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
@@ -29,6 +29,7 @@ import {
   setYieldForecastAC,
 } from '../../../state/cultures/cultures-reducer'
 import { validationSchema } from './step2-validation'
+import { culturesArray } from './inputCultures'
 
 const headers = [
   'Культура',
@@ -53,19 +54,23 @@ interface FormValues {
 
 export const Step2: React.FC<StepsProps> = (props) => {
   const dispatch = useAppDispatch();
-  const [cultureError, setCultureError] = React.useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const formik = useFormik<FormValues>({
     initialValues: { rows: [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }] },
     validationSchema,
     onSubmit: (values) => {
-      const allCulturesFilled = values.rows.every((row) => row.culture !== '');
-      console.log(allCulturesFilled)
-      console.log(values)
-      if (!allCulturesFilled) {
-        setCultureError('Все культуры должны быть заполнены.');
+      const selectedCultures = values.rows.map(row => row.culture).filter(culture => culture !== '');
+      const allCultures = culturesArray.map(culture => culture.value);
+
+      const missingCultures = allCultures.filter(culture => !selectedCultures.includes(culture as '' | CultureNames));
+
+      if (missingCultures.length > 0) {
+        setErrorMessage('Все культуры должны быть выбраны.');
         return;
       }
+
+      // Отправка данных в store через dispatch
       values.rows.forEach(row => {
         if (row.culture) {
           dispatch(setYieldForecastAC(row.culture, Number(row.yield)));
@@ -74,9 +79,12 @@ export const Step2: React.FC<StepsProps> = (props) => {
           dispatch(setOnSeedsAC(row.culture, Number(row.seeds)));
         }
       });
+
+      // Переход на следующий шаг
       props.onNext();
     },
   });
+
   const handleAddRow = () => {
     formik.setFieldValue('rows', [
       ...formik.values.rows,
@@ -90,7 +98,6 @@ export const Step2: React.FC<StepsProps> = (props) => {
   };
 
   const handleInputChange = (index: number, field: keyof RowType, value: string) => {
-
     const newRows = formik.values.rows.map((row, rowIndex) =>
       rowIndex === index ? { ...row, [field]: value } : row
     );
@@ -106,7 +113,6 @@ export const Step2: React.FC<StepsProps> = (props) => {
         newRows[index].commodity = yieldValue - Number(newRows[index].fodder);
       } else {
         newRows[index].fodder = yieldValue;
-
       }
     }
 
@@ -117,7 +123,6 @@ export const Step2: React.FC<StepsProps> = (props) => {
     }
 
     formik.setFieldValue('rows', newRows);
-    setCultureError(null);
   };
 
   const getSeedsValueForCulture = (culture: CultureNames) => {
@@ -205,10 +210,10 @@ export const Step2: React.FC<StepsProps> = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {cultureError && (
-          <Box color="error.main" sx={{ mt: 2 }}>
-            {cultureError}
-          </Box>
+        {errorMessage && (
+          <Typography color="error" align="center" sx={{ mt: 2 }}>
+            {errorMessage}
+          </Typography>
         )}
         <Box sx={buttonContainerSx}>
           <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
@@ -224,7 +229,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
             <Button
               variant="contained"
               endIcon={<KeyboardArrowRightIcon />}
-              type="submit" // Ensure the button triggers form submission
+              type="submit"
             >
               Далее
             </Button>
@@ -234,3 +239,4 @@ export const Step2: React.FC<StepsProps> = (props) => {
     </form>
   );
 };
+
