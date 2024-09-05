@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { LandResourcesType } from '../state/landResources/landResources-reducer'
+import { FinancialResultsType } from '../state/financialResults/financialResults-reducer'
 
 const instance = axios.create({
   baseURL: 'http://localhost:5000',
@@ -124,11 +125,15 @@ export const financialResultsAPI = {
     // Получаем данные с сервера
     const data = await fetchData();
 
-    // Отбираем только нужные данные для financialResults
+    // Отбираем и вычисляем нужные данные для financialResults
+    const revenue = data.revenue;
+    const cost = data.cost;
+    const profit = revenue - cost;
+
     const financialResultsData = {
-      revenue: data.revenue,
-      cost: data.cost,
-      profit: data.revenue - data.cost  // Предполагаем, что прибыль рассчитывается как разница между доходом и расходами
+      revenue,
+      cost,
+      profit
     };
 
     return financialResultsData;

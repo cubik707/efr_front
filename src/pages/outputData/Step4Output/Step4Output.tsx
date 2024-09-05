@@ -7,13 +7,9 @@ import { useAppSelector } from '../../../state/store'
 const headers = ['Показатель', 'Значение']
 
 export const Step4Output = () => {
-  // Получаем данные о кормах из состояния Redux
-  const feedsState = useAppSelector(state => state.feeds);
-  // Функция для округления значений
-  const formatNumber = (value: number) => value.toFixed(2);
-
-  // Рассчитаем общий объем для расчета доли
-  const totalVolume = Object.values(feedsState).reduce((total, feed) => total + feed.volume, 0);
+  const { revenue, cost, profit, profitability } = useAppSelector(state => state.financialResults);
+// Функция для округления значений до целых
+  const roundToInteger = (value: number) => Math.round(value);
 
   return (
     <TableContainer component={Paper}>
@@ -30,31 +26,19 @@ export const Step4Output = () => {
         <TableBody>
           <TableRow>
             <TableCell>Выручка, руб.</TableCell>
-            <TableCell></TableCell>
+            <TableCell>{roundToInteger(revenue)}</TableCell>
           </TableRow>
-        </TableBody>
-        <TableBody>
           <TableRow>
-            <TableCell>Выручка, руб.</TableCell>
-            <TableCell></TableCell>
+            <TableCell>Себестоимость, руб.</TableCell>
+            <TableCell>{roundToInteger(cost)}</TableCell>
           </TableRow>
-        </TableBody>
-        <TableBody>
           <TableRow>
-            <TableCell>Себестоимость, руб</TableCell>
-            <TableCell></TableCell>
+            <TableCell>Прибыль, руб.</TableCell>
+            <TableCell>{roundToInteger(profit)}</TableCell>
           </TableRow>
-        </TableBody>
-        <TableBody>
-          <TableRow>
-            <TableCell>Прибыль, руб</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableBody>
-        <TableBody>
           <TableRow>
             <TableCell>Рентабельность, %</TableCell>
-            <TableCell></TableCell>
+            <TableCell>{roundToInteger(profitability)}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

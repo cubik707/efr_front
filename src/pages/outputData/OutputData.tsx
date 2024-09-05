@@ -21,6 +21,8 @@ import { Step1Output } from './Step1Output/Step1Output'
 import { Step2Output } from './Step2Output/Step2Output'
 import { fetchFeedsData } from '../../state/feeds/feeds-thunk'
 import { Step3Output } from './Step3Output/Step3Output'
+import { Step4Output } from './Step4Output/Step4Output'
+import { fetchFinancialResultsData } from '../../state/financialResults/financialResults-thunk'
 
 type Props = {};
 
@@ -42,6 +44,7 @@ export const OutputData = (props: Props) => {
   useEffect(() => {
     dispatch(fetchCultureData())
     dispatch(fetchFeedsData())
+    dispatch(fetchFinancialResultsData())
   }, [])
 
   useEffect(() => {
@@ -86,6 +89,7 @@ export const OutputData = (props: Props) => {
               {activeStep === 0 && <Step1Output/>}
               {activeStep === 1 && <Step2Output/>}
               {activeStep === 2 && <Step3Output/>}
+              {activeStep === 3 && <Step4Output/>}
             </Box>
             <Box sx={buttonContainerSx}>
                 <Box sx={navigationButtonsContainerSx}>
