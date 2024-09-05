@@ -28,8 +28,38 @@ export const setPriceAC = (feedName: FeedName, price: number) => ({
     price
 } as const)
 
+export const setMainCowsAC = (feedName: FeedName, mainCows: number) => ({
+    type: 'SET-MAIN-COWS',
+    feedName,
+    mainCows
+} as const);
+
+export const setAdditionalCowsAC = (feedName: FeedName, additionalCows: number) => ({
+    type: 'SET-ADDITIONAL-COWS',
+    feedName,
+    additionalCows
+} as const);
+
+export const setMainYoungCattleAC = (feedName: FeedName, mainYoungCattle: number) => ({
+    type: 'SET-MAIN-YOUNG-CATTLE',
+    feedName,
+    mainYoungCattle
+} as const);
+
+export const setAdditionalYoungCattleAC = (feedName: FeedName, additionalYoungCattle: number) => ({
+    type: 'SET-ADDITIONAL-YOUNG-CATTLE',
+    feedName,
+    additionalYoungCattle
+} as const);
+
 //-------Типизация экшенов
-type ActionsType = ReturnType<typeof setVolumeAC> | ReturnType<typeof setPriceAC>
+type ActionsType =
+  | ReturnType<typeof setVolumeAC>
+  | ReturnType<typeof setPriceAC>
+  | ReturnType<typeof setMainCowsAC>
+  | ReturnType<typeof setAdditionalCowsAC>
+  | ReturnType<typeof setMainYoungCattleAC>
+  | ReturnType<typeof setAdditionalYoungCattleAC>;
 
 //-------Начальное состояние
 const initialState: FeedsStateType = {
