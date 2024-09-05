@@ -114,12 +114,24 @@ export const culturesAPI = {
 }
 
 export const landResourcesAPI = {
-  getLandResourcesData(){
-    return fetchData() //тут нужно будет отобрать нужные данные
-  },
   setLandResourcesData(data: LandResourcesType){
     return fetchData()
   }
 }
 
+export const financialResultsAPI = {
+  async getFinancialResultsData() {
+    // Получаем данные с сервера
+    const data = await fetchData();
+
+    // Отбираем только нужные данные для financialResults
+    const financialResultsData = {
+      revenue: data.revenue,
+      cost: data.cost,
+      profit: data.revenue - data.cost  // Предполагаем, что прибыль рассчитывается как разница между доходом и расходами
+    };
+
+    return financialResultsData;
+  },
+};
 
