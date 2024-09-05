@@ -2,11 +2,10 @@ import { Dispatch } from 'redux'
 import { feedsAPI } from '../../api/api'
 import {
   FeedName,
-  setAdditionalCowsAC, setAdditionalYoungCattleAC,
+  setAdditionalCowsAC,
+  setAdditionalYoungCattleAC,
   setMainCowsAC,
   setMainYoungCattleAC,
-  setPriceAC,
-  setVolumeAC,
 } from './feeds-reducer'
 import { handleError } from '../../utils/handleErrors'
 

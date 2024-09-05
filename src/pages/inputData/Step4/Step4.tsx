@@ -23,7 +23,8 @@ import { feedNames } from '../../../state/feeds/feedsName'
 import { useAppDispatch } from '../../../state/store'
 
 type RowType = {
-  [K in keyof FeedType]: FeedType[K] | string;
+  volume: number | '';
+  price: number | '';
 };
 
 type FormValues = {
