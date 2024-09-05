@@ -19,7 +19,7 @@ import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
 import { FeedName, FeedType, setPriceAC, setVolumeAC } from '../../../state/feeds/feeds-reducer'
 import { validationSchema } from './step4-validation'
-import { feedNames } from './feedsName'
+import { feedNames } from '../../../state/feeds/feedsName'
 import { useAppDispatch } from '../../../state/store'
 
 type RowType = {

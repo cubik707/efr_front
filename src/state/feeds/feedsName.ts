@@ -1,4 +1,4 @@
-import { FeedName } from '../../../state/feeds/feeds-reducer'
+import { FeedName } from './feeds-reducer'
 
 export const feedNames: FeedName[] = [
   'concentrates',

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { feedNames } from './feedsName'
+import { feedNames } from '../../../state/feeds/feedsName'
 import { commonValidationSchema } from '../../../utils/commonValidationsSchema'
 
 export const validationSchema = Yup.object().shape(
