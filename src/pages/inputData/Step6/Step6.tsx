@@ -21,21 +21,10 @@ import { validationSchema } from './step6-validation'
 import { useAppSelector } from '../../../state/store'
 import { CultureNames } from '../../../state/cultures/cultures-reducer'
 import { cultures } from '../../../state/cultures/cultures'
+import { disabledPriceCultures } from './disabledCultures'
 
 
 const headers = ['Вид продукции', 'Цена реализации за ц, руб.', 'Себестоимость за 1ц, руб.']
-
-const disabledPriceCultures = [
-  'hayGrassHay',
-  'haylageGrassHay',
-  'greenFodderGrassHay',
-  'hayImprovedHayfieldsAndPastures',
-  'haylageImprovedHayfieldsAndPastures',
-  'haylageNaturalHayfieldsAndPastures',
-  'greenFodderNaturalHayfieldsAndPastures',
-  'annualGrasses',
-  'cornOnSilage',
-]
 
 type RowType = {
   sellingPricePerCent?: number | ''; // цена реализации продукции за ц
@@ -92,6 +81,8 @@ export const Step6 = (props: StepsProps) => {
                       onChange={(e) => formik.setFieldValue(`${cult}.sellingPricePerCent`, e.target.value)}
                       fullWidth
                       disabled={disabledPriceCultures.includes(cult)}
+                      error={formik.touched[cult]?.sellingPricePerCent && Boolean(formik.errors[cult]?.sellingPricePerCent)}
+                      helperText={formik.touched[cult]?.sellingPricePerCent && formik.errors[cult]?.sellingPricePerCent}
                     />
                   </TableCell>
                   <TableCell>
@@ -100,6 +91,8 @@ export const Step6 = (props: StepsProps) => {
                       value={formik.values[cult].costPrice}
                       onChange={(e) => formik.setFieldValue(`${cult}.costPrice`, e.target.value)}
                       fullWidth
+                      error={formik.touched[cult]?.costPrice && Boolean(formik.errors[cult]?.costPrice)}
+                      helperText={formik.touched[cult]?.costPrice && formik.errors[cult]?.costPrice}
                     />
                   </TableCell>
                 </TableRow>
