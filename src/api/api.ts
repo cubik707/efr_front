@@ -9,22 +9,12 @@ const instance = axios.create({
 //Функция запроса на сервер
 const fetchData = async () => {
   try {
-    const response = await instance.post<string>('/calculate');
-    let dataString = response.data;
+    const response = await instance.post<any>('/calculate');
     console.log(response)
-    // // Удаление нежелательных символов или замена некорректных значений
-    // dataString = dataString
-    //   .replace(/None/g, 'null') // Заменить 'None' на 'null' или другой подходящий заменитель
-    //   .replace(/[^0-9.,-]/g, ''); // Удалить все символы, кроме цифр, запятых, точек и минусов
-    //
-    // // Преобразование очищенной строки в массив чисел
-    // const dataArray = dataString
-    //   .split(',') // Разделить строку по запятым
-    //   .map(value => parseFloat(value.trim())) // Преобразовать каждое значение в число, удаляя пробелы
-    //   .filter(value => !isNaN(value)); // Удалить любые значения NaN
-    //
-    // return dataArray;
-    return response
+    // const data = await fs.readFile('D:\\univer\\efr-py\\back\\server\\output.json', 'utf8');
+    // const jsonData = JSON.parse(data); // Parse JSON data
+    // console.log(jsonData);
+    return response.data;
   } catch (error) {
     console.error('Failed to fetch data', error);
     throw error;
@@ -47,8 +37,8 @@ export const animalsAPI = {
 }
 
 export const feedsAPI = {
-  getFeedsData(){
-    return fetchData() //тут нужно будет отобрать нужные данные
+  async getFeedsData (){
+
   },
   setFeedsData(){
     return fetchData()
@@ -57,7 +47,26 @@ export const feedsAPI = {
 
 export const culturesAPI = {
   async getCulturesData() {
-    return fetchData();
+    const data = await fetchData(); // Получаем данные
+
+    // Создаем объект с только нужными полями
+    const culturesData = {
+      winterGrains: data.winterGrainsArea,
+      springGrains: data.springGrainsArea,
+      pulses: data.pulsesArea,
+      rape: data.rapeArea,
+      hayGrassHay: data.hayGrassHayArea,
+      haylageGrassHay: data.haylageGrassHayArea,
+      greenFodderGrassHay: data.greenFodderGrassHayArea,
+      annualGrassesGreenFodder: data.annualGrassesGreenFodderArea,
+      cornOnSilage: data.cornOnSilageArea,
+      hayImprovedHayfieldsAndPastures: data.hayImprovedHayfieldsAndPasturesArea,
+      haylageImprovedHayfieldsAndPastures: data.haylageImprovedHayfieldsAndPasturesArea,
+      haylageNaturalHayfieldsAndPastures: data.haylageNaturalHayfieldsAndPasturesArea,
+      greenFodderNaturalHayfieldsAndPastures: data.greenFodderNaturalHayfieldsAndPasturesArea
+    };
+
+    return culturesData; // Возвращаем объект с полями
   },
   setFeedsData(){
     return fetchData()

@@ -37,9 +37,9 @@ export const OutputData = (props: Props) => {
   const culturesData = useAppSelector<CultureStateType>(state => state.cultures)
   const dispatch = useAppDispatch()
 
-  // useEffect(() => {
-  //   dispatch(fetchCultureData())
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchCultureData())
+  }, [])
 
   useEffect(() => {
     const updatedData = [...tableData]
