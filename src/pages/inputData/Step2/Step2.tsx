@@ -86,10 +86,12 @@ export const Step2: React.FC<StepsProps> = (props) => {
   });
 
   const handleAddRow = () => {
-    formik.setFieldValue('rows', [
-      ...formik.values.rows,
-      { culture: '', yield: '', fodder: '', commodity: '', seeds: '' },
-    ]);
+    if (formik.values.rows.length < culturesArray.length) {
+      formik.setFieldValue('rows', [
+        ...formik.values.rows,
+        { culture: '', yield: '', fodder: '', commodity: '', seeds: '' },
+      ]);
+    }
   };
 
   const handleDeleteRow = (index: number) => {
@@ -147,6 +149,10 @@ export const Step2: React.FC<StepsProps> = (props) => {
     return formik.values.rows.map(row => row.culture).filter(culture => culture !== '');
   };
 
+  const isAddRowDisabled = () => {
+    return formik.values.rows.length >= culturesArray.length;
+  };
+
   return (
     <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
       <Box sx={containerSx}>
@@ -167,7 +173,12 @@ export const Step2: React.FC<StepsProps> = (props) => {
                   <TableCell style={{ width: 'auto', whiteSpace: 'nowrap' }}>
                     <Box display="flex" alignItems="center">
                       {rowIndex === formik.values.rows.length - 1 ? (
-                        <IconButton color="primary" onClick={handleAddRow} size="small">
+                        <IconButton
+                          color="primary"
+                          onClick={handleAddRow}
+                          size="small"
+                          disabled={isAddRowDisabled()}
+                        >
                           <AddBox />
                         </IconButton>
                       ) : (
