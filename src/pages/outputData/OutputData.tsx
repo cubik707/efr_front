@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import UniTable from '../../components/UniTable'
 import {
   buttonContainerSx,
   containerSx,
@@ -18,6 +17,7 @@ import { PATH } from '../../App'
 import { fetchCultureData } from '../../state/cultures/cultures-thunk'
 import { useAppDispatch, useAppSelector } from '../../state/store'
 import { CultureStateType } from '../../state/cultures/cultures-reducer'
+import { Step1Output } from './Step1Output/Step1Output'
 
 type Props = {};
 
@@ -66,7 +66,6 @@ export const OutputData = (props: Props) => {
     };
 
 
-    const {headers, rows} = data[activeStep];
     return (
         <Box sx={containerSx}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -80,16 +79,12 @@ export const OutputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                <UniTable
-                    headers={headers}
-                    rows={rows}
-                    isRowsAdd={false}
-                />
+              {activeStep === 0 && <Step1Output/>}
             </Box>
             <Box sx={buttonContainerSx}>
                 <Box sx={navigationButtonsContainerSx}>
-                    <Button variant="outlined" disabled={false}>Выгрузить PDF</Button>
-                    <Button variant="outlined" disabled={false}>Найти решение с измененными параметрами</Button>
+                    <Button variant="outlined" disabled={true}>Выгрузить PDF</Button>
+                    <Button variant="outlined" disabled={true}>Найти решение с измененными параметрами</Button>
                 </Box>
                 <Box sx={navigationButtonsContainerSx}>
                     <Button variant="text"
