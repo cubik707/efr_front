@@ -6,6 +6,7 @@ import { culturesReducer } from './cultures/cultures-reducer'
 import { landResourcesReducer } from './landResources/landResources-reducer'
 import { thunk, ThunkDispatch } from 'redux-thunk';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 
 const rootReducer = combineReducers({
@@ -13,13 +14,13 @@ const rootReducer = combineReducers({
     animals: animalsReducer,
     feeds: feedsReducer,
     cultures: culturesReducer,
-    landResources: landResourcesReducer
+    landResources: landResourcesReducer,
 })
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 // непосредственно создаём store
 //@ts-ignore
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
+export const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 // определить автоматически тип всего объекта состояния
 
 export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, Action>

@@ -2,20 +2,16 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import UniTable from '../../components/UniTable'
-import {
-    buttonContainerSx,
-    containerSx,
-    navigationButtonsContainerSx,
-    tableContainerSx,
-    titleSx,
-} from './InputData.styles'
-import { tableData } from './tableInputData'
+import { containerSx, tableContainerSx, titleSx } from './InputData.styles'
 import { PATH } from '../../App'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
+import { Step1 } from './Step1/Step1'
+import { Step2 } from './Step2/Step2'
+import { Step3 } from './Step3/Step3'
+import { Step4 } from './Step4/Step4'
+import { Step5 } from './Step5/Step5'
+import { Step6 } from './Step6/Step6'
 
 type Props = {
 
@@ -24,15 +20,14 @@ type Props = {
 const steps = [
     'Наличие земельных ресурсов',
     'Прогнозные параметры развития растениеводства',
-    'Прогрозные параметры развития животноводства',
-    'Возможность приобритения кормов',
+    'Прогнозные параметры развития животноводства',
+    'Возможность приобретения кормов',
     'Договорные поставки, включая государственный заказ',
     'Цена реализации и себестоимости производства 1 ц продукции'
 ];
 
 export const InputData = (props: Props) => {
     const [activeStep, setActiveStep] = useState(0);
-    const [data, setData] = useState(tableData);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -57,31 +52,6 @@ export const InputData = (props: Props) => {
         localStorage.setItem('lastInputStep', prevStep.toString());
     };
 
-    const handleAddRow = () => {
-        const updatedData = [...data];
-        const currentTable = updatedData[activeStep];
-
-        if (currentTable.isRowsAdd) {
-            const newRow = [...currentTable.rows[currentTable.rows.length - 1]]; // Клонируем последнюю строку
-            updatedData[activeStep].rows.push(newRow); // Добавляем новую строку
-
-            setData(updatedData); // Обновляем состояние с новыми данными
-            console.log(updatedData[activeStep].rows)
-        }
-    };
-
-    const handleDeleteRow = (rowIndex: number) => {
-        const updatedData = [...data];
-        const currentTable = updatedData[activeStep];
-
-        if (currentTable.isRowsAdd) {
-            currentTable.rows = currentTable.rows.filter((_, index) => index !== rowIndex); // Фильтруем строки, исключая ту, что соответствует rowIndex
-
-            setData(updatedData); // Обновляем состояние с новыми данными
-            console.log(updatedData[activeStep].rows)
-        }
-    };
-
     const [error, setError] = useState('')
     const [result, setResult] = useState<number[] | null>(null);
 
@@ -102,7 +72,6 @@ export const InputData = (props: Props) => {
         }
     };
 
-    const { headers, rows, isRowsAdd } = data[activeStep];
     return (
         <Box sx={containerSx}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -116,27 +85,14 @@ export const InputData = (props: Props) => {
                 {steps[activeStep]}
             </Typography>
             <Box sx={tableContainerSx}>
-                <UniTable
-                    headers={headers}
-                    rows={rows}
-                    isRowsAdd={isRowsAdd}
-                    onAddRow={handleAddRow}
-                    onDeleteRow={handleDeleteRow}
-                />
+                {activeStep === 0 && <Step1 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 1 && <Step2 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 2 && <Step3 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 3 && <Step4 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 4 && <Step5 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
+                {activeStep === 5 && <Step6 activeStep={activeStep} onNext={handleNext} onBack={handleBack} />}
             </Box>
-            <Box sx={buttonContainerSx}>
-                <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
-                <Box sx = {navigationButtonsContainerSx}>
-                    <Button variant="text"
-                            startIcon={<KeyboardArrowLeftIcon />}
-                            onClick={handleBack}
-                            disabled={activeStep === 0}>Назад</Button>
-                    <Button variant="contained"
-                            endIcon={<KeyboardArrowRightIcon />}
-                            onClick={handleNext}
-                            disabled={false}>Далее</Button>
-                </Box>
-            </Box>
+
             <Button onClick={testFunc}>Вжух</Button>
             {result !== null && <h2>Result: {result}</h2>}
             {error}
