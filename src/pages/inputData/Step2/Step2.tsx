@@ -52,11 +52,20 @@ interface FormValues {
 }
 
 export const Step2: React.FC<StepsProps> = (props) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const [cultureError, setCultureError] = React.useState<string | null>(null);
+
   const formik = useFormik<FormValues>({
     initialValues: { rows: [{ culture: '', yield: '', fodder: '', commodity: '', seeds: '' }] },
     validationSchema,
     onSubmit: (values) => {
+      const allCulturesFilled = values.rows.every((row) => row.culture !== '');
+      console.log(allCulturesFilled)
+      console.log(values)
+      if (!allCulturesFilled) {
+        setCultureError('Все культуры должны быть заполнены.');
+        return;
+      }
       values.rows.forEach(row => {
         if (row.culture) {
           dispatch(setYieldForecastAC(row.culture, Number(row.yield)));
@@ -108,7 +117,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
     }
 
     formik.setFieldValue('rows', newRows);
-    console.log(formik.values.rows)
+    setCultureError(null);
   };
 
   const getSeedsValueForCulture = (culture: CultureNames) => {
@@ -196,6 +205,11 @@ export const Step2: React.FC<StepsProps> = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        {cultureError && (
+          <Box color="error.main" sx={{ mt: 2 }}>
+            {cultureError}
+          </Box>
+        )}
         <Box sx={buttonContainerSx}>
           <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
           <Box sx={navigationButtonsContainerSx}>

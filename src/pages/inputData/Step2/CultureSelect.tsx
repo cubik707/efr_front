@@ -1,5 +1,5 @@
-import { Select, MenuItem, FormControl, FormHelperText } from '@mui/material';
-import { cultures } from '../../../state/cultures/cultures'
+import { FormControl, FormHelperText, MenuItem, Select } from '@mui/material'
+import { culturesArray } from './inputCultures'
 
 type CultureSelectProps = {
   value: string;
@@ -19,9 +19,9 @@ export const CultureSelect: React.FC<CultureSelectProps> = ({
                                                               selectedCultures,
                                                             }) => {
 
-  const filteredCultures = Object.entries(cultures)
-    .filter(([cultureValue]) => cultureValue === value || !selectedCultures.includes(cultureValue))
-    .map(([value, label]) => ({ value, label }));
+  const filteredCultures = culturesArray.filter(
+    (culture) => culture.value === value || !selectedCultures.includes(culture.value)
+  );
 
   return (
     <FormControl fullWidth error={error}>
