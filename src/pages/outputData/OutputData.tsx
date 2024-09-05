@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../state/store'
 import { CultureStateType } from '../../state/cultures/cultures-reducer'
 import { Step1Output } from './Step1Output/Step1Output'
 import { Step2Output } from './Step2Output/Step2Output'
+import { fetchFeedsData } from '../../state/feeds/feeds-thunk'
 
 type Props = {};
 
@@ -39,6 +40,7 @@ export const OutputData = (props: Props) => {
 
   useEffect(() => {
     dispatch(fetchCultureData())
+    dispatch(fetchFeedsData())
   }, [])
 
   useEffect(() => {

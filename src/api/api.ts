@@ -29,6 +29,14 @@ const extractDataRange = (data: number[], start: number, end: number): number[] 
 //Функционал на будущее, если появится возможность к каждому отдельно делать запросы
 export const animalsAPI = {
   async getAnimalsData() {
+  },
+  setAnimalData(){
+    return fetchData()
+  }
+}
+
+export const feedsAPI = {
+  async getFeedsData (){
     const data = await fetchData();
     const feedData = (data: any) => ({
       concentrates: {
@@ -82,15 +90,6 @@ export const animalsAPI = {
     });
 
     return feedData;
-  },
-  setAnimalData(){
-    return fetchData()
-  }
-}
-
-export const feedsAPI = {
-  async getFeedsData (){
-
   },
   setFeedsData(){
     return fetchData()
