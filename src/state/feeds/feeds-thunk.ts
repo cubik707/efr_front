@@ -5,7 +5,7 @@ import {
   setAdditionalCowsAC,
   setAdditionalYoungCattleAC,
   setMainCowsAC,
-  setMainYoungCattleAC,
+  setMainYoungCattleAC, setToBuyAC,
 } from './feeds-reducer'
 import { handleError } from '../../utils/handleErrors'
 
@@ -18,6 +18,7 @@ export const fetchFeedsData = () => async (dispatch: Dispatch) => {
       dispatch(setAdditionalCowsAC(feedName as FeedName, feedData.additionalCows));
       dispatch(setMainYoungCattleAC(feedName as FeedName, feedData.mainYoungCattle));
       dispatch(setAdditionalYoungCattleAC(feedName as FeedName, feedData.additionalYoungCattle));
+      dispatch(setToBuyAC(feedName as FeedName, feedData.toBuy));
     });
   } catch (error) {
     handleError(error, dispatch)

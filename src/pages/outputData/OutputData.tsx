@@ -20,6 +20,7 @@ import { CultureStateType } from '../../state/cultures/cultures-reducer'
 import { Step1Output } from './Step1Output/Step1Output'
 import { Step2Output } from './Step2Output/Step2Output'
 import { fetchFeedsData } from '../../state/feeds/feeds-thunk'
+import { Step3Output } from './Step3Output/Step3Output'
 
 type Props = {};
 
@@ -84,6 +85,7 @@ export const OutputData = (props: Props) => {
             <Box sx={tableContainerSx}>
               {activeStep === 0 && <Step1Output/>}
               {activeStep === 1 && <Step2Output/>}
+              {activeStep === 2 && <Step3Output/>}
             </Box>
             <Box sx={buttonContainerSx}>
                 <Box sx={navigationButtonsContainerSx}>

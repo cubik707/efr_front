@@ -7,6 +7,7 @@ export type FeedType = {
     additionalCows: number,
     mainYoungCattle: number,
     additionalYoungCattle: number,
+    toBuy: number
 }
 
 export type FeedName = 'concentrates' | 'silo' | 'greenFodder' | 'hay' | 'haylage' | 'straw'
@@ -52,6 +53,13 @@ export const setAdditionalYoungCattleAC = (feedName: FeedName, additionalYoungCa
     additionalYoungCattle
 } as const);
 
+export const setToBuyAC = (feedName: FeedName, toBuy: number) => ({
+    type: 'SET-TO-BUY',
+    feedName,
+    toBuy
+} as const);
+
+
 //-------Типизация экшенов
 type ActionsType =
   | ReturnType<typeof setVolumeAC>
@@ -59,16 +67,17 @@ type ActionsType =
   | ReturnType<typeof setMainCowsAC>
   | ReturnType<typeof setAdditionalCowsAC>
   | ReturnType<typeof setMainYoungCattleAC>
-  | ReturnType<typeof setAdditionalYoungCattleAC>;
+  | ReturnType<typeof setAdditionalYoungCattleAC>
+  | ReturnType<typeof setToBuyAC>;
 
 //-------Начальное состояние
 const initialState: FeedsStateType = {
-    concentrates: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0 },
-    silo: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0 },
-    greenFodder: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0 },
-    hay: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0 },
-    haylage: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0 },
-    straw: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0 }
+    concentrates: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0, toBuy: 0 },
+    silo: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0, toBuy: 0 },
+    greenFodder: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0, toBuy: 0 },
+    hay: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0, toBuy: 0 },
+    haylage: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0, toBuy: 0 },
+    straw: { volume: 0, price: 0, mainCows: 0, additionalCows: 0, mainYoungCattle: 0, additionalYoungCattle: 0, toBuy: 0 }
 };
 
 //-------Редьюсер
@@ -120,6 +129,14 @@ export const feedsReducer = (state: FeedsStateType = initialState, action: Actio
                 [action.feedName]: {
                     ...state[action.feedName],
                     additionalYoungCattle: action.additionalYoungCattle
+                }
+            };
+        case 'SET-TO-BUY':
+            return {
+                ...state,
+                [action.feedName]: {
+                    ...state[action.feedName],
+                    toBuy: action.toBuy
                 }
             };
         default:

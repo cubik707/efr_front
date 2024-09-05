@@ -40,39 +40,44 @@ export const feedsAPI = {
         additionalCows: data.additionalConcentratesCows,
         mainYoungCattle: data.mainConcentratesYoungCattle,
         additionalYoungCattle: data.additionalConcentratesYoungCattle,
+        toBuy: data.concentratesToBuy,
       },
       silo: {
         mainCows: data.mainSilageCows,
         additionalCows: data.additionalSilageCows,
         mainYoungCattle: data.mainSilageYoungCattle,
         additionalYoungCattle: data.additionalSilageYoungCattle,
+        toBuy: data.silageToBuy,
       },
       greenFodder: {
         mainCows: data.mainGreenFodderCows,
         additionalCows: data.additionalGreenFodderCows,
         mainYoungCattle: data.mainGreenFodderYoungCattle,
         additionalYoungCattle: data.additionalGreenFodderYoungCattle,
+        toBuy: data.greenFodderToBuy,
       },
       hay: {
         mainCows: data.mainHayCows,
         additionalCows: data.additionalHayCows,
         mainYoungCattle: data.mainhayYoungCattle,
         additionalYoungCattle: data.additionalhayYoungCattle,
+        toBuy: data.hayToBuy,
       },
       haylage: {
         mainCows: data.mainHaylageCows,
         additionalCows: data.additionalHaylageCows,
         mainYoungCattle: data.mainhaylageYoungCattle,
         additionalYoungCattle: data.additionalhaylageYoungCattle,
+        toBuy: data.haylageToBuy,
       },
       straw: {
         mainCows: data.mainStrawCows,
         additionalCows: data.additionalStrawCows,
         mainYoungCattle: data.mainStrawYoungCattle,
         additionalYoungCattle: data.additionalStrawYoungCattle,
+        toBuy: data.strawToBuy,
       }
     };
-
     return feedData;
   },
   setFeedsData(){
