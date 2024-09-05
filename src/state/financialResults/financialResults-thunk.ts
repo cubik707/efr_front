@@ -1,6 +1,7 @@
 import { financialResultsAPI } from '../../api/api'
 import { Dispatch } from 'redux'
 import { setCostAC, setProfitAC, setRevenueAC } from './financialResults-reducer'
+import { handleError } from '../../utils/handleErrors'
 
 export const fetchFinancialResultsData = () => async (dispatch: Dispatch) => {
   try {
@@ -11,7 +12,6 @@ export const fetchFinancialResultsData = () => async (dispatch: Dispatch) => {
     dispatch(setCostAC(data.cost));
     dispatch(setProfitAC(data.profit));
   } catch (error) {
-    console.error('Failed to fetch financial results data:', error);
-    // Обработайте ошибку, если нужно
+    handleError(error, dispatch)
   }
 };
