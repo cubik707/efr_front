@@ -1,8 +1,6 @@
 type LivestockProductsType = {
-  mainCows: number,
-  additionalCows: number,
-  mainYoungCattle: number,
-  additionalYoungCattle: number,
+  sellingPricePerCent: number; // цена реализации продукции за ц
+  costPrice: number; // себестоимость
 }
 
 type LivestockProductsStateType = {
@@ -10,99 +8,58 @@ type LivestockProductsStateType = {
   cattleMeat: LivestockProductsType
 }
 
+type LivestockProductName = 'milk' | 'cattleMeat'
+
 //-------Action creators
-type LivestockProduct = 'milk' | 'cattleMeat';
-
-export const setMainCowsAC = (livestockProduct: LivestockProduct, mainCows: number) => ({
-  type: 'SET-MAIN-COWS',
+export const setSellingPricePerCentAC = (livestockProduct: LivestockProductName, sellingPricePerCent: number) => ({
+  type: 'SET-SELLING-PRICE-PER-CENT',
   livestockProduct,
-  mainCows
+  sellingPricePerCent
 } as const);
 
-export const setAdditionalCowsAC = (livestockProduct: LivestockProduct, additionalCows: number) => ({
-  type: 'SET-ADDITIONAL-COWS',
+export const setCostPriceAC = (livestockProduct: LivestockProductName, costPrice: number) => ({
+  type: 'SET-COST-PRICE',
   livestockProduct,
-  additionalCows
-} as const);
-
-export const setMainYoungCattleAC = (livestockProduct: LivestockProduct, mainYoungCattle: number) => ({
-  type: 'SET-MAIN-YOUNG-CATTLE',
-  livestockProduct,
-  mainYoungCattle
-} as const);
-
-export const setAdditionalYoungCattleAC = (livestockProduct: LivestockProduct, additionalYoungCattle: number) => ({
-  type: 'SET-ADDITIONAL-YOUNG-CATTLE',
-  livestockProduct,
-  additionalYoungCattle
-} as const);
-
-export const setToBuyAC = (livestockProduct: LivestockProduct, toBuy: number) => ({
-  type: 'SET-TO-BUY',
-  livestockProduct,
-  toBuy
+  costPrice
 } as const);
 
 //-------Типизация экшенов
 type ActionsType =
-  | ReturnType<typeof setMainCowsAC>
-  | ReturnType<typeof setAdditionalCowsAC>
-  | ReturnType<typeof setMainYoungCattleAC>
-  | ReturnType<typeof setAdditionalYoungCattleAC>
-  | ReturnType<typeof setToBuyAC>;
+  | ReturnType<typeof setSellingPricePerCentAC>
+  | ReturnType<typeof setCostPriceAC>;
 
 //-------Начальное состояние
 const initialState: LivestockProductsStateType = {
   milk: {
-    mainCows: 0,
-    additionalCows: 0,
-    mainYoungCattle: 0,
-    additionalYoungCattle: 0
+    sellingPricePerCent: 0,
+    costPrice: 0
   },
   cattleMeat: {
-    mainCows: 0,
-    additionalCows: 0,
-    mainYoungCattle: 0,
-    additionalYoungCattle: 0
+    sellingPricePerCent: 0,
+    costPrice: 0
   }
 }
 
 //-------Редьюсер
 export const livestockProductsReducer = (state: LivestockProductsStateType = initialState, action: ActionsType): LivestockProductsStateType => {
   switch (action.type) {
-    case 'SET-MAIN-COWS':
+    case 'SET-SELLING-PRICE-PER-CENT':
       return {
         ...state,
         [action.livestockProduct]: {
           ...state[action.livestockProduct],
-          mainCows: action.mainCows
+          sellingPricePerCent: action.sellingPricePerCent
         }
       };
-    case 'SET-ADDITIONAL-COWS':
+    case 'SET-COST-PRICE':
       return {
         ...state,
         [action.livestockProduct]: {
           ...state[action.livestockProduct],
-          additionalCows: action.additionalCows
-        }
-      };
-    case 'SET-MAIN-YOUNG-CATTLE':
-      return {
-        ...state,
-        [action.livestockProduct]: {
-          ...state[action.livestockProduct],
-          mainYoungCattle: action.mainYoungCattle
-        }
-      };
-    case 'SET-ADDITIONAL-YOUNG-CATTLE':
-      return {
-        ...state,
-        [action.livestockProduct]: {
-          ...state[action.livestockProduct],
-          additionalYoungCattle: action.additionalYoungCattle
+          costPrice: action.costPrice
         }
       };
     default:
-      return state
+      return state;
   }
 }
