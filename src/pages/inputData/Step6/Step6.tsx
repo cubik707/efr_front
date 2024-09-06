@@ -90,7 +90,6 @@ export const Step6 = (props: StepsProps) => {
       props.onNext();
     },
   });
-  console.log(cultureNames)
   return (
     <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
       <Box sx={containerSx}>
