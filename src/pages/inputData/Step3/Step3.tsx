@@ -51,13 +51,13 @@ export const Step3 = (props: StepsProps) => {
     validationSchema,
     onSubmit: (values) => {
       // Диспатчим значения из формы в animalsReducer
-      dispatch(setProductivityAC('Коровы', Number(values.cows.productivity)));
-      dispatch(setLivestockAC('Коровы', Number(values.cows.livestock)));
-      dispatch(setConsumptionOfFUAC('Коровы', Number(values.cows.consumptionOfFU)));
+      dispatch(setProductivityAC('cows', Number(values.cows.productivity)));
+      dispatch(setLivestockAC('cows', Number(values.cows.livestock)));
+      dispatch(setConsumptionOfFUAC('cows', Number(values.cows.consumptionOfFU)));
 
-      dispatch(setProductivityAC('Молодняк КРС', Number(values.youngCattle.productivity)));
-      dispatch(setLivestockAC('Молодняк КРС', Number(values.youngCattle.livestock)));
-      dispatch(setConsumptionOfFUAC('Молодняк КРС', Number(values.youngCattle.consumptionOfFU)));
+      dispatch(setProductivityAC('youngCattle', Number(values.youngCattle.productivity)));
+      dispatch(setLivestockAC('youngCattle', Number(values.youngCattle.livestock)));
+      dispatch(setConsumptionOfFUAC('youngCattle', Number(values.youngCattle.consumptionOfFU)));
       props.onNext()
     },
   })

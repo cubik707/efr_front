@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { LandResourcesType } from '../state/landResources/landResources-reducer'
 import { FinancialResultsType } from '../state/financialResults/financialResults-reducer'
+import { RootObject } from './dataToServerType'
 
 const instance = axios.create({
   baseURL: 'http://localhost:5000',
@@ -18,6 +19,18 @@ const fetchData = async () => {
     return response.data;
   } catch (error) {
     console.error('Failed to fetch data', error);
+    throw error;
+  }
+};
+
+// Функция для отправки собранных данных на сервер
+export const saveDataToServer = async (data: RootObject) => {
+  try {
+    const response = await axios.post('http://localhost:5000/save', data);
+    console.log('Data successfully saved:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to save data', error);
     throw error;
   }
 };

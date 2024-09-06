@@ -40,13 +40,13 @@ type ActionsType = ReturnType<typeof setProductivityAC>
 
 //-------Начальное состояние
 const initialState: AnimalsStateType = {
-    'Коровы': {
-        productivity: 0,
+   cows: {
+        productivity: 25,
         livestock: 0,
         consumptionOfFU: 0
     },
-    'Молодняк КРС': {
-        productivity: 0,
+    youngCattle: {
+        productivity: 350,
         livestock: 0,
         consumptionOfFU: 0
     }

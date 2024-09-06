@@ -8,6 +8,7 @@ import { thunk, ThunkDispatch } from 'redux-thunk';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { financialResultsReducer } from './financialResults/financialResults-reducer'
+import { livestockProductsReducer } from './livestockProducts/livestockProducts-reducer'
 
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     cultures: culturesReducer,
     landResources: landResourcesReducer,
     financialResults: financialResultsReducer,
+    livestockProducts: livestockProductsReducer
 })
 
 export type AppRootStateType = ReturnType<typeof rootReducer>

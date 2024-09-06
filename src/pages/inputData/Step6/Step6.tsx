@@ -26,6 +26,7 @@ import {
   LivestockProductName, setCostPriceLivestockAC,
   setSellingPricePerCentLivestockAC,
 } from '../../../state/livestockProducts/livestockProducts-reducer'
+import { gatherData } from './gatherData'
 
 
 const headers = ['Вид продукции', 'Цена реализации за ц, руб.', 'Себестоимость за 1ц, руб.']
@@ -43,31 +44,31 @@ export const Step6 = (props: StepsProps) => {
   const culturesState = useAppSelector((state) => state.cultures);
   const cultureNames = Object.keys(culturesState).filter(culture => culture !== 'seeds') as CultureNames[];
   const dispatch = useAppDispatch();
+  const state = useAppSelector(state => state);
 
   // Создание начального состояния для Formik
-  const initialValues: FormType = cultureNames.reduce((acc, culture) => {
-    acc[culture] = {
+  const initialValues: FormType = {
+    ...cultureNames.reduce((acc, culture) => {
+      acc[culture] = {
+        sellingPricePerCent: '',
+        costPrice: '',
+      };
+      return acc;
+    }, {} as FormType),
+    milk: {
       sellingPricePerCent: '',
       costPrice: '',
-    };
-    return acc;
-  }, {} as FormType);
-
-  // Добавляем молоко и мясо в начальное состояние
-  initialValues.milk = {
-    sellingPricePerCent: '',
-    costPrice: '',
-  };
-
-  initialValues.cattleMeat = {
-    sellingPricePerCent: '',
-    costPrice: '',
+    },
+    cattleMeat: {
+      sellingPricePerCent: '',
+      costPrice: '',
+    },
   };
 
   const formik = useFormik<FormType>({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       Object.keys(values).forEach((culture) => {
         const value = values[culture as CultureNames | LivestockProductName];
         if (value.sellingPricePerCent !== undefined) {
@@ -85,6 +86,7 @@ export const Step6 = (props: StepsProps) => {
           }
         }
       });
+      await gatherData(state);
       props.onNext();
     },
   });
@@ -110,7 +112,7 @@ export const Step6 = (props: StepsProps) => {
                   <TableCell>
                     <TextField
                       name={`${cult}.sellingPricePerCent`}
-                      value={formik.values[cult].sellingPricePerCent}
+                      value={formik.values[cult]?.sellingPricePerCent || ''}
                       onChange={(e) => formik.setFieldValue(`${cult}.sellingPricePerCent`, e.target.value)}
                       fullWidth
                       disabled={disabledPriceCultures.includes(cult)}
@@ -121,7 +123,7 @@ export const Step6 = (props: StepsProps) => {
                   <TableCell>
                     <TextField
                       name={`${cult}.costPrice`}
-                      value={formik.values[cult].costPrice}
+                      value={formik.values[cult]?.costPrice || ''}
                       onChange={(e) => formik.setFieldValue(`${cult}.costPrice`, e.target.value)}
                       fullWidth
                       error={formik.touched[cult]?.costPrice && Boolean(formik.errors[cult]?.costPrice)}

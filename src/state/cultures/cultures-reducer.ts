@@ -80,9 +80,7 @@ export type ActionsType =
 
 // -------Начальное состояние
 const initialState: CultureStateType = {
-    winterGrains: {
-        yieldForecast: 20
-    },
+    winterGrains: {},
     springGrains: {},
     pulses: {},
     rape: {
