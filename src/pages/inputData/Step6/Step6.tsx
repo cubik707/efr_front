@@ -41,10 +41,10 @@ type FormType = {
 }
 
 export const Step6 = (props: StepsProps) => {
-  const culturesState = useAppSelector((state) => state.cultures);
-  const cultureNames = Object.keys(culturesState).filter(culture => culture !== 'seeds') as CultureNames[];
-  const dispatch = useAppDispatch();
   const state = useAppSelector(state => state);
+  const cultureNames = Object.keys(cultures) as CultureNames[];
+  const dispatch = useAppDispatch();
+
 
   // Создание начального состояния для Formik
   const initialValues: FormType = {
