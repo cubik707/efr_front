@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
+import * as React from 'react';
+import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles';
 import {
   Box,
   Button,
@@ -11,33 +11,34 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField, Typography,
-} from '@mui/material'
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { StepsProps } from '../Step1/Step1'
-import { AddBox } from '@mui/icons-material'
-import { CultureSelect } from './CultureSelect'
-import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
-import { useAppDispatch } from '../../../state/store'
-import { FormikErrors, FormikTouched, useFormik } from 'formik'
+  TextField,
+  Typography,
+} from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { StepsProps } from '../Step1/Step1';
+import { AddBox } from '@mui/icons-material';
+import { CultureSelect } from './CultureSelect';
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
+import { useAppDispatch } from '../../../state/store';
+import { FormikErrors, FormikTouched, useFormik } from 'formik';
 import {
   CultureNames,
   setOnFeedAC,
   setOnProductAC,
   setOnSeedsAC,
   setYieldForecastAC,
-} from '../../../state/cultures/cultures-reducer'
-import { validationSchema } from './step2-validation'
-import { culturesArray } from './inputCultures'
+} from '../../../state/cultures/cultures-reducer';
+import { validationSchema } from './step2-validation';
+import { culturesArray } from './inputCultures';
 
 const headers = [
   'Культура',
-  'Урожайность прогнозная, ц/га ',
+  'Урожайность прогнозная, ц/га',
   'в т.ч. на корм',
   'в т.ч. на товар',
   'в т.ч. на семена',
-]
+];
 
 // Определение типа строки
 type RowType = {
@@ -100,32 +101,43 @@ export const Step2: React.FC<StepsProps> = (props) => {
   };
 
   const handleInputChange = (index: number, field: keyof RowType, value: string) => {
+    // Update the specific field in the row
     const newRows = formik.values.rows.map((row, rowIndex) =>
       rowIndex === index ? { ...row, [field]: value } : row
     );
 
+    // Get the updated row
+    const updatedRow = newRows[index];
+
     if (field === 'culture') {
-      newRows[index].seeds = getSeedsValueForCulture(value as CultureNames);
+      // Reset fields when culture changes
+      newRows[index] = {
+        culture: value as CultureNames,
+        yield: 0,
+        fodder: 0,
+        commodity: 0,
+        seeds: getSeedsValueForCulture(value as CultureNames),
+      };
+    } else {
+      // Convert string values to numbers
+      const fodderValue = Number(updatedRow.fodder) || 0;
+      const commodityValue = Number(updatedRow.commodity) || 0;
+      const seedsValue = Number(updatedRow.seeds) || 0;
+
+      // Calculate the new forecast yield as the sum of fodder, commodity, and seeds
+      const newYield = fodderValue + commodityValue + seedsValue;
+
+      // Update the yield in the row
+      newRows[index] = {
+        ...updatedRow,
+        yield: newYield
+      };
     }
 
-    if (field === 'yield') {
-      const yieldValue = Number(newRows[index].yield);
-
-      if (['winterGrains', 'springGrains', 'rape'].includes(newRows[index].culture)) {
-        newRows[index].commodity = yieldValue - Number(newRows[index].fodder);
-      } else {
-        newRows[index].fodder = yieldValue;
-      }
-    }
-
-    if (field === 'fodder' && ['winterGrains', 'springGrains', 'rape'].includes(newRows[index].culture)) {
-      const yieldValue = Number(newRows[index].yield);
-      const fodderValue = Number(newRows[index].fodder);
-      newRows[index].commodity = yieldValue - fodderValue > 0 ? yieldValue - fodderValue : 0;
-    }
-
+    // Update the formik state
     formik.setFieldValue('rows', newRows);
   };
+
 
   const getSeedsValueForCulture = (culture: CultureNames) => {
     switch (culture) {
@@ -135,7 +147,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
       case 'pulses':
         return 3.5;
       default:
-        return '';
+        return 0;
     }
   };
 
@@ -151,6 +163,15 @@ export const Step2: React.FC<StepsProps> = (props) => {
 
   const isAddRowDisabled = () => {
     return formik.values.rows.length >= culturesArray.length;
+  };
+
+  // Проверка доступности полей
+  const isCommodityFieldDisabled = (culture: CultureNames) => {
+    return !['winterGrains', 'springGrains', 'rape'].includes(culture);
+  };
+
+  const isFodderFieldDisabled = (culture: CultureNames) => {
+    return culture === 'rape';
   };
 
   return (
@@ -196,58 +217,61 @@ export const Step2: React.FC<StepsProps> = (props) => {
                       />
                     </Box>
                   </TableCell>
-                  {['yield', 'fodder'].map((field) => (
-                    <TableCell key={field}>
-                      <TextField
-                        name={`rows[${rowIndex}].${field}`}
-                        value={row[field as keyof RowType]}
-                        onChange={(e) => handleInputChange(rowIndex, field as keyof RowType, e.target.value)}
-                        onBlur={formik.handleBlur}
-                        error={Boolean(isTouched(rowIndex, field as keyof RowType) && getError(rowIndex, field as keyof RowType))}
-                        helperText={isTouched(rowIndex, field as keyof RowType) && getError(rowIndex, field as keyof RowType)}
-                        fullWidth
-                        disabled={field === 'fodder' && row.culture === 'rape'}
-                      />
-                    </TableCell>
-                  ))}
                   <TableCell>
-                    <Box>{row.commodity}</Box>
+                    <Box>{Number(row.yield).toFixed(1)}</Box>
                   </TableCell>
                   <TableCell>
-                    <Box>{row.seeds}</Box>
+                    <TextField
+                      name={`rows[${rowIndex}].fodder`}
+                      value={row.fodder}
+                      onChange={(e) => handleInputChange(rowIndex, 'fodder', e.target.value)}
+                      onBlur={formik.handleBlur}
+                      error={Boolean(isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder'))}
+                      helperText={isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder')}
+                      disabled={isFodderFieldDisabled(row.culture as CultureNames)}
+                      fullWidth
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`rows[${rowIndex}].commodity`}
+                      value={row.commodity}
+                      onChange={(e) => handleInputChange(rowIndex, 'commodity', e.target.value)}
+                      onBlur={formik.handleBlur}
+                      error={Boolean(isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity'))}
+                      helperText={isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity')}
+                      fullWidth
+                      disabled={isCommodityFieldDisabled(row.culture as CultureNames)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    {row.seeds}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        {errorMessage && (
-          <Typography color="error" align="center" sx={{ mt: 2 }}>
-            {errorMessage}
-          </Typography>
-        )}
-        <Box sx={buttonContainerSx}>
-          <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
-          <Box sx={navigationButtonsContainerSx}>
-            <Button
-              variant="text"
-              startIcon={<KeyboardArrowLeftIcon />}
-              onClick={props.onBack}
-              disabled={props.activeStep === 0}
-            >
-              Назад
-            </Button>
-            <Button
-              variant="contained"
-              endIcon={<KeyboardArrowRightIcon />}
-              type="submit"
-            >
-              Далее
-            </Button>
-          </Box>
+        {errorMessage && <Typography color="error">{errorMessage}</Typography>}
+        <Box sx={navigationButtonsContainerSx}>
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={<KeyboardArrowLeftIcon />}
+            onClick={props.onBack}
+          >
+            Назад
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<KeyboardArrowRightIcon />}
+            type="submit"
+          >
+            Далее
+          </Button>
         </Box>
       </Box>
     </form>
   );
 };
-

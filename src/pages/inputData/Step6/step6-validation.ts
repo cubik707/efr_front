@@ -6,10 +6,10 @@ import { disabledPriceCultures } from './disabledCultures'
 
 
 const rowSchema = (isPriceDisabled: boolean) => Yup.object().shape({
-  sellingPricePerCent: isPriceDisabled
+  costPrice: isPriceDisabled
     ? Yup.string() // Optional field if price is disabled
     : commonValidationSchema, // Apply common validation if not disabled
-  costPrice: commonValidationSchema,
+  sellingPricePerCent: commonValidationSchema,
 });
 
 export const validationSchema = Yup.object().shape(

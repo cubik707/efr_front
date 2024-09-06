@@ -12,10 +12,6 @@ const instance = axios.create({
 const fetchData = async () => {
   try {
     const response = await instance.post<any>('/calculate');
-    console.log(response)
-    // const data = await fs.readFile('D:\\univer\\efr-py\\back\\server\\output.json', 'utf8');
-    // const jsonData = JSON.parse(data); // Parse JSON data
-    // console.log(jsonData);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch data', error);

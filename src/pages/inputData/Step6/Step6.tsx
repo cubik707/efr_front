@@ -23,7 +23,8 @@ import { CultureNames, setCostPriceAC, setSellingPricePerCentAC } from '../../..
 import { cultures } from '../../../state/cultures/cultures'
 import { disabledPriceCultures } from './disabledCultures'
 import {
-  LivestockProductName, setCostPriceLivestockAC,
+  LivestockProductName,
+  setCostPriceLivestockAC,
   setSellingPricePerCentLivestockAC,
 } from '../../../state/livestockProducts/livestockProducts-reducer'
 import { gatherData } from './gatherData'
@@ -69,6 +70,7 @@ export const Step6 = (props: StepsProps) => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
+      console.log(values)
       Object.keys(values).forEach((culture) => {
         const value = values[culture as CultureNames | LivestockProductName];
         if (value.sellingPricePerCent !== undefined) {
@@ -110,17 +112,7 @@ export const Step6 = (props: StepsProps) => {
                   <TableCell>{cultures[cult as keyof typeof cultures]}</TableCell>
                   <TableCell>
                     <TextField
-                      name={`${cult}.sellingPricePerCent`}
-                      value={formik.values[cult]?.sellingPricePerCent || ''}
-                      onChange={(e) => formik.setFieldValue(`${cult}.sellingPricePerCent`, e.target.value)}
-                      fullWidth
                       disabled={disabledPriceCultures.includes(cult)}
-                      error={formik.touched[cult]?.sellingPricePerCent && Boolean(formik.errors[cult]?.sellingPricePerCent)}
-                      helperText={formik.touched[cult]?.sellingPricePerCent && formik.errors[cult]?.sellingPricePerCent}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
                       name={`${cult}.costPrice`}
                       value={formik.values[cult]?.costPrice || ''}
                       onChange={(e) => formik.setFieldValue(`${cult}.costPrice`, e.target.value)}
@@ -129,20 +121,21 @@ export const Step6 = (props: StepsProps) => {
                       helperText={formik.touched[cult]?.costPrice && formik.errors[cult]?.costPrice}
                     />
                   </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`${cult}.sellingPricePerCent`}
+                      value={formik.values[cult]?.sellingPricePerCent || ''}
+                      onChange={(e) => formik.setFieldValue(`${cult}.sellingPricePerCent`, e.target.value)}
+                      fullWidth
+
+                      error={formik.touched[cult]?.sellingPricePerCent && Boolean(formik.errors[cult]?.sellingPricePerCent)}
+                      helperText={formik.touched[cult]?.sellingPricePerCent && formik.errors[cult]?.sellingPricePerCent}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
               <TableRow>
                 <TableCell>Молоко</TableCell>
-                <TableCell>
-                  <TextField
-                    name="milk.sellingPricePerCent"
-                    value={formik.values.milk.sellingPricePerCent}
-                    onChange={(e) => formik.setFieldValue('milk.sellingPricePerCent', e.target.value)}
-                    fullWidth
-                    error={formik.touched.milk?.sellingPricePerCent && Boolean(formik.errors.milk?.sellingPricePerCent)}
-                    helperText={formik.touched.milk?.sellingPricePerCent && formik.errors.milk?.sellingPricePerCent}
-                  />
-                </TableCell>
                 <TableCell>
                   <TextField
                     name="milk.costPrice"
@@ -153,19 +146,19 @@ export const Step6 = (props: StepsProps) => {
                     helperText={formik.touched.milk?.costPrice && formik.errors.milk?.costPrice}
                   />
                 </TableCell>
+                <TableCell>
+                  <TextField
+                    name="milk.sellingPricePerCent"
+                    value={formik.values.milk.sellingPricePerCent}
+                    onChange={(e) => formik.setFieldValue('milk.sellingPricePerCent', e.target.value)}
+                    fullWidth
+                    error={formik.touched.milk?.sellingPricePerCent && Boolean(formik.errors.milk?.sellingPricePerCent)}
+                    helperText={formik.touched.milk?.sellingPricePerCent && formik.errors.milk?.sellingPricePerCent}
+                  />
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Мясо</TableCell>
-                <TableCell>
-                  <TextField
-                    name="cattleMeat.sellingPricePerCent"
-                    value={formik.values.cattleMeat.sellingPricePerCent}
-                    onChange={(e) => formik.setFieldValue('cattleMeat.sellingPricePerCent', e.target.value)}
-                    fullWidth
-                    error={formik.touched.cattleMeat?.sellingPricePerCent && Boolean(formik.errors.cattleMeat?.sellingPricePerCent)}
-                    helperText={formik.touched.cattleMeat?.sellingPricePerCent && formik.errors.cattleMeat?.sellingPricePerCent}
-                  />
-                </TableCell>
                 <TableCell>
                   <TextField
                     name="cattleMeat.costPrice"
@@ -174,6 +167,16 @@ export const Step6 = (props: StepsProps) => {
                     fullWidth
                     error={formik.touched.cattleMeat?.costPrice && Boolean(formik.errors.cattleMeat?.costPrice)}
                     helperText={formik.touched.cattleMeat?.costPrice && formik.errors.cattleMeat?.costPrice}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    name="cattleMeat.sellingPricePerCent"
+                    value={formik.values.cattleMeat.sellingPricePerCent}
+                    onChange={(e) => formik.setFieldValue('cattleMeat.sellingPricePerCent', e.target.value)}
+                    fullWidth
+                    error={formik.touched.cattleMeat?.sellingPricePerCent && Boolean(formik.errors.cattleMeat?.sellingPricePerCent)}
+                    helperText={formik.touched.cattleMeat?.sellingPricePerCent && formik.errors.cattleMeat?.sellingPricePerCent}
                   />
                 </TableCell>
               </TableRow>
