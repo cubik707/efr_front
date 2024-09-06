@@ -22,6 +22,10 @@ import { useAppDispatch, useAppSelector } from '../../../state/store'
 import { CultureNames, setCostPriceAC, setSellingPricePerCentAC } from '../../../state/cultures/cultures-reducer'
 import { cultures } from '../../../state/cultures/cultures'
 import { disabledPriceCultures } from './disabledCultures'
+import {
+  LivestockProductName, setCostPriceLivestockAC,
+  setSellingPricePerCentLivestockAC,
+} from '../../../state/livestockProducts/livestockProducts-reducer'
 
 
 const headers = ['Вид продукции', 'Цена реализации за ц, руб.', 'Себестоимость за 1ц, руб.']
@@ -32,7 +36,7 @@ type RowType = {
 }
 
 type FormType = {
-  [k in CultureNames]: RowType
+  [k in CultureNames | LivestockProductName]: RowType
 }
 
 export const Step6 = (props: StepsProps) => {
@@ -49,17 +53,36 @@ export const Step6 = (props: StepsProps) => {
     return acc;
   }, {} as FormType);
 
+  // Добавляем молоко и мясо в начальное состояние
+  initialValues.milk = {
+    sellingPricePerCent: '',
+    costPrice: '',
+  };
+
+  initialValues.cattleMeat = {
+    sellingPricePerCent: '',
+    costPrice: '',
+  };
+
   const formik = useFormik<FormType>({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
       Object.keys(values).forEach((culture) => {
-        const value = values[culture as CultureNames];
+        const value = values[culture as CultureNames | LivestockProductName];
         if (value.sellingPricePerCent !== undefined) {
-          dispatch(setSellingPricePerCentAC(culture as CultureNames, Number(value.sellingPricePerCent)));
+          if (culture === 'milk' || culture === 'cattleMeat') {
+            dispatch(setSellingPricePerCentLivestockAC(culture as LivestockProductName, Number(value.sellingPricePerCent)));
+          } else {
+            dispatch(setSellingPricePerCentAC(culture as CultureNames, Number(value.sellingPricePerCent)));
+          }
         }
         if (value.costPrice !== undefined) {
-          dispatch(setCostPriceAC(culture as CultureNames, Number(value.costPrice)));
+          if (culture === 'milk' || culture === 'cattleMeat') {
+            dispatch(setCostPriceLivestockAC(culture as LivestockProductName, Number(value.costPrice)));
+          } else {
+            dispatch(setCostPriceAC(culture as CultureNames, Number(value.costPrice)));
+          }
         }
       });
       props.onNext();
@@ -107,6 +130,52 @@ export const Step6 = (props: StepsProps) => {
                   </TableCell>
                 </TableRow>
               ))}
+              <TableRow>
+                <TableCell>Молоко</TableCell>
+                <TableCell>
+                  <TextField
+                    name="milk.sellingPricePerCent"
+                    value={formik.values.milk.sellingPricePerCent}
+                    onChange={(e) => formik.setFieldValue('milk.sellingPricePerCent', e.target.value)}
+                    fullWidth
+                    error={formik.touched.milk?.sellingPricePerCent && Boolean(formik.errors.milk?.sellingPricePerCent)}
+                    helperText={formik.touched.milk?.sellingPricePerCent && formik.errors.milk?.sellingPricePerCent}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    name="milk.costPrice"
+                    value={formik.values.milk.costPrice}
+                    onChange={(e) => formik.setFieldValue('milk.costPrice', e.target.value)}
+                    fullWidth
+                    error={formik.touched.milk?.costPrice && Boolean(formik.errors.milk?.costPrice)}
+                    helperText={formik.touched.milk?.costPrice && formik.errors.milk?.costPrice}
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Мясо</TableCell>
+                <TableCell>
+                  <TextField
+                    name="cattleMeat.sellingPricePerCent"
+                    value={formik.values.cattleMeat.sellingPricePerCent}
+                    onChange={(e) => formik.setFieldValue('cattleMeat.sellingPricePerCent', e.target.value)}
+                    fullWidth
+                    error={formik.touched.cattleMeat?.sellingPricePerCent && Boolean(formik.errors.cattleMeat?.sellingPricePerCent)}
+                    helperText={formik.touched.cattleMeat?.sellingPricePerCent && formik.errors.cattleMeat?.sellingPricePerCent}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    name="cattleMeat.costPrice"
+                    value={formik.values.cattleMeat.costPrice}
+                    onChange={(e) => formik.setFieldValue('cattleMeat.costPrice', e.target.value)}
+                    fullWidth
+                    error={formik.touched.cattleMeat?.costPrice && Boolean(formik.errors.cattleMeat?.costPrice)}
+                    helperText={formik.touched.cattleMeat?.costPrice && formik.errors.cattleMeat?.costPrice}
+                  />
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

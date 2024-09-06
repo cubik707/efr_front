@@ -8,16 +8,16 @@ type LivestockProductsStateType = {
   cattleMeat: LivestockProductsType
 }
 
-type LivestockProductName = 'milk' | 'cattleMeat'
+export type LivestockProductName = 'milk' | 'cattleMeat'
 
 //-------Action creators
-export const setSellingPricePerCentAC = (livestockProduct: LivestockProductName, sellingPricePerCent: number) => ({
+export const setSellingPricePerCentLivestockAC = (livestockProduct: LivestockProductName, sellingPricePerCent: number) => ({
   type: 'SET-SELLING-PRICE-PER-CENT',
   livestockProduct,
   sellingPricePerCent
 } as const);
 
-export const setCostPriceAC = (livestockProduct: LivestockProductName, costPrice: number) => ({
+export const setCostPriceLivestockAC = (livestockProduct: LivestockProductName, costPrice: number) => ({
   type: 'SET-COST-PRICE',
   livestockProduct,
   costPrice
@@ -25,8 +25,8 @@ export const setCostPriceAC = (livestockProduct: LivestockProductName, costPrice
 
 //-------Типизация экшенов
 type ActionsType =
-  | ReturnType<typeof setSellingPricePerCentAC>
-  | ReturnType<typeof setCostPriceAC>;
+  | ReturnType<typeof setSellingPricePerCentLivestockAC>
+  | ReturnType<typeof setCostPriceLivestockAC>;
 
 //-------Начальное состояние
 const initialState: LivestockProductsStateType = {

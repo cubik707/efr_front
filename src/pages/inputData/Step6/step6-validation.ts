@@ -19,4 +19,9 @@ export const validationSchema = Yup.object().shape(
       acc[culture as CultureNames] = rowSchema(disabledPriceCultures.includes(culture));
       return acc;
     }, {} as Record<CultureNames, Yup.ObjectSchema<any, any, any, any>>)
+).concat(
+  Yup.object().shape({
+    milk: rowSchema(false),
+    cattleMeat: rowSchema(false),
+  })
 );
