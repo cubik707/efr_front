@@ -23,6 +23,7 @@ import { fetchFeedsData } from '../../state/feeds/feeds-thunk'
 import { Step3Output } from './Step3Output/Step3Output'
 import { Step4Output } from './Step4Output/Step4Output'
 import { fetchFinancialResultsData } from '../../state/financialResults/financialResults-thunk'
+import { fetchCowProductivityData } from '../../state/increaseInCowProductivity/increaseInCowProductivity-thunk'
 
 type Props = {};
 
@@ -45,6 +46,7 @@ export const OutputData = (props: Props) => {
     dispatch(fetchCultureData())
     dispatch(fetchFeedsData())
     dispatch(fetchFinancialResultsData())
+    dispatch(fetchCowProductivityData())
   }, [])
 
   useEffect(() => {

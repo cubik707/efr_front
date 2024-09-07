@@ -12,6 +12,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { financialResultsReducer } from './financialResults/financialResults-reducer';
 import { livestockProductsReducer } from './livestockProducts/livestockProducts-reducer';
 import { loadState, saveState } from '../utils/localStorage-utils';
+import { increaseInCowProductivityReducer } from './increaseInCowProductivity/increaseInCowProductivity-reducer'
 
 // Объединяем редукторы
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     landResources: landResourcesReducer,
     financialResults: financialResultsReducer,
     livestockProducts: livestockProductsReducer,
+    increaseInCowProductivity: increaseInCowProductivityReducer
 });
 
 // Определяем тип состояния стора

@@ -4,7 +4,7 @@ import { FinancialResultsType } from '../state/financialResults/financialResults
 import { RootObject } from './dataToServerType'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:9000',
   //сюда можно в будущем добавить какие-то другие настройки для axios
 });
 
@@ -149,7 +149,15 @@ export const financialResultsAPI = {
   },
 };
 
-export const livestockProductAPI = {
+export const cowsAPI = {
+  async getCowProductivityData(){
+    // Получаем данные с сервера
+    const data = await fetchData();
+    const resultData = {
+      increaseInCowProductivity: data.additionalCowProductivity
+    }
 
+    return resultData;
+  }
 };
 
