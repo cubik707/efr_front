@@ -22,7 +22,7 @@ const fetchData = async () => {
 // Функция для отправки собранных данных на сервер
 export const saveDataToServer = async (data: RootObject) => {
   try {
-    const response = await axios.post('http://localhost:5000/save', data);
+    const response = await instance.post<any>('/save', data);
     console.log('Data successfully saved:', response.data);
     return response.data;
   } catch (error) {
