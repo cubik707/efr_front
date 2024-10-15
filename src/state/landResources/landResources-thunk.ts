@@ -8,18 +8,20 @@ import {
 } from './landResources-reducer'
 import { handleError } from '../../utils/handleErrors'
 
+export const setLandResourcesData =
+  (data: LandResourcesType) => async (dispatch: Dispatch) => {
+    try {
+      await landResourcesAPI.setLandResourcesData(data)
 
-export const setLandResourcesData = (data: LandResourcesType) => async (dispatch: Dispatch) => {
-  try {
-    await landResourcesAPI.setLandResourcesData(data)
-
-    dispatch(setArableLandAC(data.arableLand))
-    dispatch(setHayfieldsAndPastureImprovedAC(data.hayfieldsAndPastureImproved))
-    dispatch(setHayfieldsAndPastureNaturalAC(data.hayfieldsAndPastureNatural))
-  } catch (error) {
-    handleError(error, dispatch)
+      dispatch(setArableLandAC(data.arableLand))
+      dispatch(
+        setHayfieldsAndPastureImprovedAC(data.hayfieldsAndPastureImproved)
+      )
+      dispatch(setHayfieldsAndPastureNaturalAC(data.hayfieldsAndPastureNatural))
+    } catch (error) {
+      handleError(error, dispatch)
+    }
   }
-}
 
 export const fetchLandResourcesData = () => async (dispatch: Dispatch) => {
   // try {
@@ -32,4 +34,4 @@ export const fetchLandResourcesData = () => async (dispatch: Dispatch) => {
   // } catch (error) {
   //   handleError(error, dispatch)
   // }
-};
+}

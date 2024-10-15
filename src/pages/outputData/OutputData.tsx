@@ -1,7 +1,14 @@
 // @flow
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import {
@@ -25,21 +32,23 @@ import { Step4Output } from './Step4Output/Step4Output'
 import { fetchFinancialResultsData } from '../../state/financialResults/financialResults-thunk'
 import { fetchCowProductivityData } from '../../state/increaseInCowProductivity/increaseInCowProductivity-thunk'
 
-type Props = {};
+type Props = {}
 
 const steps = [
-    'Размер и структура посевных площадей',
-    'Оптимальный рацион кормления КРС',
-    'Приобретение кормов',
-    'Финансовые результаты'
-];
+  'Размер и структура посевных площадей',
+  'Оптимальный рацион кормления КРС',
+  'Приобретение кормов',
+  'Финансовые результаты',
+]
 
 export const OutputData = (props: Props) => {
-    const [activeStep, setActiveStep] = useState(0);
-    const [data, setData] = useState(tableData);
-    const navigate = useNavigate();
+  const [activeStep, setActiveStep] = useState(0)
+  const [data, setData] = useState(tableData)
+  const navigate = useNavigate()
 
-  const culturesData = useAppSelector<CultureStateType>(state => state.cultures)
+  const culturesData = useAppSelector<CultureStateType>(
+    (state) => state.cultures
+  )
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -64,51 +73,75 @@ export const OutputData = (props: Props) => {
     console.log(data[0])
   }, [culturesData])
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
 
-    const handleBack = () => {
-        activeStep === 0
-            ? navigate(PATH.INPUT_DATA)
-            : setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
+  const handleBack = () => {
+    activeStep === 0
+      ? navigate(PATH.INPUT_DATA)
+      : setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  }
 
-
-    return (
-        <Box sx={containerSx}>
-            <Stepper activeStep={activeStep} alternativeLabel>
-                {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
-            <Typography variant="h2" gutterBottom sx={titleSx}>
-                {steps[activeStep]}
-            </Typography>
-            <Box sx={tableContainerSx}>
-              {activeStep === 0 && <Step1Output/>}
-              {activeStep === 1 && <Step2Output/>}
-              {activeStep === 2 && <Step3Output/>}
-              {activeStep === 3 && <Step4Output/>}
-            </Box>
-            <Box sx={buttonContainerSx}>
-                <Box sx={navigationButtonsContainerSx}>
-                    <Button variant="outlined" disabled={true}>Выгрузить PDF</Button>
-                    <Button variant="outlined" disabled={true}>Найти решение с измененными параметрами</Button>
-                </Box>
-                <Box sx={navigationButtonsContainerSx}>
-                    <Button variant="text"
-                            startIcon={<KeyboardArrowLeftIcon/>}
-                            onClick={handleBack}
-                            disabled={false}>Назад</Button>
-                    <Button variant="contained"
-                            endIcon={<KeyboardArrowRightIcon/>}
-                            onClick={handleNext}
-                            disabled={activeStep === steps.length - 1}>Далее</Button>
-                </Box>
-            </Box>
+  return (
+    <Box sx={containerSx}>
+      <Stepper
+        activeStep={activeStep}
+        alternativeLabel
+      >
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      <Typography
+        variant='h2'
+        gutterBottom
+        sx={titleSx}
+      >
+        {steps[activeStep]}
+      </Typography>
+      <Box sx={tableContainerSx}>
+        {activeStep === 0 && <Step1Output />}
+        {activeStep === 1 && <Step2Output />}
+        {activeStep === 2 && <Step3Output />}
+        {activeStep === 3 && <Step4Output />}
+      </Box>
+      <Box sx={buttonContainerSx}>
+        <Box sx={navigationButtonsContainerSx}>
+          <Button
+            variant='outlined'
+            disabled={true}
+          >
+            Выгрузить PDF
+          </Button>
+          <Button
+            variant='outlined'
+            disabled={true}
+          >
+            Найти решение с измененными параметрами
+          </Button>
         </Box>
-    );
-};
+        <Box sx={navigationButtonsContainerSx}>
+          <Button
+            variant='text'
+            startIcon={<KeyboardArrowLeftIcon />}
+            onClick={handleBack}
+            disabled={false}
+          >
+            Назад
+          </Button>
+          <Button
+            variant='contained'
+            endIcon={<KeyboardArrowRightIcon />}
+            onClick={handleNext}
+            disabled={activeStep === steps.length - 1}
+          >
+            Далее
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  )
+}

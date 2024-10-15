@@ -1,4 +1,12 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
 import * as React from 'react'
 import { feedNamesInRussian } from '../../inputData/Step4/Step4'
 import { FeedName } from '../../../state/feeds/feeds-reducer'
@@ -8,12 +16,15 @@ const headers = ['Вид корма', 'Значение', 'Доля от воз�
 
 export const Step3Output = () => {
   // Получаем данные о кормах из состояния Redux
-  const feedsState = useAppSelector(state => state.feeds);
+  const feedsState = useAppSelector((state) => state.feeds)
   // Функция для округления значений
-  const formatNumber = (value: number) => value.toFixed(2);
+  const formatNumber = (value: number) => value.toFixed(2)
 
   // Рассчитаем общий объем для расчета доли
-  const totalVolume = Object.values(feedsState).reduce((total, feed) => total + feed.volume, 0);
+  const totalVolume = Object.values(feedsState).reduce(
+    (total, feed) => total + feed.volume,
+    0
+  )
 
   return (
     <TableContainer component={Paper}>
@@ -21,7 +32,10 @@ export const Step3Output = () => {
         <TableHead>
           <TableRow>
             {headers.map((header, index) => (
-              <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
+              <TableCell
+                key={index}
+                style={{ whiteSpace: 'nowrap' }}
+              >
                 {header}
               </TableCell>
             ))}
@@ -29,10 +43,11 @@ export const Step3Output = () => {
         </TableHead>
         <TableBody>
           {Object.entries(feedNamesInRussian).map(([key, feedName]) => {
-            const feed = feedsState[key as FeedName];
+            const feed = feedsState[key as FeedName]
 
             // Рассчитаем долю от возможного объема
-            const proportion = totalVolume > 0 ? (feed.toBuy / totalVolume) * 100 : 0;
+            const proportion =
+              totalVolume > 0 ? (feed.toBuy / totalVolume) * 100 : 0
 
             return (
               <TableRow key={key}>
@@ -40,15 +55,31 @@ export const Step3Output = () => {
                 <TableCell>{formatNumber(feed.toBuy)}</TableCell>
                 <TableCell>{formatNumber(proportion)}</TableCell>
               </TableRow>
-            );
+            )
           })}
           <TableRow>
             <TableCell>Итого</TableCell>
-            <TableCell>{formatNumber(Object.values(feedsState).reduce((total, feed) => total + feed.toBuy, 0))}</TableCell>
-            <TableCell>{formatNumber(Object.values(feedsState).reduce((total, feed) => total + (totalVolume > 0 ? (feed.toBuy / totalVolume) * 100 : 0), 0))}</TableCell>
+            <TableCell>
+              {formatNumber(
+                Object.values(feedsState).reduce(
+                  (total, feed) => total + feed.toBuy,
+                  0
+                )
+              )}
+            </TableCell>
+            <TableCell>
+              {formatNumber(
+                Object.values(feedsState).reduce(
+                  (total, feed) =>
+                    total +
+                    (totalVolume > 0 ? (feed.toBuy / totalVolume) * 100 : 0),
+                  0
+                )
+              )}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
+  )
+}

@@ -5,4 +5,4 @@ export const validationSchema = Yup.object().shape({
   arableLand: commonValidationSchema,
   hayfieldsAndPastureImproved: commonValidationSchema,
   hayfieldsAndPastureNatural: commonValidationSchema,
-});
+})

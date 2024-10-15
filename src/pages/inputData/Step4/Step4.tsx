@@ -12,20 +12,29 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
+import {
+  buttonContainerSx,
+  containerSx,
+  navigationButtonsContainerSx,
+} from '../InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
-import { FeedName, FeedType, setPriceAC, setVolumeAC } from '../../../state/feeds/feeds-reducer'
+import {
+  FeedName,
+  FeedType,
+  setPriceAC,
+  setVolumeAC,
+} from '../../../state/feeds/feeds-reducer'
 import { validationSchema } from './step4-validation'
 import { feedNames } from '../../../state/feeds/feedsName'
 import { useAppDispatch } from '../../../state/store'
 
 type RowType = {
-  volume: number | '';
-  price: number | '';
-};
+  volume: number | ''
+  price: number | ''
+}
 
 type FormValues = {
   [K in FeedName]: RowType
@@ -43,7 +52,7 @@ export const feedNamesInRussian: Record<FeedName, string> = {
 }
 
 export const Step4 = (props: StepsProps) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
   const formik = useFormik<FormValues>({
     initialValues: {
       concentrates: { volume: '', price: '' },
@@ -56,22 +65,28 @@ export const Step4 = (props: StepsProps) => {
     validationSchema,
     onSubmit: (values) => {
       feedNames.forEach((feedName) => {
-        dispatch(setVolumeAC(feedName, Number(values[feedName].volume)));
-        dispatch(setPriceAC(feedName, Number(values[feedName].price)));
-      });
+        dispatch(setVolumeAC(feedName, Number(values[feedName].volume)))
+        dispatch(setPriceAC(feedName, Number(values[feedName].price)))
+      })
       props.onNext()
     },
   })
 
   return (
-    <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
+    <form
+      style={{ width: '100%' }}
+      onSubmit={formik.handleSubmit}
+    >
       <Box sx={containerSx}>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
                 {headers.map((header, index) => (
-                  <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
+                  <TableCell
+                    key={index}
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
                     {header}
                   </TableCell>
                 ))}
@@ -88,8 +103,14 @@ export const Step4 = (props: StepsProps) => {
                       value={formik.values[feedName].volume}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched[feedName]?.volume && Boolean(formik.errors[feedName]?.volume)}
-                      helperText={formik.touched[feedName]?.volume && formik.errors[feedName]?.volume}
+                      error={
+                        formik.touched[feedName]?.volume &&
+                        Boolean(formik.errors[feedName]?.volume)
+                      }
+                      helperText={
+                        formik.touched[feedName]?.volume &&
+                        formik.errors[feedName]?.volume
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -99,8 +120,14 @@ export const Step4 = (props: StepsProps) => {
                       value={formik.values[feedName].price}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched[feedName]?.price && Boolean(formik.errors[feedName]?.price)}
-                      helperText={formik.touched[feedName]?.price && formik.errors[feedName]?.price}
+                      error={
+                        formik.touched[feedName]?.price &&
+                        Boolean(formik.errors[feedName]?.price)
+                      }
+                      helperText={
+                        formik.touched[feedName]?.price &&
+                        formik.errors[feedName]?.price
+                      }
                     />
                   </TableCell>
                 </TableRow>
@@ -109,16 +136,29 @@ export const Step4 = (props: StepsProps) => {
           </Table>
         </TableContainer>
         <Box sx={buttonContainerSx}>
-          <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
+          <Button
+            variant='outlined'
+            disabled={true}
+          >
+            Найти оптимальные параметры
+          </Button>
           <Box sx={navigationButtonsContainerSx}>
-            <Button variant="text"
-                    startIcon={<KeyboardArrowLeftIcon />}
-                    onClick={props.onBack}
-                    disabled={props.activeStep === 0}>Назад</Button>
-            <Button variant="contained"
-                    endIcon={<KeyboardArrowRightIcon />}
-                    type={"submit"}
-                    disabled={false}>Далее</Button>
+            <Button
+              variant='text'
+              startIcon={<KeyboardArrowLeftIcon />}
+              onClick={props.onBack}
+              disabled={props.activeStep === 0}
+            >
+              Назад
+            </Button>
+            <Button
+              variant='contained'
+              endIcon={<KeyboardArrowRightIcon />}
+              type={'submit'}
+              disabled={false}
+            >
+              Далее
+            </Button>
           </Box>
         </Box>
       </Box>

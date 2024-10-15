@@ -1,4 +1,12 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
 import * as React from 'react'
 import { feedNamesInRussian } from '../../inputData/Step4/Step4'
 import { FeedName } from '../../../state/feeds/feeds-reducer'
@@ -7,9 +15,11 @@ import { useAppSelector } from '../../../state/store'
 const headers = ['Показатель', 'Значение']
 
 export const Step4Output = () => {
-  const { revenue, cost, profit, profitability } = useAppSelector(state => state.financialResults);
-// Функция для округления значений до целых
-  const roundToInteger = (value: number) => Math.round(value);
+  const { revenue, cost, profit, profitability } = useAppSelector(
+    (state) => state.financialResults
+  )
+  // Функция для округления значений до целых
+  const roundToInteger = (value: number) => Math.round(value)
 
   return (
     <TableContainer component={Paper}>
@@ -17,7 +27,10 @@ export const Step4Output = () => {
         <TableHead>
           <TableRow>
             {headers.map((header, index) => (
-              <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
+              <TableCell
+                key={index}
+                style={{ whiteSpace: 'nowrap' }}
+              >
                 {header}
               </TableCell>
             ))}
@@ -43,5 +56,5 @@ export const Step4Output = () => {
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
+  )
+}

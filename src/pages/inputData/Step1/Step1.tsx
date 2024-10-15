@@ -12,7 +12,11 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
+import {
+  buttonContainerSx,
+  containerSx,
+  navigationButtonsContainerSx,
+} from '../InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { useAppDispatch } from '../../../state/store'
@@ -26,45 +30,58 @@ import { useFormik } from 'formik'
 import { validationSchema } from './step1-validation'
 
 export type StepsProps = {
-  activeStep: number;
-  onBack: () => void;
-  onNext: () => void;
-};
+  activeStep: number
+  onBack: () => void
+  onNext: () => void
+}
 
 const headers = ['Показатели', 'Наличие']
 
 export const Step1 = (props: StepsProps) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   type LandResourcesFormType = {
-    [K in keyof LandResourcesType]: LandResourcesType[K] | string;
-  };
+    [K in keyof LandResourcesType]: LandResourcesType[K] | string
+  }
 
   const formik = useFormik<LandResourcesFormType>({
     initialValues: {
-      arableLand: '',  // Изначально пустые строки
+      arableLand: '', // Изначально пустые строки
       hayfieldsAndPastureImproved: '',
       hayfieldsAndPastureNatural: '',
     },
     validationSchema,
-    onSubmit:  (values) => {
+    onSubmit: (values) => {
       dispatch(setArableLandAC(Number(values.arableLand)))
-      dispatch(setHayfieldsAndPastureImprovedAC(Number(values.hayfieldsAndPastureImproved)))
-      dispatch(setHayfieldsAndPastureNaturalAC(Number(values.hayfieldsAndPastureNatural)))
+      dispatch(
+        setHayfieldsAndPastureImprovedAC(
+          Number(values.hayfieldsAndPastureImproved)
+        )
+      )
+      dispatch(
+        setHayfieldsAndPastureNaturalAC(
+          Number(values.hayfieldsAndPastureNatural)
+        )
+      )
       props.onNext()
     },
   })
 
   return (
-
-    <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
+    <form
+      style={{ width: '100%' }}
+      onSubmit={formik.handleSubmit}
+    >
       <Box sx={containerSx}>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
                 {headers.map((header, index) => (
-                  <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
+                  <TableCell
+                    key={index}
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
                     {header}
                   </TableCell>
                 ))}
@@ -75,12 +92,17 @@ export const Step1 = (props: StepsProps) => {
                 <TableCell>Пашня, га</TableCell>
                 <TableCell>
                   <TextField
-                    name="arableLand"
+                    name='arableLand'
                     value={formik.values.arableLand}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={formik.touched.arableLand && Boolean(formik.errors.arableLand)}
-                    helperText={formik.touched.arableLand && formik.errors.arableLand}
+                    error={
+                      formik.touched.arableLand &&
+                      Boolean(formik.errors.arableLand)
+                    }
+                    helperText={
+                      formik.touched.arableLand && formik.errors.arableLand
+                    }
                     fullWidth
                   />
                 </TableCell>
@@ -89,12 +111,18 @@ export const Step1 = (props: StepsProps) => {
                 <TableCell>Сенокосы и пастбища улучшенные, га</TableCell>
                 <TableCell>
                   <TextField
-                    name="hayfieldsAndPastureImproved"
+                    name='hayfieldsAndPastureImproved'
                     value={formik.values.hayfieldsAndPastureImproved}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={formik.touched.hayfieldsAndPastureImproved && Boolean(formik.errors.hayfieldsAndPastureImproved)}
-                    helperText={formik.touched.hayfieldsAndPastureImproved && formik.errors.hayfieldsAndPastureImproved}
+                    error={
+                      formik.touched.hayfieldsAndPastureImproved &&
+                      Boolean(formik.errors.hayfieldsAndPastureImproved)
+                    }
+                    helperText={
+                      formik.touched.hayfieldsAndPastureImproved &&
+                      formik.errors.hayfieldsAndPastureImproved
+                    }
                     fullWidth
                   />
                 </TableCell>
@@ -103,12 +131,18 @@ export const Step1 = (props: StepsProps) => {
                 <TableCell>Сенокосы и пастбища естественные, га</TableCell>
                 <TableCell>
                   <TextField
-                    name="hayfieldsAndPastureNatural"
+                    name='hayfieldsAndPastureNatural'
                     value={formik.values.hayfieldsAndPastureNatural}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={formik.touched.hayfieldsAndPastureNatural && Boolean(formik.errors.hayfieldsAndPastureNatural)}
-                    helperText={formik.touched.hayfieldsAndPastureNatural && formik.errors.hayfieldsAndPastureNatural}
+                    error={
+                      formik.touched.hayfieldsAndPastureNatural &&
+                      Boolean(formik.errors.hayfieldsAndPastureNatural)
+                    }
+                    helperText={
+                      formik.touched.hayfieldsAndPastureNatural &&
+                      formik.errors.hayfieldsAndPastureNatural
+                    }
                     fullWidth
                   />
                 </TableCell>
@@ -117,10 +151,15 @@ export const Step1 = (props: StepsProps) => {
           </Table>
         </TableContainer>
         <Box sx={buttonContainerSx}>
-          <Button variant="outlined" disabled={true}>Найти оптимальные параметры</Button>
+          <Button
+            variant='outlined'
+            disabled={true}
+          >
+            Найти оптимальные параметры
+          </Button>
           <Box sx={navigationButtonsContainerSx}>
             <Button
-              variant="text"
+              variant='text'
               startIcon={<KeyboardArrowLeftIcon />}
               onClick={props.onBack}
               disabled={props.activeStep === 0}
@@ -128,9 +167,9 @@ export const Step1 = (props: StepsProps) => {
               Назад
             </Button>
             <Button
-              variant="contained"
+              variant='contained'
               endIcon={<KeyboardArrowRightIcon />}
-              type="submit"
+              type='submit'
             >
               Далее
             </Button>
@@ -138,6 +177,5 @@ export const Step1 = (props: StepsProps) => {
         </Box>
       </Box>
     </form>
-
-  );
-};
+  )
+}

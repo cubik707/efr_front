@@ -4,17 +4,20 @@ export type IncreaseInCowProductivityType = {
 }
 
 //-------Action creators
-export const setIncreaseInCowProductivityAC = (increaseInCowProductivity: number) => ({
-  type: 'SET-INCREASE-IN-COW-PRODUCTIVITY',
-  increaseInCowProductivity
-} as const)
+export const setIncreaseInCowProductivityAC = (
+  increaseInCowProductivity: number
+) =>
+  ({
+    type: 'SET-INCREASE-IN-COW-PRODUCTIVITY',
+    increaseInCowProductivity,
+  }) as const
 
 //-------Типизация экшенов
 type ActionsType = ReturnType<typeof setIncreaseInCowProductivityAC>
 
 //-------Начальное состояние
 const initialState: IncreaseInCowProductivityType = {
-  increaseInCowProductivity: 0
+  increaseInCowProductivity: 0,
 }
 
 //-------Редьюсер
@@ -26,7 +29,7 @@ export const increaseInCowProductivityReducer = (
     case 'SET-INCREASE-IN-COW-PRODUCTIVITY':
       return {
         ...state,
-        increaseInCowProductivity: action.increaseInCowProductivity
+        increaseInCowProductivity: action.increaseInCowProductivity,
       }
     default:
       return state

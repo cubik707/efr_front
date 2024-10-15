@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 import { commonValidationSchema } from '../../../utils/commonValidationsSchema'
 
 // Соответствия продуктивности и расхода КЕ для коров
@@ -15,7 +15,7 @@ export const cowsProductivityToConsumption: { [key: number]: number } = {
   34: 1.13,
   35: 1.12,
   36: 1.11,
-  37: 1.10,
+  37: 1.1,
   38: 1.09,
   39: 1.08,
   40: 1.07,
@@ -38,8 +38,8 @@ export const cowsProductivityToConsumption: { [key: number]: number } = {
   57: 1.02,
   58: 1.02,
   59: 1.02,
-  60: 1.02
-};
+  60: 1.02,
+}
 
 // Соответствия продуктивности и расхода КЕ для молодняка КРС
 export const youngCattleProductivityToConsumption: { [key: number]: number } = {
@@ -61,7 +61,7 @@ export const youngCattleProductivityToConsumption: { [key: number]: number } = {
   1100: 7.3,
   1150: 7.3,
   1200: 7.2,
-};
+}
 
 export const validationSchema = Yup.object().shape({
   cows: Yup.object().shape({
@@ -74,10 +74,13 @@ export const validationSchema = Yup.object().shape({
       .test(
         'valid-consumption',
         'Неверное значение расхода продукции',
-        function(value) {
-          const { productivity } = this.parent as { productivity: number }; // Указываем тип данных
-          const expectedConsumption = cowsProductivityToConsumption[productivity];
-          return expectedConsumption !== undefined ? value === expectedConsumption : true;
+        function (value) {
+          const { productivity } = this.parent as { productivity: number } // Указываем тип данных
+          const expectedConsumption =
+            cowsProductivityToConsumption[productivity]
+          return expectedConsumption !== undefined
+            ? value === expectedConsumption
+            : true
         }
       )
       .required('Обязательно для заполнения'),
@@ -87,20 +90,27 @@ export const validationSchema = Yup.object().shape({
       .test(
         'is-valid-productivity',
         'Значение должно быть одним из допустимых значений: 350, 400, 450, ... 1200',
-        (value) => value !== undefined && Object.keys(youngCattleProductivityToConsumption).map(Number).includes(value)
+        (value) =>
+          value !== undefined &&
+          Object.keys(youngCattleProductivityToConsumption)
+            .map(Number)
+            .includes(value)
       )
       .required('Обязательно для заполнения'),
-    livestock:commonValidationSchema,
+    livestock: commonValidationSchema,
     consumptionOfFU: Yup.number()
       .test(
         'valid-consumption',
         'Неверное значение расхода продукции',
-        function(value) {
-          const { productivity } = this.parent as { productivity: number }; // Указываем тип данных
-          const expectedConsumption = youngCattleProductivityToConsumption[productivity];
-          return expectedConsumption !== undefined ? value === expectedConsumption : true;
+        function (value) {
+          const { productivity } = this.parent as { productivity: number } // Указываем тип данных
+          const expectedConsumption =
+            youngCattleProductivityToConsumption[productivity]
+          return expectedConsumption !== undefined
+            ? value === expectedConsumption
+            : true
         }
       )
       .required('Обязательно для заполнения'),
   }),
-});
+})

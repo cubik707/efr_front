@@ -3,9 +3,9 @@ import { commonValidationSchema } from '../../../utils/commonValidationsSchema'
 
 export const validationSchema = Yup.object().shape({
   seeds: Yup.object({
-    contractDeliveries: commonValidationSchema
+    contractDeliveries: commonValidationSchema,
   }),
   rape: Yup.object({
-    contractDeliveries: commonValidationSchema
+    contractDeliveries: commonValidationSchema,
   }),
 })

@@ -6,5 +6,5 @@ export const feedNames: FeedName[] = [
   'greenFodder',
   'hay',
   'haylage',
-  'straw'
-];
+  'straw',
+]

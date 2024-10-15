@@ -11,9 +11,10 @@ export const cultures = {
   hayImprovedHayfieldsAndPastures: 'Сено улучшенных сенокосов и пастбищ',
   haylageImprovedHayfieldsAndPastures: 'Сенаж улучшенных сенокосов и пастбищ',
   haylageNaturalHayfieldsAndPastures: 'Сенаж естественных сенокосов и пастбищ',
-  greenFodderNaturalHayfieldsAndPastures: 'Зеленый корм естественных сенокосов и пастбищ',
-} as const;
+  greenFodderNaturalHayfieldsAndPastures:
+    'Зеленый корм естественных сенокосов и пастбищ',
+} as const
 
 export const unitedCultures = {
-  seeds: 'Зерно'
+  seeds: 'Зерно',
 } as const

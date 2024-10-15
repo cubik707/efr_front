@@ -12,4 +12,4 @@ export const commonValidationSchema = Yup.mixed()
     'Значение не может быть отрицательным',
     (value) => value === '' || Number(value) >= 0
   )
-  .required('Обязательно для заполнения');
+  .required('Обязательно для заполнения')
