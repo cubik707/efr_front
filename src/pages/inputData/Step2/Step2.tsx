@@ -1,9 +1,6 @@
 import * as React from 'react'
-import {
-  buttonContainerSx,
-  containerSx,
-  navigationButtonsContainerSx,
-} from '../InputData.styles'
+import { useCallback } from 'react'
+import { containerSx, navigationButtonsContainerSx } from '../InputData.styles'
 import {
   Box,
   Button,
@@ -96,23 +93,23 @@ export const Step2: React.FC<StepsProps> = (props) => {
     },
   })
 
-  const handleAddRow = () => {
+  const handleAddRow = useCallback(() => {
     if (formik.values.rows.length < culturesArray.length) {
       formik.setFieldValue('rows', [
         ...formik.values.rows,
         { culture: '', yield: '', fodder: '', commodity: '', seeds: '' },
-      ])
+      ]);
     }
-  }
+  }, [formik]);
 
-  const handleDeleteRow = (index: number) => {
+  const handleDeleteRow = useCallback((index: number) => {
     const newRows = formik.values.rows.filter(
       (_, rowIndex) => rowIndex !== index
-    )
-    formik.setFieldValue('rows', newRows)
-  }
+    );
+    formik.setFieldValue('rows', newRows);
+  }, [formik]);
 
-  const handleInputChange = (
+  const handleInputChange = useCallback((
     index: number,
     field: keyof RowType,
     value: string
@@ -152,7 +149,7 @@ export const Step2: React.FC<StepsProps> = (props) => {
 
     // Update the formik state
     formik.setFieldValue('rows', newRows)
-  }
+  }, [formik])
 
   const getSeedsValueForCulture = (culture: CultureNames) => {
     switch (culture) {
