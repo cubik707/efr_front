@@ -74,27 +74,39 @@ export const TableRowMemo: React.FC<{
         <Box>{Number(row.yield).toFixed(1)}</Box>
       </TableCell>
       <TableCell>
-        <TextField
-          name={`rows[${rowIndex}].fodder`}
-          value={row.fodder}
-          onChange={(e) => handleInputChange(rowIndex, 'fodder', e.target.value)}
-          error={Boolean(isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder'))}
-          helperText={isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder')}
-          disabled={isFodderFieldDisabled(row.culture as CultureNames)}
-          fullWidth
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          name={`rows[${rowIndex}].commodity`}
-          value={row.commodity}
-          onChange={(e) => handleInputChange(rowIndex, 'commodity', e.target.value)}
-          error={Boolean(isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity'))}
-          helperText={isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity')}
-          disabled={isCommodityFieldDisabled(row.culture as CultureNames)}
-          fullWidth
-        />
-      </TableCell>
+          {isFodderFieldDisabled(row.culture as CultureNames) ? (
+            <Box>{row.fodder || '0'}</Box>
+          ) : (
+            <TextField
+              name={`rows[${rowIndex}].fodder`}
+              value={row.fodder}
+              onChange={(e) => handleInputChange(rowIndex, 'fodder', e.target.value)}
+              error={Boolean(isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder'))}
+              helperText={isTouched(rowIndex, 'fodder') && getError(rowIndex, 'fodder')}
+              fullWidth
+            />
+          )}
+        </TableCell>
+        <TableCell>
+          {isCommodityFieldDisabled(row.culture as CultureNames) ? (
+            <Box>{row.commodity || '0'}</Box>
+          ) : (
+            <TextField
+              name={`rows[${rowIndex}].commodity`}
+              value={row.commodity}
+              onChange={(e) => handleInputChange(rowIndex, 'commodity', e.target.value)}
+              error={Boolean(isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity'))}
+              helperText={isTouched(rowIndex, 'commodity') && getError(rowIndex, 'commodity')}
+              fullWidth
+              sx={{
+                "& .Mui-disabled": {
+                  color: "rgba(0, 0, 0, 0.7)", // Тёмный текст
+                  backgroundColor: "rgba(124,124,124,0.1)", // Тёмный фон
+                },
+              }}
+            />
+          )}
+        </TableCell>
       <TableCell>{row.seeds}</TableCell>
     </TableRow>
   ),
