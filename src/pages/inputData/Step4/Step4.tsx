@@ -1,35 +1,16 @@
 // @flow
 import * as React from 'react'
-import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from '@mui/material'
-import {
-  buttonContainerSx,
-  containerSx,
-  navigationButtonsContainerSx,
-} from '../InputData.styles'
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { buttonContainerSx, containerSx, navigationButtonsContainerSx } from '../InputData.styles'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { StepsProps } from '../Step1/Step1'
 import { useFormik } from 'formik'
-import {
-  FeedName,
-  FeedType,
-  setPriceAC,
-  setVolumeAC,
-} from '../../../state/feeds/feeds-reducer'
+import { FeedName, setPriceAC, setVolumeAC } from '../../../state/feeds/feeds-reducer'
 import { validationSchema } from './step4-validation'
 import { feedNames } from '../../../state/feeds/feedsName'
 import { useAppDispatch } from '../../../state/store'
+import TableRowMemo from './TableRowMemo'
 
 type RowType = {
   volume: number | ''
@@ -73,90 +54,49 @@ export const Step4 = (props: StepsProps) => {
   })
 
   return (
-    <form
-      style={{ width: '100%' }}
-      onSubmit={formik.handleSubmit}
-    >
+    <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
       <Box sx={containerSx}>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
                 {headers.map((header, index) => (
-                  <TableCell
-                    key={index}
-                    style={{ whiteSpace: 'nowrap' }}
-                  >
+                  <TableCell key={index} style={{ whiteSpace: 'nowrap' }}>
                     {header}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {feedNames.map((feedName, index) => (
-                <TableRow key={index}>
-                  <TableCell>{feedNamesInRussian[feedName]}</TableCell>
-                  <TableCell>
-                    <TextField
-                      fullWidth
-                      name={`${feedName}.volume`}
-                      value={formik.values[feedName].volume}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched[feedName]?.volume &&
-                        Boolean(formik.errors[feedName]?.volume)
-                      }
-                      helperText={
-                        formik.touched[feedName]?.volume &&
-                        formik.errors[feedName]?.volume
-                      }
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      fullWidth
-                      name={`${feedName}.price`}
-                      value={formik.values[feedName].price}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched[feedName]?.price &&
-                        Boolean(formik.errors[feedName]?.price)
-                      }
-                      helperText={
-                        formik.touched[feedName]?.price &&
-                        formik.errors[feedName]?.price
-                      }
-                    />
-                  </TableCell>
-                </TableRow>
+              {feedNames.map((feedName) => (
+                <TableRowMemo
+                  key={feedName}
+                  feedName={feedName}
+                  volume={formik.values[feedName].volume}
+                  price={formik.values[feedName].price}
+                  handleChange={formik.handleChange}
+                  handleBlur={formik.handleBlur}
+                  touched={Boolean(formik.touched[feedName])}
+                  errors={formik.errors[feedName]}
+                />
               ))}
             </TableBody>
           </Table>
         </TableContainer>
         <Box sx={buttonContainerSx}>
-          <Button
-            variant='outlined'
-            disabled={true}
-          >
+          <Button variant="outlined" disabled={true}>
             Найти оптимальные параметры
           </Button>
           <Box sx={navigationButtonsContainerSx}>
             <Button
-              variant='text'
+              variant="text"
               startIcon={<KeyboardArrowLeftIcon />}
               onClick={props.onBack}
               disabled={props.activeStep === 0}
             >
               Назад
             </Button>
-            <Button
-              variant='contained'
-              endIcon={<KeyboardArrowRightIcon />}
-              type={'submit'}
-              disabled={false}
-            >
+            <Button variant="contained" endIcon={<KeyboardArrowRightIcon />} type="submit">
               Далее
             </Button>
           </Box>
